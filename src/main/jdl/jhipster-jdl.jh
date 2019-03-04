@@ -1,0 +1,81 @@
+entity App {
+	name String required
+	problemCount Long required  min(0)
+    sysStatus SystemStatus required
+    lastProblemDate LocalDate
+}
+
+entity Incident {
+	openedAt LocalDate required
+    description String required
+    severity Severity required
+	incidentStatus IssueStatus required
+    closedAt LocalDate
+}
+
+entity IncidentUpdates {
+	updatedAt LocalDate required
+    updateText TextBlob required
+}
+
+entity Problem {
+    openedAt LocalDate required
+	title String required
+	statement TextBlob required
+    probStatus IssueStatus required
+    priority Priority required
+    closedAt LocalDate
+}
+
+entity ProblemUpdates {
+	updatedAt LocalDate required
+    updateText TextBlob required
+}
+
+entity Risk {
+	openedAt LocalDate required
+	title String required
+    description TextBlob required
+    mitigation TextBlob
+    riskStatus IssueStatus required
+    priority Priority required
+    closedAt LocalDate
+}
+
+entity RiskUpdates {
+	updatedAt LocalDate required
+    updateText TextBlob required
+}
+
+enum Priority {
+	LOW, MEDIUM, HIGH
+}
+
+enum IssueStatus {
+	OPEN, CLOSED
+}
+
+enum SystemStatus {
+	GREEN, AMBER, RED
+}
+
+enum Severity {
+    P1, P2, P3, P4
+}
+
+relationship OneToMany {
+    Problem to Incident{probRec}
+    Risk to Problem{riskRec}
+    Incident to IncidentUpdates{inUpdate required}
+    Problem to ProblemUpdates{probUpdate required}
+    Risk to RiskUpdates{riskkUpdate required}
+}
+
+paginate Incident with infinite-scroll
+paginate Problem with infinite-scroll
+paginate Risk with infinite-scroll
+paginate IncidentUpdates with infinite-scroll
+paginate ProblemUpdates with infinite-scroll
+paginate RiskUpdates with infinite-scroll
+dto * with mapstruct
+service all with serviceClass

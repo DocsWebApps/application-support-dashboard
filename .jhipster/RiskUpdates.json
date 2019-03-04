@@ -1,0 +1,39 @@
+{
+    "name": "RiskUpdates",
+    "fields": [
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "updateText",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "risk",
+            "otherEntityRelationshipName": "riskUpdates",
+            "relationshipValidateRules": "required",
+            "relationshipName": "riskkUpdate",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190304223209",
+    "entityTableName": "risk_updates",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Incident.
+    -->
+    <changeSet id="20190304223204-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="prob_rec_id"
+                                 baseTableName="incident"
+                                 constraintName="fk_incident_prob_rec_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="problem"/>
+
+    </changeSet>
+</databaseChangeLog>

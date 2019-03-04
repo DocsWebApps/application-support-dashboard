@@ -1,0 +1,96 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-incident-heading">Create or edit a Incident</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!incident.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="incident.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_openedAt">Opened At</label>
+                    <div class="input-group">
+                        <input id="field_openedAt" type="text" class="form-control" name="openedAt" ngbDatepicker  #openedAtDp="ngbDatepicker" [(ngModel)]="incident.openedAt"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="openedAtDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.openedAt?.dirty && editForm.controls.openedAt?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.openedAt?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                        [(ngModel)]="incident.description" required/>
+                    <div [hidden]="!(editForm.controls.description?.dirty && editForm.controls.description?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.description?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_severity">Severity</label>
+                    <select class="form-control" name="severity" [(ngModel)]="incident.severity" id="field_severity"  required>
+                        <option value="P1">P1</option>
+                        <option value="P2">P2</option>
+                        <option value="P3">P3</option>
+                        <option value="P4">P4</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.severity?.dirty && editForm.controls.severity?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.severity?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_incidentStatus">Incident Status</label>
+                    <select class="form-control" name="incidentStatus" [(ngModel)]="incident.incidentStatus" id="field_incidentStatus"  required>
+                        <option value="OPEN">OPEN</option>
+                        <option value="CLOSED">CLOSED</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.incidentStatus?.dirty && editForm.controls.incidentStatus?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.incidentStatus?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_closedAt">Closed At</label>
+                    <div class="input-group">
+                        <input id="field_closedAt" type="text" class="form-control" name="closedAt" ngbDatepicker  #closedAtDp="ngbDatepicker" [(ngModel)]="incident.closedAt"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="closedAtDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_probRec">Prob Rec</label>
+                    <select class="form-control" id="field_probRec" name="probRec" [(ngModel)]="incident.probRecId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="problemOption.id" *ngFor="let problemOption of problems; trackBy: trackProblemById">{{problemOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

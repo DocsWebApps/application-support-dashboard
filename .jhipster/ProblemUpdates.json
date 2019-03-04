@@ -1,0 +1,39 @@
+{
+    "name": "ProblemUpdates",
+    "fields": [
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "updateText",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "problem",
+            "otherEntityRelationshipName": "problemUpdates",
+            "relationshipValidateRules": "required",
+            "relationshipName": "probUpdate",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190304223207",
+    "entityTableName": "problem_updates",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

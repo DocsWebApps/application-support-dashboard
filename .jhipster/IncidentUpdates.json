@@ -1,0 +1,39 @@
+{
+    "name": "IncidentUpdates",
+    "fields": [
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "updateText",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "incident",
+            "otherEntityRelationshipName": "incidentUpdates",
+            "relationshipValidateRules": "required",
+            "relationshipName": "inUpdate",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190304223205",
+    "entityTableName": "incident_updates",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

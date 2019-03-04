@@ -68,6 +68,7 @@
         <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
         <jib-maven-plugin.version>0.9.11</jib-maven-plugin.version>
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
+        <dockerfile-maven-plugin.version>1.4.10</dockerfile-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
         <scala-maven-plugin.version>3.4.2</scala-maven-plugin.version>
@@ -688,6 +689,60 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${dockerfile-maven-plugin.version}</version>
+                    <executions>
+                        <!--
+                         Uncomment the section below to build the docker image with mvn package and and push it with mvn deploy
+                        <execution>
+                            <id>default</id>
+                            <goals>
+                                <goal>build</goal>
+                                <goal>push</goal>
+                            </goals>
+                        </execution>
+                        -->
+                        <execution>
+                            <id>tag-latest</id>
+                            <phase>none</phase>
+                            <goals>
+                                <goal>build</goal>
+                                <goal>tag</goal>
+                                <goal>push</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>version</id>
+                            <phase>none</phase>
+                            <goals>
+                                <goal>build</goal>
+                                <goal>tag</goal>
+                                <goal>push</goal>
+                            </goals>
+                            <configuration>
+                                <tag>${project.version}</tag>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>commit</id>
+                            <phase>none</phase>
+                            <goals>
+                                <goal>build</goal>
+                                <goal>tag</goal>
+                                <goal>push</goal>
+                            </goals>
+                            <configuration>
+                                <tag>${git.commit.id.describe}</tag>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <repository>applicaionsupportdashboard</repository>
+                        <contextDirectory>${project.build.directory}</contextDirectory>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -1,0 +1,53 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="problem">
+            <h2><span>Problem</span> {{problem.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Opened At</span></dt>
+                <dd>
+                    <span>{{problem.openedAt}}</span>
+                </dd>
+                <dt><span>Title</span></dt>
+                <dd>
+                    <span>{{problem.title}}</span>
+                </dd>
+                <dt><span>Statement</span></dt>
+                <dd>
+                    <span>{{problem.statement}}</span>
+                </dd>
+                <dt><span>Prob Status</span></dt>
+                <dd>
+                    <span>{{problem.probStatus}}</span>
+                </dd>
+                <dt><span>Priority</span></dt>
+                <dd>
+                    <span>{{problem.priority}}</span>
+                </dd>
+                <dt><span>Closed At</span></dt>
+                <dd>
+                    <span>{{problem.closedAt}}</span>
+                </dd>
+                <dt><span>Risk Rec</span></dt>
+                <dd>
+                    <div *ngIf="problem.riskRecId">
+                        <a [routerLink]="['/risk', problem.riskRecId, 'view']">{{problem.riskRecId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/problem', problem.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

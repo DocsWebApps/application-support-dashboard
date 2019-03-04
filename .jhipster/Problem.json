@@ -1,0 +1,77 @@
+{
+    "name": "Problem",
+    "fields": [
+        {
+            "fieldName": "openedAt",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "title",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "statement",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "probStatus",
+            "fieldType": "IssueStatus",
+            "fieldValues": "OPEN,CLOSED",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "priority",
+            "fieldType": "Priority",
+            "fieldValues": "LOW,MEDIUM,HIGH",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "closedAt",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "incident",
+            "otherEntityRelationshipName": "probRec",
+            "relationshipName": "incident"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "problemUpdates",
+            "otherEntityRelationshipName": "probUpdate",
+            "relationshipName": "problemUpdates"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "risk",
+            "otherEntityRelationshipName": "problem",
+            "relationshipName": "riskRec",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190304223206",
+    "entityTableName": "problem",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

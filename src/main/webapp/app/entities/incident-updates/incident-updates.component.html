@@ -1,0 +1,62 @@
+<div>
+    <h2 id="page-heading">
+        <span>Incident Updates</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-incident-updates" [routerLink]="['/incident-updates/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Incident Updates
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="incidentUpdates">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updateText"><span>Update Text</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="inUpdateId"><span>In Update</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let incidentUpdates of incidentUpdates ;trackBy: trackId">
+                <td><a [routerLink]="['/incident-updates', incidentUpdates.id, 'view' ]">{{incidentUpdates.id}}</a></td>
+                <td>{{incidentUpdates.updatedAt | date:'mediumDate'}}</td>
+                <td>{{incidentUpdates.updateText}}</td>
+                <td>
+                    <div *ngIf="incidentUpdates.inUpdateId">
+                        <a [routerLink]="['../incident', incidentUpdates.inUpdateId , 'view' ]" >{{incidentUpdates.inUpdateId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/incident-updates', incidentUpdates.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/incident-updates', incidentUpdates.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'incident-updates', { outlets: { popup: incidentUpdates.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

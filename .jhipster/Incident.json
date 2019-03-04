@@ -1,0 +1,63 @@
+{
+    "name": "Incident",
+    "fields": [
+        {
+            "fieldName": "openedAt",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "severity",
+            "fieldType": "Severity",
+            "fieldValues": "P1,P2,P3,P4",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "incidentStatus",
+            "fieldType": "IssueStatus",
+            "fieldValues": "OPEN,CLOSED",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "closedAt",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "incidentUpdates",
+            "otherEntityRelationshipName": "inUpdate",
+            "relationshipName": "incidentUpdates"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "problem",
+            "otherEntityRelationshipName": "incident",
+            "relationshipName": "probRec",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190304223204",
+    "entityTableName": "incident",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

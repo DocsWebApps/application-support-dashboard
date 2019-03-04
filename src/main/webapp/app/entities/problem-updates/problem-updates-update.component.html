@@ -1,0 +1,64 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-problem-updates-heading">Create or edit a Problem Updates</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!problemUpdates.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="problemUpdates.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedAt">Updated At</label>
+                    <div class="input-group">
+                        <input id="field_updatedAt" type="text" class="form-control" name="updatedAt" ngbDatepicker  #updatedAtDp="ngbDatepicker" [(ngModel)]="problemUpdates.updatedAt"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="updatedAtDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.updatedAt?.dirty && editForm.controls.updatedAt?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.updatedAt?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updateText">Update Text</label>
+                    <textarea class="form-control" name="updateText" id="field_updateText"
+                        [(ngModel)]="problemUpdates.updateText" required></textarea>
+                    <div [hidden]="!(editForm.controls.updateText?.dirty && editForm.controls.updateText?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.updateText?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_probUpdate">Prob Update</label>
+                    <select class="form-control" id="field_probUpdate" name="probUpdate" [(ngModel)]="problemUpdates.probUpdateId"  required>
+                        <option *ngIf="!editForm.value.probUpdate" [ngValue]="null" selected></option>
+                        <option [ngValue]="problemOption.id" *ngFor="let problemOption of problems; trackBy: trackProblemById">{{problemOption.id}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.probUpdate?.dirty && editForm.controls.probUpdate?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.probUpdate?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

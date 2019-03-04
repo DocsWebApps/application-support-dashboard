@@ -1,0 +1,75 @@
+{
+    "name": "Risk",
+    "fields": [
+        {
+            "fieldName": "openedAt",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "title",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "mitigation",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "riskStatus",
+            "fieldType": "IssueStatus",
+            "fieldValues": "OPEN,CLOSED",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "priority",
+            "fieldType": "Priority",
+            "fieldValues": "LOW,MEDIUM,HIGH",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "closedAt",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "problem",
+            "otherEntityRelationshipName": "riskRec",
+            "relationshipName": "problem"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "riskUpdates",
+            "otherEntityRelationshipName": "riskkUpdate",
+            "relationshipName": "riskUpdates"
+        }
+    ],
+    "changelogDate": "20190304223208",
+    "entityTableName": "risk",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
