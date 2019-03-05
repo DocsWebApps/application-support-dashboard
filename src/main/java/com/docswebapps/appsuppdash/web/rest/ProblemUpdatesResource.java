@@ -47,9 +47,9 @@ public class ProblemUpdatesResource {
      */
     @PostMapping("/problem-updates")
     public ResponseEntity<ProblemUpdatesDTO> createProblemUpdates(@Valid @RequestBody ProblemUpdatesDTO problemUpdatesDTO) throws URISyntaxException {
-        log.debug("REST request to save ProblemUpdates : {}", problemUpdatesDTO);
+        log.debug("ProblemUpdatesResource: REST request to save ProblemUpdates : {}", problemUpdatesDTO);
         if (problemUpdatesDTO.getId() != null) {
-            throw new BadRequestAlertException("A new problemUpdates cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("ProblemUpdatesResource: A new problemUpdates cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ProblemUpdatesDTO result = problemUpdatesService.save(problemUpdatesDTO);
         return ResponseEntity.created(new URI("/api/problem-updates/" + result.getId()))
@@ -68,7 +68,7 @@ public class ProblemUpdatesResource {
      */
     @PutMapping("/problem-updates")
     public ResponseEntity<ProblemUpdatesDTO> updateProblemUpdates(@Valid @RequestBody ProblemUpdatesDTO problemUpdatesDTO) throws URISyntaxException {
-        log.debug("REST request to update ProblemUpdates : {}", problemUpdatesDTO);
+        log.debug("ProblemUpdatesResource: REST request to update ProblemUpdates : {}", problemUpdatesDTO);
         if (problemUpdatesDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -86,7 +86,7 @@ public class ProblemUpdatesResource {
      */
     @GetMapping("/problem-updates")
     public ResponseEntity<List<ProblemUpdatesDTO>> getAllProblemUpdates(Pageable pageable) {
-        log.debug("REST request to get a page of ProblemUpdates");
+        log.debug("ProblemUpdatesResource: REST request to get a page of ProblemUpdates");
         Page<ProblemUpdatesDTO> page = problemUpdatesService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/problem-updates");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -100,7 +100,7 @@ public class ProblemUpdatesResource {
      */
     @GetMapping("/problem-updates/{id}")
     public ResponseEntity<ProblemUpdatesDTO> getProblemUpdates(@PathVariable Long id) {
-        log.debug("REST request to get ProblemUpdates : {}", id);
+        log.debug("ProblemUpdatesResource: REST request to get ProblemUpdates : {}", id);
         Optional<ProblemUpdatesDTO> problemUpdatesDTO = problemUpdatesService.findOne(id);
         return ResponseUtil.wrapOrNotFound(problemUpdatesDTO);
     }
@@ -113,7 +113,7 @@ public class ProblemUpdatesResource {
      */
     @DeleteMapping("/problem-updates/{id}")
     public ResponseEntity<Void> deleteProblemUpdates(@PathVariable Long id) {
-        log.debug("REST request to delete ProblemUpdates : {}", id);
+        log.debug("ProblemUpdatesResource: REST request to delete ProblemUpdates : {}", id);
         problemUpdatesService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

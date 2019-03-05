@@ -1,4 +1,7 @@
 package com.docswebapps.appsuppdash.web.rest;
+import com.docswebapps.appsuppdash.domain.BannerStats;
+import com.docswebapps.appsuppdash.domain.enumeration.IssueStatus;
+import com.docswebapps.appsuppdash.domain.enumeration.Severity;
 import com.docswebapps.appsuppdash.service.IncidentService;
 import com.docswebapps.appsuppdash.web.rest.errors.BadRequestAlertException;
 import com.docswebapps.appsuppdash.web.rest.util.HeaderUtil;
@@ -27,7 +30,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class IncidentResource {
-
     private final Logger log = LoggerFactory.getLogger(IncidentResource.class);
 
     private static final String ENTITY_NAME = "incident";
@@ -47,9 +49,9 @@ public class IncidentResource {
      */
     @PostMapping("/incidents")
     public ResponseEntity<IncidentDTO> createIncident(@Valid @RequestBody IncidentDTO incidentDTO) throws URISyntaxException {
-        log.debug("REST request to save Incident : {}", incidentDTO);
+        log.debug("Incident Resource: REST request to save Incident : {}", incidentDTO);
         if (incidentDTO.getId() != null) {
-            throw new BadRequestAlertException("A new incident cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("Incident Resource: A new incident cannot already have an ID", ENTITY_NAME, "idexists");
         }
         IncidentDTO result = incidentService.save(incidentDTO);
         return ResponseEntity.created(new URI("/api/incidents/" + result.getId()))
@@ -68,7 +70,7 @@ public class IncidentResource {
      */
     @PutMapping("/incidents")
     public ResponseEntity<IncidentDTO> updateIncident(@Valid @RequestBody IncidentDTO incidentDTO) throws URISyntaxException {
-        log.debug("REST request to update Incident : {}", incidentDTO);
+        log.debug("Incident Resource: REST request to update Incident : {}", incidentDTO);
         if (incidentDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -79,20 +81,6 @@ public class IncidentResource {
     }
 
     /**
-     * GET  /incidents : get all the incidents.
-     *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of incidents in body
-     */
-    @GetMapping("/incidents")
-    public ResponseEntity<List<IncidentDTO>> getAllIncidents(Pageable pageable) {
-        log.debug("REST request to get a page of Incidents");
-        Page<IncidentDTO> page = incidentService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/incidents");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
      * GET  /incidents/:id : get the "id" incident.
      *
      * @param id the id of the incidentDTO to retrieve
@@ -100,9 +88,27 @@ public class IncidentResource {
      */
     @GetMapping("/incidents/{id}")
     public ResponseEntity<IncidentDTO> getIncident(@PathVariable Long id) {
-        log.debug("REST request to get Incident : {}", id);
+        log.debug("Incident Resource: REST request to get Incident : {}", id);
         Optional<IncidentDTO> incidentDTO = incidentService.findOne(id);
         return ResponseUtil.wrapOrNotFound(incidentDTO);
+    }
+
+    // My Custom Code
+
+    /**
+     * GET  /incidents/{status}/{severity : get all the incidents.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of incidents in body
+     */
+    @GetMapping("/incidents/{status}/{severity}")
+    public ResponseEntity<List<IncidentDTO>> getAllIncidents(Pageable pageable,
+                                                             @PathVariable IssueStatus status,
+                                                             @PathVariable Severity severity) {
+        log.debug("Incident Resource: REST request to get a page of Incidents");
+        Page<IncidentDTO> page = incidentService.findAll(pageable, status, severity);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/incidents");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -111,10 +117,42 @@ public class IncidentResource {
      * @param id the id of the incidentDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/incidents/{id}")
+    @DeleteMapping("/incidents/{id}/delete")
     public ResponseEntity<Void> deleteIncident(@PathVariable Long id) {
-        log.debug("REST request to delete Incident : {}", id);
+        log.debug("Incident Resource: REST request to delete Incident : {}", id);
         incidentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * CLOSE /incidents/:id/close : close the "id" incident.
+     *
+     * @param id the id of the incidentDTO to close
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/incidents/{id}/close")
+    public ResponseEntity<Void> closeIncident(@PathVariable Long id) {
+        log.debug("Incident Resource: REST request to close Incident : {}", id);
+        incidentService.close(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * GET Incident for banner display
+     */
+    @GetMapping("/incidents/incident")
+    public ResponseEntity<IncidentDTO> getBannerIncident() {
+        log.debug("Incident Resource: REST request to get the incident to display on the banner section");
+        IncidentDTO incidentDTO = incidentService.getBannerIncident();
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(incidentDTO));
+    }
+
+    /**
+     * GET Incident/Problem stats for banner display
+     */
+    @GetMapping("/incidents/stats")
+    public BannerStats getBannerStats() {
+        log.debug("Incident Resource: REST request to get the incident/problem stats to display on the banner section");
+        return incidentService.getBannerStats();
     }
 }

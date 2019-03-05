@@ -47,9 +47,9 @@ public class RiskResource {
      */
     @PostMapping("/risks")
     public ResponseEntity<RiskDTO> createRisk(@Valid @RequestBody RiskDTO riskDTO) throws URISyntaxException {
-        log.debug("REST request to save Risk : {}", riskDTO);
+        log.debug("RiskResource: REST request to save Risk : {}", riskDTO);
         if (riskDTO.getId() != null) {
-            throw new BadRequestAlertException("A new risk cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("RiskResource: A new risk cannot already have an ID", ENTITY_NAME, "idexists");
         }
         RiskDTO result = riskService.save(riskDTO);
         return ResponseEntity.created(new URI("/api/risks/" + result.getId()))
@@ -68,7 +68,7 @@ public class RiskResource {
      */
     @PutMapping("/risks")
     public ResponseEntity<RiskDTO> updateRisk(@Valid @RequestBody RiskDTO riskDTO) throws URISyntaxException {
-        log.debug("REST request to update Risk : {}", riskDTO);
+        log.debug("RiskResource: REST request to update Risk : {}", riskDTO);
         if (riskDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -86,7 +86,7 @@ public class RiskResource {
      */
     @GetMapping("/risks")
     public ResponseEntity<List<RiskDTO>> getAllRisks(Pageable pageable) {
-        log.debug("REST request to get a page of Risks");
+        log.debug("RiskResource: REST request to get a page of Risks");
         Page<RiskDTO> page = riskService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/risks");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -100,7 +100,7 @@ public class RiskResource {
      */
     @GetMapping("/risks/{id}")
     public ResponseEntity<RiskDTO> getRisk(@PathVariable Long id) {
-        log.debug("REST request to get Risk : {}", id);
+        log.debug("RiskResource: REST request to get Risk : {}", id);
         Optional<RiskDTO> riskDTO = riskService.findOne(id);
         return ResponseUtil.wrapOrNotFound(riskDTO);
     }
@@ -113,7 +113,7 @@ public class RiskResource {
      */
     @DeleteMapping("/risks/{id}")
     public ResponseEntity<Void> deleteRisk(@PathVariable Long id) {
-        log.debug("REST request to delete Risk : {}", id);
+        log.debug("RiskResource: REST request to delete Risk : {}", id);
         riskService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

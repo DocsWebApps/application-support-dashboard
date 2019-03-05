@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +26,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class ProblemResource {
-
     private final Logger log = LoggerFactory.getLogger(ProblemResource.class);
 
     private static final String ENTITY_NAME = "problem";
@@ -47,9 +45,9 @@ public class ProblemResource {
      */
     @PostMapping("/problems")
     public ResponseEntity<ProblemDTO> createProblem(@Valid @RequestBody ProblemDTO problemDTO) throws URISyntaxException {
-        log.debug("REST request to save Problem : {}", problemDTO);
+        log.debug("ProblemResource: REST request to save Problem : {}", problemDTO);
         if (problemDTO.getId() != null) {
-            throw new BadRequestAlertException("A new problem cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("ProblemResource: A new problem cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ProblemDTO result = problemService.save(problemDTO);
         return ResponseEntity.created(new URI("/api/problems/" + result.getId()))
@@ -68,9 +66,9 @@ public class ProblemResource {
      */
     @PutMapping("/problems")
     public ResponseEntity<ProblemDTO> updateProblem(@Valid @RequestBody ProblemDTO problemDTO) throws URISyntaxException {
-        log.debug("REST request to update Problem : {}", problemDTO);
+        log.debug("ProblemResource: REST request to update Problem : {}", problemDTO);
         if (problemDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("ProblemResource: Invalid id", ENTITY_NAME, "idnull");
         }
         ProblemDTO result = problemService.save(problemDTO);
         return ResponseEntity.ok()
@@ -86,7 +84,7 @@ public class ProblemResource {
      */
     @GetMapping("/problems")
     public ResponseEntity<List<ProblemDTO>> getAllProblems(Pageable pageable) {
-        log.debug("REST request to get a page of Problems");
+        log.debug("ProblemResource: REST request to get a page of Problems");
         Page<ProblemDTO> page = problemService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/problems");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -100,7 +98,7 @@ public class ProblemResource {
      */
     @GetMapping("/problems/{id}")
     public ResponseEntity<ProblemDTO> getProblem(@PathVariable Long id) {
-        log.debug("REST request to get Problem : {}", id);
+        log.debug("ProblemResource: REST request to get Problem : {}", id);
         Optional<ProblemDTO> problemDTO = problemService.findOne(id);
         return ResponseUtil.wrapOrNotFound(problemDTO);
     }
@@ -113,7 +111,7 @@ public class ProblemResource {
      */
     @DeleteMapping("/problems/{id}")
     public ResponseEntity<Void> deleteProblem(@PathVariable Long id) {
-        log.debug("REST request to delete Problem : {}", id);
+        log.debug("ProblemResource: REST request to delete Problem : {}", id);
         problemService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

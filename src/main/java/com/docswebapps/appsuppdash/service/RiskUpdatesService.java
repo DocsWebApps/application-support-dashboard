@@ -49,16 +49,15 @@ public class RiskUpdatesService {
     /**
      * Get all the riskUpdates.
      *
+     * @param pageable the pagination information
      * @return the list of entities
      */
     @Transactional(readOnly = true)
-    public List<RiskUpdatesDTO> findAll() {
-        log.debug("RiskUpdateService: Request to get all RiskUpdates");
-        return riskUpdatesRepository.findAll().stream()
-            .map(riskUpdatesMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+    public Page<RiskUpdatesDTO> findAll(Pageable pageable) {
+        log.debug("RiskUpdatesService: Request to get all RiskUpdates");
+        return riskUpdatesRepository.findAll(pageable)
+            .map(riskUpdatesMapper::toDto);
     }
-
 
     /**
      * Get one riskUpdate by id.

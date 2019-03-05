@@ -1,4 +1,6 @@
 package com.docswebapps.appsuppdash.web.rest;
+import com.docswebapps.appsuppdash.domain.AppName;
+import com.docswebapps.appsuppdash.domain.AppStatus;
 import com.docswebapps.appsuppdash.service.AppService;
 import com.docswebapps.appsuppdash.web.rest.errors.BadRequestAlertException;
 import com.docswebapps.appsuppdash.web.rest.util.HeaderUtil;
@@ -42,9 +44,9 @@ public class AppResource {
      */
     @PostMapping("/apps")
     public ResponseEntity<AppDTO> createApp(@Valid @RequestBody AppDTO appDTO) throws URISyntaxException {
-        log.debug("REST request to save App : {}", appDTO);
+        log.debug("AppResource: REST request to save App : {}", appDTO);
         if (appDTO.getId() != null) {
-            throw new BadRequestAlertException("A new app cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("AppResource: A new app cannot already have an ID", ENTITY_NAME, "idexists");
         }
         AppDTO result = appService.save(appDTO);
         return ResponseEntity.created(new URI("/api/apps/" + result.getId()))
@@ -63,7 +65,7 @@ public class AppResource {
      */
     @PutMapping("/apps")
     public ResponseEntity<AppDTO> updateApp(@Valid @RequestBody AppDTO appDTO) throws URISyntaxException {
-        log.debug("REST request to update App : {}", appDTO);
+        log.debug("AppResource: REST request to update App : {}", appDTO);
         if (appDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -80,7 +82,7 @@ public class AppResource {
      */
     @GetMapping("/apps")
     public List<AppDTO> getAllApps() {
-        log.debug("REST request to get all Apps");
+        log.debug("AppResource: REST request to get all Apps");
         return appService.findAll();
     }
 
@@ -92,7 +94,7 @@ public class AppResource {
      */
     @GetMapping("/apps/{id}")
     public ResponseEntity<AppDTO> getApp(@PathVariable Long id) {
-        log.debug("REST request to get App : {}", id);
+        log.debug("AppResource: REST request to get App : {}", id);
         Optional<AppDTO> appDTO = appService.findOne(id);
         return ResponseUtil.wrapOrNotFound(appDTO);
     }
@@ -105,8 +107,27 @@ public class AppResource {
      */
     @DeleteMapping("/apps/{id}")
     public ResponseEntity<Void> deleteApp(@PathVariable Long id) {
-        log.debug("REST request to delete App : {}", id);
+        log.debug("AppResource: REST request to delete App : {}", id);
         appService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    // My Custom Code
+    /**
+     * GET Application Status
+     */
+    @GetMapping("/apps/status")
+    public AppStatus getAppStatus() {
+        log.debug("AppResource: Get Application Status");
+        return appService.getAppStats();
+    }
+
+    /**
+     * GET Application Name
+     */
+    @GetMapping("/apps/name")
+    public AppName getAppName() {
+        log.debug("AppResource: Get Application Name");
+        return appService.getAppName();
     }
 }

@@ -74,7 +74,7 @@ public class RiskService {
      */
     @Transactional(readOnly = true)
     public Optional<RiskDTO> findOne(Long id) {
-        log.debug("Request to get Risk : {}", id);
+        log.debug("RiskService: Request to get Risk : {}", id);
         return riskRepository.findById(id)
             .map(riskMapper::toDto);
     }
@@ -85,7 +85,7 @@ public class RiskService {
      * @param id the id of the entity
      */
     public void delete(Long id) {
-        log.debug("Request to delete Risk : {}", id);
+        log.debug("RiskService: Request to delete Risk : {}", id);
         problemRepository.updateProblems(id);
         riskUpdatesRepository.deleteRiskUpdates(id);
         riskRepository.deleteById(id);

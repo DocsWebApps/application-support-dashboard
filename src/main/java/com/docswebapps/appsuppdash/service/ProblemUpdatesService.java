@@ -6,6 +6,8 @@ import com.docswebapps.appsuppdash.service.dto.ProblemUpdatesDTO;
 import com.docswebapps.appsuppdash.service.mapper.ProblemUpdatesMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
@@ -46,14 +48,14 @@ public class ProblemUpdatesService {
     /**
      * Get all the problemUpdates.
      *
+     * @param pageable the pagination information
      * @return the list of entities
      */
     @Transactional(readOnly = true)
-    public List<ProblemUpdatesDTO> findAll() {
-        log.debug("ProblemUpdatesService: Request to get all ProblemUpdates");
-        return problemUpdatesRepository.findAll().stream()
-            .map(problemUpdatesMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+    public Page<ProblemUpdatesDTO> findAll(Pageable pageable) {
+        log.debug("Request to get all ProblemUpdates");
+        return problemUpdatesRepository.findAll(pageable)
+            .map(problemUpdatesMapper::toDto);
     }
 
 

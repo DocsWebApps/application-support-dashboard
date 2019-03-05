@@ -47,9 +47,9 @@ public class RiskUpdatesResource {
      */
     @PostMapping("/risk-updates")
     public ResponseEntity<RiskUpdatesDTO> createRiskUpdates(@Valid @RequestBody RiskUpdatesDTO riskUpdatesDTO) throws URISyntaxException {
-        log.debug("REST request to save RiskUpdates : {}", riskUpdatesDTO);
+        log.debug("RiskUpdatesResource: REST request to save RiskUpdates : {}", riskUpdatesDTO);
         if (riskUpdatesDTO.getId() != null) {
-            throw new BadRequestAlertException("A new riskUpdates cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("RiskUpdatesResource: A new riskUpdates cannot already have an ID", ENTITY_NAME, "idexists");
         }
         RiskUpdatesDTO result = riskUpdatesService.save(riskUpdatesDTO);
         return ResponseEntity.created(new URI("/api/risk-updates/" + result.getId()))
@@ -68,7 +68,7 @@ public class RiskUpdatesResource {
      */
     @PutMapping("/risk-updates")
     public ResponseEntity<RiskUpdatesDTO> updateRiskUpdates(@Valid @RequestBody RiskUpdatesDTO riskUpdatesDTO) throws URISyntaxException {
-        log.debug("REST request to update RiskUpdates : {}", riskUpdatesDTO);
+        log.debug("RiskUpdatesResource: REST request to update RiskUpdates : {}", riskUpdatesDTO);
         if (riskUpdatesDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -86,7 +86,7 @@ public class RiskUpdatesResource {
      */
     @GetMapping("/risk-updates")
     public ResponseEntity<List<RiskUpdatesDTO>> getAllRiskUpdates(Pageable pageable) {
-        log.debug("REST request to get a page of RiskUpdates");
+        log.debug("RiskUpdatesResource: REST request to get a page of RiskUpdates");
         Page<RiskUpdatesDTO> page = riskUpdatesService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/risk-updates");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -100,7 +100,7 @@ public class RiskUpdatesResource {
      */
     @GetMapping("/risk-updates/{id}")
     public ResponseEntity<RiskUpdatesDTO> getRiskUpdates(@PathVariable Long id) {
-        log.debug("REST request to get RiskUpdates : {}", id);
+        log.debug("RiskUpdatesResource: REST request to get RiskUpdates : {}", id);
         Optional<RiskUpdatesDTO> riskUpdatesDTO = riskUpdatesService.findOne(id);
         return ResponseUtil.wrapOrNotFound(riskUpdatesDTO);
     }
@@ -113,7 +113,7 @@ public class RiskUpdatesResource {
      */
     @DeleteMapping("/risk-updates/{id}")
     public ResponseEntity<Void> deleteRiskUpdates(@PathVariable Long id) {
-        log.debug("REST request to delete RiskUpdates : {}", id);
+        log.debug("RiskUpdatesResource: REST request to delete RiskUpdates : {}", id);
         riskUpdatesService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
