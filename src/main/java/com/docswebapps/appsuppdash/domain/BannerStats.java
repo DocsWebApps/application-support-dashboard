@@ -1,4 +1,4 @@
-package com.docswebapps.appsupportdashboard.domain;
+package com.docswebapps.appsuppdash.domain;
 
 public class BannerStats {
     private Long p3Count;

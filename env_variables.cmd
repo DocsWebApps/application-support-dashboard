@@ -19,7 +19,9 @@ set ADMIN_USERNAME=appdash_admin
 set ADMIN_PASSWORD=appdash_admin
 
 REM Testing Commands - More info @ https://www.jhipster.tech/running-tests/
-REM mvnw clean test - Integration tests are done with the Spring Test Context framework
+REM mvnw -Pdev clean test - Integration tests are done with the Spring Test Context framework
+REM mvnw -Pprod -Dskip.npm=true -Dskip.webpack=true -DskipTests
+REM ** You can also run the tests from the IDE but it won't compile the app so do the above !!!
 REM npm test - Jest front end tests
 REM Before running e2e comment out setTimeout() code in status.component.ts
 REM npm run e2e - Protractor browser based integration tests, must have the back end up!
