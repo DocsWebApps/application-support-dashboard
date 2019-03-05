@@ -88,6 +88,7 @@ public class AppService {
     /**
      * GET Application Status
      */
+    @Transactional(readOnly = true)
     public AppStatus getAppStats() {
         log.debug("AppService: Get Current Application Statistics");
         AppStatus appStat = new AppStatus();
@@ -147,6 +148,7 @@ public class AppService {
     /**
      * GET Application name
      */
+    @Transactional(readOnly = true)
     public AppName getAppName() {
         log.debug("AppService: Get Application Name");
         App app = appRepository.findFirstByOrderByIdDesc();

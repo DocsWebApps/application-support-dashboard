@@ -146,6 +146,7 @@ public class IncidentService {
     /**
      * GET Banner Incident - List the highest priority incident
      */
+    @Transactional(readOnly = true)
     public IncidentDTO getBannerIncident() {
         log.debug("IncidentService: Get Incident Stats for the Front Page");
         Long p1Count=this.incidentRepository.countBySeverityAndIncidentStatus(Severity.P1, IssueStatus.OPEN);
@@ -165,6 +166,7 @@ public class IncidentService {
     /**
      * GET Banner Stats - Open P3,P4 and defect count
      */
+    @Transactional(readOnly = true)
     public BannerStats getBannerStats() {
         log.debug("IncidentService: Get P3/P4 and Open Risk/Problem Counts for the Front Page");
         BannerStats bannerStats = new BannerStats();
@@ -178,6 +180,7 @@ public class IncidentService {
     /**
      * Check for Open P1's or P2's
      */
+    @Transactional(readOnly = true)
     public boolean checkOpenP1P2Incidents(IncidentDTO incidentDTO) {
         log.debug("IncidentService: Check for an Open P1 or P2");
         Long incidentCount = incidentRepository.countBySeverityAndIncidentStatus(incidentDTO.getSeverity(), IssueStatus.OPEN);

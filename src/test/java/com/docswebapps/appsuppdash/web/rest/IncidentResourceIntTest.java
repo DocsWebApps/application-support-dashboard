@@ -2,7 +2,10 @@ package com.docswebapps.appsuppdash.web.rest;
 
 import com.docswebapps.appsuppdash.ApplicationSupportDashboardApp;
 
+import com.docswebapps.appsuppdash.domain.App;
 import com.docswebapps.appsuppdash.domain.Incident;
+import com.docswebapps.appsuppdash.domain.enumeration.SystemStatus;
+import com.docswebapps.appsuppdash.repository.AppRepository;
 import com.docswebapps.appsuppdash.repository.IncidentRepository;
 import com.docswebapps.appsuppdash.service.IncidentService;
 import com.docswebapps.appsuppdash.service.dto.IncidentDTO;
@@ -46,7 +49,6 @@ import com.docswebapps.appsuppdash.domain.enumeration.IssueStatus;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApplicationSupportDashboardApp.class)
 public class IncidentResourceIntTest {
-
     private static final LocalDate DEFAULT_OPENED_AT = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_OPENED_AT = LocalDate.now(ZoneId.systemDefault());
 
@@ -61,6 +63,9 @@ public class IncidentResourceIntTest {
 
     private static final LocalDate DEFAULT_CLOSED_AT = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_CLOSED_AT = LocalDate.now(ZoneId.systemDefault());
+
+    @Autowired
+    private AppRepository appRepository;
 
     @Autowired
     private IncidentRepository incidentRepository;
@@ -90,8 +95,24 @@ public class IncidentResourceIntTest {
 
     private Incident incident;
 
+    private void createApp() {
+        final String DEFAULT_NAME = "AAAAAAAAAA";
+        final Long DEFAULT_PROBLEM_COUNT = 1L;
+        final SystemStatus DEFAULT_SYS_STATUS = SystemStatus.GREEN;
+        final LocalDate DEFAULT_LAST_PROBLEM_DATE = LocalDate.ofEpochDay(0L);
+
+        App app = new App()
+            .name(DEFAULT_NAME)
+            .problemCount(DEFAULT_PROBLEM_COUNT)
+            .sysStatus(DEFAULT_SYS_STATUS)
+            .lastProblemDate(DEFAULT_LAST_PROBLEM_DATE);
+
+        appRepository.save(app);
+    }
+
     @Before
     public void setup() {
+        this.createApp();
         MockitoAnnotations.initMocks(this);
         final IncidentResource incidentResource = new IncidentResource(incidentService);
         this.restIncidentMockMvc = MockMvcBuilders.standaloneSetup(incidentResource)
@@ -243,23 +264,51 @@ public class IncidentResourceIntTest {
     }
 
     @Test
+    public void checkAllIncidentCombos() throws Exception {
+        this.getAllIncidents(IssueStatus.ALL, Severity.ALL);
+        this.getAllIncidents(IssueStatus.ALL, Severity.P1);
+        this.getAllIncidents(IssueStatus.ALL, Severity.P2);
+        this.getAllIncidents(IssueStatus.ALL, Severity.P3);
+        this.getAllIncidents(IssueStatus.ALL, Severity.P4);
+        this.getAllIncidents(IssueStatus.OPEN, Severity.ALL);
+        this.getAllIncidents(IssueStatus.OPEN, Severity.P1);
+        this.getAllIncidents(IssueStatus.OPEN, Severity.P2);
+        this.getAllIncidents(IssueStatus.OPEN, Severity.P3);
+        this.getAllIncidents(IssueStatus.OPEN, Severity.P4);
+        this.getAllIncidents(IssueStatus.CLOSED, Severity.ALL);
+        this.getAllIncidents(IssueStatus.CLOSED, Severity.P1);
+        this.getAllIncidents(IssueStatus.CLOSED, Severity.P2);
+        this.getAllIncidents(IssueStatus.CLOSED, Severity.P3);
+        this.getAllIncidents(IssueStatus.CLOSED, Severity.P4);
+    }
+
     @Transactional
-    public void getAllIncidents() throws Exception {
+    public void getAllIncidents(IssueStatus status, Severity severity) throws Exception {
         // Initialize the database
-        incidentRepository.saveAndFlush(incident);
+        Incident testIncident = new Incident()
+            .openedAt(DEFAULT_OPENED_AT)
+            .description(DEFAULT_DESCRIPTION)
+            .severity(severity)
+            .incidentStatus(status)
+            .closedAt(DEFAULT_CLOSED_AT);
+
+        incidentRepository.saveAndFlush(testIncident);
 
         // Get all the incidentList
-        restIncidentMockMvc.perform(get("/api/incidents?sort=id,desc"))
+        restIncidentMockMvc.perform(get("/api/incidents/{status}/{severity}", status, severity))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(incident.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(testIncident.getId().intValue())))
             .andExpect(jsonPath("$.[*].openedAt").value(hasItem(DEFAULT_OPENED_AT.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].severity").value(hasItem(DEFAULT_SEVERITY.toString())))
-            .andExpect(jsonPath("$.[*].incidentStatus").value(hasItem(DEFAULT_INCIDENT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].severity").value(hasItem(severity.toString())))
+            .andExpect(jsonPath("$.[*].incidentStatus").value(hasItem(status.toString())))
             .andExpect(jsonPath("$.[*].closedAt").value(hasItem(DEFAULT_CLOSED_AT.toString())));
+
+        // Clean Up DataBase
+        incidentRepository.delete(testIncident);
     }
-    
+
     @Test
     @Transactional
     public void getIncident() throws Exception {
@@ -276,6 +325,76 @@ public class IncidentResourceIntTest {
             .andExpect(jsonPath("$.severity").value(DEFAULT_SEVERITY.toString()))
             .andExpect(jsonPath("$.incidentStatus").value(DEFAULT_INCIDENT_STATUS.toString()))
             .andExpect(jsonPath("$.closedAt").value(DEFAULT_CLOSED_AT.toString()));
+    }
+
+    @Test
+    @Transactional
+    public void getBannerStats() throws Exception {
+        // Get the incident
+        restIncidentMockMvc.perform(get("/api/incidents/stats"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.p3Count").value(0))
+            .andExpect(jsonPath("$.p4Count").value(0))
+            .andExpect(jsonPath("$.problemCount").value(0))
+            .andExpect(jsonPath("$.riskCount").value(0));
+    }
+
+    @Test
+    public void checkBannerIncidents() throws Exception {
+        this.getP1P2BannerIncidents(Severity.P1);
+        this.getP1P2BannerIncidents(Severity.P2);
+        this.getP3P4BannerIncidents(Severity.P3);
+        this.getP3P4BannerIncidents(Severity.P4);
+    }
+
+    @Transactional
+    public void getP3P4BannerIncidents(Severity severity) throws Exception {
+        // Initialize the database
+        Incident testIncident = new Incident()
+            .openedAt(DEFAULT_OPENED_AT)
+            .description(DEFAULT_DESCRIPTION)
+            .severity(severity)
+            .incidentStatus(DEFAULT_INCIDENT_STATUS)
+            .closedAt(DEFAULT_CLOSED_AT);
+
+        incidentRepository.saveAndFlush(testIncident);
+
+        // Get the incident
+        restIncidentMockMvc.perform(get("/api/incidents/incident"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.description").value("No open incidents!!"));
+
+        // Cleanup Database
+        incidentRepository.delete(testIncident);
+    }
+
+    @Transactional
+    public void getP1P2BannerIncidents(Severity severity) throws Exception {
+        // Initialize the database
+        Incident testIncident = new Incident()
+            .openedAt(DEFAULT_OPENED_AT)
+            .description(DEFAULT_DESCRIPTION)
+            .severity(severity)
+            .incidentStatus(DEFAULT_INCIDENT_STATUS)
+            .closedAt(DEFAULT_CLOSED_AT);
+
+        incidentRepository.saveAndFlush(testIncident);
+
+        // Get the incident
+        restIncidentMockMvc.perform(get("/api/incidents/incident"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(testIncident.getId().intValue()))
+            .andExpect(jsonPath("$.openedAt").value(DEFAULT_OPENED_AT.toString()))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.severity").value(severity.toString()))
+            .andExpect(jsonPath("$.incidentStatus").value(DEFAULT_INCIDENT_STATUS.toString()))
+            .andExpect(jsonPath("$.closedAt").value(DEFAULT_CLOSED_AT.toString()));
+
+        // Cleanup Database
+        incidentRepository.delete(testIncident);
     }
 
     @Test
@@ -350,13 +469,31 @@ public class IncidentResourceIntTest {
         int databaseSizeBeforeDelete = incidentRepository.findAll().size();
 
         // Delete the incident
-        restIncidentMockMvc.perform(delete("/api/incidents/{id}", incident.getId())
+        restIncidentMockMvc.perform(delete("/api/incidents/{id}/delete", incident.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
         // Validate the database is empty
         List<Incident> incidentList = incidentRepository.findAll();
         assertThat(incidentList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void closeIncident() throws Exception {
+        // Initialize the database
+        incidentRepository.saveAndFlush(incident);
+
+        int databaseSizeBeforeDelete = incidentRepository.findAll().size();
+
+        // Delete the incident
+        restIncidentMockMvc.perform(delete("/api/incidents/{id}/close", incident.getId())
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
+
+        // Validate the database is empty
+        List<Incident> incidentList = incidentRepository.findAll();
+        assertThat(incidentList).hasSize(databaseSizeBeforeDelete);
     }
 
     @Test

@@ -88,6 +88,7 @@ public class RiskUpdatesService {
      * @param id of Risk
      * @return List of RiskUpdatesDTO's
      */
+    @Transactional(readOnly = true)
     public List<RiskUpdatesDTO> findRiskUpdates(Long id) {
         log.debug("RiskUpdatesService: Request to get all Risk Updates for Risk id : {}", id);
         return riskUpdatesRepository.findRiskUpdates(id).stream()

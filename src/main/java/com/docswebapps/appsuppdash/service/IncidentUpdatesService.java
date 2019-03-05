@@ -86,6 +86,7 @@ public class IncidentUpdatesService {
      * @param id of Incident
      * @return IncidentUpdatesDTO's
      */
+    @Transactional(readOnly = true)
     public List<IncidentUpdatesDTO> findIncidentUpdates(Long id) {
         log.debug("IncidentUpdatesService: Request to get all IncidentUpdates", id);
         return incidentUpdatesRepository.findIncidentUpdates(id).stream()
