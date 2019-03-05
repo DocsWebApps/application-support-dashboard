@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface AppRepository extends JpaRepository<App, Long> {
-
+    App findFirstByOrderByIdDesc();
 }
