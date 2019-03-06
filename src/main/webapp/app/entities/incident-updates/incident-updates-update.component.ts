@@ -34,13 +34,13 @@ export class IncidentUpdatesUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ incidentUpdates }) => {
             this.incidentUpdates = incidentUpdates;
         });
-        this.incidentService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IIncident[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IIncident[]>) => response.body)
-            )
-            .subscribe((res: IIncident[]) => (this.incidents = res), (res: HttpErrorResponse) => this.onError(res.message));
+        // this.incidentService
+        //     .query()
+        //     .pipe(
+        //         filter((mayBeOk: HttpResponse<IIncident[]>) => mayBeOk.ok),
+        //         map((response: HttpResponse<IIncident[]>) => response.body)
+        //     )
+        //     .subscribe((res: IIncident[]) => (this.incidents = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {

@@ -11,6 +11,7 @@ import { IncidentDetailComponent } from './incident-detail.component';
 import { IncidentUpdateComponent } from './incident-update.component';
 import { IncidentDeletePopupComponent } from './incident-delete-dialog.component';
 import { IIncident } from 'app/shared/model/incident.model';
+import { IncidentClosePopupComponent } from './incident-close-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class IncidentResolve implements Resolve<IIncident> {
@@ -80,6 +81,19 @@ export const incidentPopupRoute: Routes = [
     {
         path: ':id/delete',
         component: IncidentDeletePopupComponent,
+        resolve: {
+            incident: IncidentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Incidents'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: ':id/close',
+        component: IncidentClosePopupComponent,
         resolve: {
             incident: IncidentResolve
         },

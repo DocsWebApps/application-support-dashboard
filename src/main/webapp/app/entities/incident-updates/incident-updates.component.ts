@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-
 import { IIncidentUpdates } from 'app/shared/model/incident-updates.model';
 import { AccountService } from 'app/core';
-
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { IncidentUpdatesService } from './incident-updates.service';
+import { IncidentService } from 'app/entities/incident';
+import { ActivatedRoute } from '@angular/router';
+import { IIncident } from 'app/shared/model/incident.model';
 
 @Component({
     selector: 'jhi-incident-updates',
@@ -31,7 +31,9 @@ export class IncidentUpdatesComponent implements OnInit, OnDestroy {
         protected dataUtils: JhiDataUtils,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        private route: ActivatedRoute,
+        private incidentService: IncidentService
     ) {
         this.incidentUpdates = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -43,18 +45,53 @@ export class IncidentUpdatesComponent implements OnInit, OnDestroy {
         this.reverse = true;
     }
 
-    loadAll() {
-        this.incidentUpdatesService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<IIncidentUpdates[]>) => this.paginateIncidentUpdates(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+    previousState() {
+        window.history.back();
     }
+
+    loadAll() {
+        this.incidentUpdatesService.incidentQuery(this.incidentID).subscribe(
+            (res: HttpResponse<IIncidentUpdates[]>) => {
+                this.incidentUpdates = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    }
+
+    getIncidentDetails() {
+        this.incidentService.find(this.incidentID).subscribe(
+            (res: HttpResponse<IIncident>) => {
+                this.incident = res.body;
+            },
+            (res: HttpErrorResponse) => {
+                this.onError(res.message);
+            }
+        );
+    }
+
+    ngOnInit() {
+        this.incidentID = this.route.snapshot.params['incidentID'];
+        this.incidentUpdatesService.incidentID = this.incidentID;
+        this.getIncidentDetails();
+        this.loadAll();
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+        });
+        this.registerChangeInIncidentUpdates();
+    }
+
+    // loadAll() {
+    //     this.incidentUpdatesService
+    //         .query({
+    //             page: this.page,
+    //             size: this.itemsPerPage,
+    //             sort: this.sort()
+    //         })
+    //         .subscribe(
+    //             (res: HttpResponse<IIncidentUpdates[]>) => this.paginateIncidentUpdates(res.body, res.headers),
+    //             (res: HttpErrorResponse) => this.onError(res.message)
+    //         );
+    // }
 
     reset() {
         this.page = 0;
@@ -67,13 +104,13 @@ export class IncidentUpdatesComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    ngOnInit() {
-        this.loadAll();
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInIncidentUpdates();
-    }
+    // ngOnInit() {
+    //     this.loadAll();
+    //     this.accountService.identity().then(account => {
+    //         this.currentAccount = account;
+    //     });
+    //     this.registerChangeInIncidentUpdates();
+    // }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);

@@ -11,6 +11,7 @@ import {
     incidentRoute,
     incidentPopupRoute
 } from './';
+import { IncidentCloseDialogComponent, IncidentClosePopupComponent } from 'app/entities/incident/incident-close-dialog.component';
 
 const ENTITY_STATES = [...incidentRoute, ...incidentPopupRoute];
 
@@ -21,9 +22,18 @@ const ENTITY_STATES = [...incidentRoute, ...incidentPopupRoute];
         IncidentDetailComponent,
         IncidentUpdateComponent,
         IncidentDeleteDialogComponent,
-        IncidentDeletePopupComponent
+        IncidentDeletePopupComponent,
+        IncidentCloseDialogComponent,
+        IncidentClosePopupComponent
     ],
-    entryComponents: [IncidentComponent, IncidentUpdateComponent, IncidentDeleteDialogComponent, IncidentDeletePopupComponent],
+    entryComponents: [
+        IncidentComponent,
+        IncidentUpdateComponent,
+        IncidentDeleteDialogComponent,
+        IncidentDeletePopupComponent,
+        IncidentCloseDialogComponent,
+        IncidentClosePopupComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ApplicationSupportDashboardIncidentModule {}

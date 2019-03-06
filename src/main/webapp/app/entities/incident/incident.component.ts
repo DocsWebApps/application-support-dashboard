@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { IIncident } from 'app/shared/model/incident.model';
@@ -12,7 +11,8 @@ import { IncidentService } from './incident.service';
 
 @Component({
     selector: 'jhi-incident',
-    templateUrl: './incident.component.html'
+    templateUrl: './incident.component.html',
+    styleUrls: ['./incident.component.scss']
 })
 export class IncidentComponent implements OnInit, OnDestroy {
     incidents: IIncident[];
@@ -24,6 +24,9 @@ export class IncidentComponent implements OnInit, OnDestroy {
     predicate: any;
     reverse: any;
     totalItems: number;
+    selectedStatus;
+    selectedSeverity;
+    clearFilter = false;
 
     constructor(
         protected incidentService: IncidentService,
@@ -44,7 +47,7 @@ export class IncidentComponent implements OnInit, OnDestroy {
 
     loadAll() {
         this.incidentService
-            .query({
+            .query(this.selectedStatus, this.selectedSeverity, {
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -67,11 +70,37 @@ export class IncidentComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInIncidents();
+        this.selectedStatus = this.incidentService.selectedStatus;
+        this.selectedSeverity = this.incidentService.selectedSeverity;
+        this.setFilterButton();
+        this.loadAll();
+    }
+
+    onClearFilter() {
+        this.selectedStatus = 'ALL';
+        this.selectedSeverity = 'ALL';
+        this.onFilter();
+    }
+
+    onFilter() {
+        this.page = 0;
+        this.incidents = [];
+        this.setFilterValues();
+        this.setFilterButton();
+        this.loadAll();
+    }
+
+    setFilterButton() {
+        this.clearFilter = this.selectedStatus !== 'ALL' || this.selectedSeverity !== 'ALL';
+    }
+
+    setFilterValues() {
+        this.incidentService.selectedStatus = this.selectedStatus;
+        this.incidentService.selectedSeverity = this.selectedSeverity;
     }
 
     ngOnDestroy() {

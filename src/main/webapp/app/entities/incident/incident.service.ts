@@ -14,9 +14,27 @@ type EntityArrayResponseType = HttpResponse<IIncident[]>;
 
 @Injectable({ providedIn: 'root' })
 export class IncidentService {
+    private _selectedStatus = 'ALL';
+    private _selectedSeverity = 'ALL';
     public resourceUrl = SERVER_API_URL + 'api/incidents';
 
     constructor(protected http: HttpClient) {}
+
+    get selectedStatus(): string {
+        return this._selectedStatus;
+    }
+
+    set selectedStatus(value: string) {
+        this._selectedStatus = value;
+    }
+
+    get selectedSeverity(): string {
+        return this._selectedSeverity;
+    }
+
+    set selectedSeverity(value: string) {
+        this._selectedSeverity = value;
+    }
 
     create(incident: IIncident): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(incident);
@@ -38,15 +56,19 @@ export class IncidentService {
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
-    query(req?: any): Observable<EntityArrayResponseType> {
+    query(status: string, severity: string, req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http
-            .get<IIncident[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .get<IIncident[]>(`${this.resourceUrl}/${status}/${severity}`, { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
     delete(id: number): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+        return this.http.delete<any>(`${this.resourceUrl}/${id}/delete`, { observe: 'response' });
+    }
+
+    close(id: number): Observable<HttpResponse<any>> {
+        return this.http.delete<any>(`${this.resourceUrl}/${id}/close`, { observe: 'response' });
     }
 
     protected convertDateFromClient(incident: IIncident): IIncident {

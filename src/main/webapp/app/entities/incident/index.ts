@@ -4,3 +4,4 @@ export * from './incident-delete-dialog.component';
 export * from './incident-detail.component';
 export * from './incident.component';
 export * from './incident.route';
+export * from './incident-close-dialog.component';

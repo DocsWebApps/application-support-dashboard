@@ -30,7 +30,7 @@ export class IncidentUpdatesResolve implements Resolve<IIncidentUpdates> {
 
 export const incidentUpdatesRoute: Routes = [
     {
-        path: '',
+        path: ':id',
         component: IncidentUpdatesComponent,
         data: {
             authorities: ['ROLE_USER'],
