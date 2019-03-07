@@ -7,7 +7,6 @@ import { filter, map } from 'rxjs/operators';
 import { IncidentUpdates } from 'app/shared/model/incident-updates.model';
 import { IncidentUpdatesService } from './incident-updates.service';
 import { IncidentUpdatesComponent } from './incident-updates.component';
-import { IncidentUpdatesDetailComponent } from './incident-updates-detail.component';
 import { IncidentUpdatesUpdateComponent } from './incident-updates-update.component';
 import { IncidentUpdatesDeletePopupComponent } from './incident-updates-delete-dialog.component';
 import { IIncidentUpdates } from 'app/shared/model/incident-updates.model';
@@ -30,7 +29,7 @@ export class IncidentUpdatesResolve implements Resolve<IIncidentUpdates> {
 
 export const incidentUpdatesRoute: Routes = [
     {
-        path: ':id',
+        path: ':incidentID',
         component: IncidentUpdatesComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -39,19 +38,7 @@ export const incidentUpdatesRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/view',
-        component: IncidentUpdatesDetailComponent,
-        resolve: {
-            incidentUpdates: IncidentUpdatesResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'IncidentUpdates'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'new',
+        path: ':incidentID/new',
         component: IncidentUpdatesUpdateComponent,
         resolve: {
             incidentUpdates: IncidentUpdatesResolve

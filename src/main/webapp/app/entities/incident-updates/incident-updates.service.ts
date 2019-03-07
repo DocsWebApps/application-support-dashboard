@@ -15,8 +15,17 @@ type EntityArrayResponseType = HttpResponse<IIncidentUpdates[]>;
 @Injectable({ providedIn: 'root' })
 export class IncidentUpdatesService {
     public resourceUrl = SERVER_API_URL + 'api/incident-updates';
+    private _incidentID;
 
     constructor(protected http: HttpClient) {}
+
+    get incidentID() {
+        return this._incidentID;
+    }
+
+    set incidentID(value) {
+        this._incidentID = value;
+    }
 
     create(incidentUpdates: IIncidentUpdates): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(incidentUpdates);
@@ -36,6 +45,12 @@ export class IncidentUpdatesService {
         return this.http
             .get<IIncidentUpdates>(`${this.resourceUrl}/${id}`, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    incidentQuery(id: number): Observable<HttpResponse<IIncidentUpdates[]>> {
+        return this.http
+            .get<IIncidentUpdates[]>(`${this.resourceUrl}/incident/${id}`, { observe: 'response' })
+            .pipe(map((res: HttpResponse<IIncidentUpdates[]>) => this.convertDateArrayFromServer(res)));
     }
 
     query(req?: any): Observable<EntityArrayResponseType> {

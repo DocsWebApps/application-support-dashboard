@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading">
-        <span>Incident List</span>
+        <span style="font-weight: bold">Incident List</span>
         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-incident" [routerLink]="['/incident/new']">
             <span class="fa fa-plus"></span>
             <span >
@@ -12,13 +12,13 @@
     <h5 id="filter-option">Filter  Options:</h5>
     <br>
     <div class="row">
-        <h6 class="col-md-1 filter-choice">Incident Status</h6>
+        <h6 class="col-md-1 filter-choice">Status</h6>
         <select class="form-control col-md-1" [(ngModel)]="selectedStatus" (ngModelChange)="onFilter()"  name="incidentStatus" id="field_incidentStatus">
             <option value="ALL">ALL</option>
             <option value="OPEN">OPEN</option>
             <option value="CLOSED">CLOSED</option>
         </select>
-        <h6 class="col-md-1 filter-choice">Incident Severity</h6>
+        <h6 class="col-md-1 filter-choice">Severity</h6>
         <select class="form-control col-md-1" [(ngModel)]="selectedSeverity" (ngModelChange)="onFilter()"  name="severity" id="field_severity">
             <option value="ALL">ALL</option>
             <option value="P1">P1</option>
@@ -28,25 +28,24 @@
         </select>
         <button *ngIf="clearFilter" (click)="onClearFilter()" id="filter-button" class="btn btn-primary">Clear Filters</button>
     </div>
-    <jhi-alert></jhi-alert>
     <br/>
     <div class="table-responsive" *ngIf="incidents">
         <table class="table table-striped">
             <thead>
             <tr>
             <th><span>ID</span></th>
-            <th><span>Created On</span></th>
+            <th><span>Opened</span></th>
             <th><span>Description</span></th>
-            <th><span>Incident Severity</span></th>
-            <th><span>Incident Status</span></th>
-            <th><span>Closed On</span></th>
-            <th><span>Linked To Problem</span></th>
+            <th><span>Severity</span></th>
+            <th><span>Status</span></th>
+            <th><span>Closed</span></th>
+							<th><span>ProblemLink?</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let incident of incidents ;trackBy: trackId">
-                <td><a [routerLink]="['/incident', incident.id, 'view' ]">{{incident.id}}</a></td>
+                <td>{{incident.id}}</td>
                 <td>{{incident.openedAt | date:'mediumDate'}}</td>
                 <td>{{incident.description}}</td>
                 <td>{{incident.severity}}</td>
@@ -54,42 +53,38 @@
                 <td>{{incident.closedAt | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="incident.probRecId">
-                        <a [routerLink]="['../problem', incident.probRecId , 'view' ]" >{{incident.probRecId}}</a>
+                        <a [routerLink]="['../problem-updates', incident.probRecId ]" >{{incident.probRecId}}</a>
                     </div>
                 </td>
                 <td class="text-right">
-                  <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right btn-group flex-btn-group-container">
-                    <button *ngIf="incident.incidentStatus != 'CLOSED'"
-                            type="submit"
-                            [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/close'} }]"
-                            replaceUrl="true"
-                            queryParamsHandling="merge"
-                            class="btn btn-dark btn-sm">
-                      <span class="fa fa-close"></span>
-                      <span class="d-none d-md-inline">Close</span>
-                    </button>
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/incident-updates', incident.id ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View Updates</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/incident', incident.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
-                    </div>
+                  <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group flex-btn-group-container">
+                      <button *ngIf="incident.incidentStatus != 'CLOSED'"
+                              type="submit"
+                              [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/close'} }]"
+                              class="btn btn-dark btn-sm">
+                        <fa-icon [icon]="'times'"></fa-icon>
+                        <span class="d-none d-md-inline">Close</span>
+                      </button>
+                      <button type="submit"
+                              [routerLink]="['/incident-updates', incident.id ]"
+                              class="btn btn-info btn-sm">
+                          <fa-icon [icon]="'eye'"></fa-icon>
+                          <span class="d-none d-md-inline">View</span>
+                      </button>
+                      <button type="submit"
+                              [routerLink]="['/incident', incident.id, 'edit']"
+                              class="btn btn-primary btn-sm">
+                          <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                          <span class="d-none d-md-inline">Edit</span>
+                      </button>
+                      <button type="submit"
+                              [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/delete'} }]"
+                              replaceUrl="true"
+                              queryParamsHandling="merge"
+                              class="btn btn-danger btn-sm">
+                          <fa-icon [icon]="'times'"></fa-icon>
+                          <span class="d-none d-md-inline">Delete</span>
+                      </button>
                   </div>
                 </td>
             </tr>

@@ -1,53 +1,23 @@
 <div>
     <div *ngIf="incident">
-      <h2>Incident No: {{ incidentID }}</h2>
+      <h2 style="font-weight: bold">Incident No: {{ incidentID }}</h2>
       <h4> {{incident.description}}</h4>
       <br/>
       <h4><span style="font-weight: bold">Status:</span> {{ incident.incidentStatus }}</h4>
       <h4><span style="font-weight: bold">Severity:</span> {{ incident.severity}}</h4>
-      <h4 *ngIf="incident.probRecId"><span style="font-weight: bold">Linked To Problem:</span><a [routerLink]="['/problem-update', incident.probRecId  ]" > {{incident.probRecId}}</a></h4>
+      <h4 *ngIf="incident.probRecId"><span style="font-weight: bold">Problem Link:</span><a [routerLink]="['/problem-updates', incident.probRecId  ]"> {{incident.probRecId}}</a></h4>
       <br>
-      <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group">
-        <button *ngIf="incident.incidentStatus != 'CLOSED'"
-                type="submit"
-                [routerLink]="['/', { outlets: { popup: 'incident/'+ incident.id + '/close'} }]"
-                replaceUrl="true"
-                queryParamsHandling="merge"
-                class="btn btn-dark btn-sm">
-          <span class="fa fa-close"></span>
-          <span class="d-none d-md-inline">Close Incident</span>
-        </button>
-        <button type="submit"
-                [routerLink]="['/', { outlets: { popup: 'incident/'+ incident.id + '/edit'} }]"
-                replaceUrl="true"
-                queryParamsHandling="merge"
-                class="btn btn-primary btn-sm">
-          <span class="fa fa-pencil"></span>
-          <span class="d-none d-md-inline">Edit Incident</span>
-        </button>
-        <button type="submit"
-                [routerLink]="['/', { outlets: { popup: 'incident/'+ incident.id + '/delete'} }]"
-                replaceUrl="true"
-                queryParamsHandling="merge"
-                class="btn btn-danger btn-sm">
-          <span class="fa fa-remove"></span>
-          <span class="d-none d-md-inline">Delete Incident</span>
-        </button>
-      </div>
     </div>
-    <br/>
     <hr>
     <h2 id="page-heading">
-        <span>Incident Updates</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-incident-updates" [routerLink]="['/incident-updates/new']">
+        <span style="font-weight: bold">Incident Updates</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-incident-updates" [routerLink]="['/incident-updates', incidentID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
-            Create new Incident Updates
+              Add Update
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
-    <br/>
     <div class="table-responsive" *ngIf="incidentUpdates">
         <table class="table table-striped">
             <thead>
@@ -63,11 +33,6 @@
                 <td><a [routerLink]="['/incident-updates', incidentUpdates.id, 'view' ]">{{incidentUpdates.id}}</a></td>
                 <td>{{incidentUpdates.updatedAt | date:'mediumDate'}}</td>
                 <td>{{incidentUpdates.updateText}}</td>
-                <td>
-                    <div *ngIf="incidentUpdates.inUpdateId">
-                        <a [routerLink]="['../incident', incidentUpdates.inUpdateId , 'view' ]" >{{incidentUpdates.inUpdateId}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

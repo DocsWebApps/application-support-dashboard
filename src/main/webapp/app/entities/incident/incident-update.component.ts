@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { IIncident } from 'app/shared/model/incident.model';
 import { IncidentService } from './incident.service';
 import { IProblem } from 'app/shared/model/problem.model';
-import { ProblemService } from 'app/entities/problem';
 
 @Component({
     selector: 'jhi-incident-update',
@@ -17,15 +14,12 @@ import { ProblemService } from 'app/entities/problem';
 export class IncidentUpdateComponent implements OnInit {
     incident: IIncident;
     isSaving: boolean;
-
-    problems: IProblem[];
     openedAtDp: any;
     closedAtDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected incidentService: IncidentService,
-        protected problemService: ProblemService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -34,13 +28,6 @@ export class IncidentUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ incident }) => {
             this.incident = incident;
         });
-        this.problemService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IProblem[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IProblem[]>) => response.body)
-            )
-            .subscribe((res: IProblem[]) => (this.problems = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {

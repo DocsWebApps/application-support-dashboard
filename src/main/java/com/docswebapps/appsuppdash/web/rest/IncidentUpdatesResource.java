@@ -115,4 +115,15 @@ public class IncidentUpdatesResource {
         incidentUpdatesService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    // My Custom Code
+    /**
+     * @param id of Incident for IncidentUpdates
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/incident-updates/incident/{id}")
+    public List<IncidentUpdatesDTO> getUpdatesForIncident(@PathVariable Long id) {
+      log.debug("Get IncidentUpdates for Incident id: {}", id);
+      return incidentUpdatesService.findIncidentUpdates(id);
+    }
 }

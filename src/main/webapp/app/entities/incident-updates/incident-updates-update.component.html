@@ -36,20 +36,6 @@
                         </small>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_inUpdate">In Update</label>
-                    <select class="form-control" id="field_inUpdate" name="inUpdate" [(ngModel)]="incidentUpdates.inUpdateId"  required>
-                        <option *ngIf="!editForm.value.inUpdate" [ngValue]="null" selected></option>
-                        <option [ngValue]="incidentOption.id" *ngFor="let incidentOption of incidents; trackBy: trackIncidentById">{{incidentOption.id}}</option>
-                    </select>
-                </div>
-                <div [hidden]="!(editForm.controls.inUpdate?.dirty && editForm.controls.inUpdate?.invalid)">
-                    <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.inUpdate?.errors?.required">
-                        This field is required.
-                    </small>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

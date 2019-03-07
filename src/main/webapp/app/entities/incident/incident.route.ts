@@ -7,7 +7,6 @@ import { filter, map } from 'rxjs/operators';
 import { Incident } from 'app/shared/model/incident.model';
 import { IncidentService } from './incident.service';
 import { IncidentComponent } from './incident.component';
-import { IncidentDetailComponent } from './incident-detail.component';
 import { IncidentUpdateComponent } from './incident-update.component';
 import { IncidentDeletePopupComponent } from './incident-delete-dialog.component';
 import { IIncident } from 'app/shared/model/incident.model';
@@ -33,18 +32,6 @@ export const incidentRoute: Routes = [
     {
         path: '',
         component: IncidentComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'Incidents'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':id/view',
-        component: IncidentDetailComponent,
-        resolve: {
-            incident: IncidentResolve
-        },
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Incidents'

@@ -16,6 +16,8 @@ import { IIncident } from 'app/shared/model/incident.model';
 })
 export class IncidentUpdatesComponent implements OnInit, OnDestroy {
     incidentUpdates: IIncidentUpdates[];
+    incidentID: number;
+    incident: IIncident;
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -74,24 +76,11 @@ export class IncidentUpdatesComponent implements OnInit, OnDestroy {
         this.incidentUpdatesService.incidentID = this.incidentID;
         this.getIncidentDetails();
         this.loadAll();
-        this.principal.identity().then(account => {
+        this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInIncidentUpdates();
     }
-
-    // loadAll() {
-    //     this.incidentUpdatesService
-    //         .query({
-    //             page: this.page,
-    //             size: this.itemsPerPage,
-    //             sort: this.sort()
-    //         })
-    //         .subscribe(
-    //             (res: HttpResponse<IIncidentUpdates[]>) => this.paginateIncidentUpdates(res.body, res.headers),
-    //             (res: HttpErrorResponse) => this.onError(res.message)
-    //         );
-    // }
 
     reset() {
         this.page = 0;
@@ -103,14 +92,6 @@ export class IncidentUpdatesComponent implements OnInit, OnDestroy {
         this.page = page;
         this.loadAll();
     }
-
-    // ngOnInit() {
-    //     this.loadAll();
-    //     this.accountService.identity().then(account => {
-    //         this.currentAccount = account;
-    //     });
-    //     this.registerChangeInIncidentUpdates();
-    // }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);

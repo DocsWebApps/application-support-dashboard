@@ -1,10 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import { ApplicationSupportDashboardSharedModule } from 'app/shared';
 import {
     IncidentComponent,
-    IncidentDetailComponent,
     IncidentUpdateComponent,
     IncidentDeletePopupComponent,
     IncidentDeleteDialogComponent,
@@ -19,7 +17,6 @@ const ENTITY_STATES = [...incidentRoute, ...incidentPopupRoute];
     imports: [ApplicationSupportDashboardSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         IncidentComponent,
-        IncidentDetailComponent,
         IncidentUpdateComponent,
         IncidentDeleteDialogComponent,
         IncidentDeletePopupComponent,

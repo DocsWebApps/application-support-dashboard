@@ -30,7 +30,7 @@ export class ProblemUpdatesResolve implements Resolve<IProblemUpdates> {
 
 export const problemUpdatesRoute: Routes = [
     {
-        path: '',
+        path: ':problemID',
         component: ProblemUpdatesComponent,
         data: {
             authorities: ['ROLE_USER'],
