@@ -55,20 +55,6 @@ public class ProblemService {
     }
 
     /**
-     * Get all the problems.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Transactional(readOnly = true)
-    public Page<ProblemDTO> findAll(Pageable pageable) {
-        log.debug("ProblemService: ProblemService: Request to get all Problems");
-        return problemRepository.findByOrderByOpenedAtDesc(pageable)
-            .map(problemMapper::toDto);
-    }
-
-
-    /**
      * Get one problem by id.
      *
      * @param id the id of the entity
@@ -81,6 +67,33 @@ public class ProblemService {
             .map(problemMapper::toDto);
     }
 
+    // My Custom Code
+    /**
+     * Get all the problems.
+     *
+     * @param pageable the pagination information
+     * @param status OPEN or CLOSED
+     * @param priority ALL, HIGH, MEDIUM or LOW
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<ProblemDTO> findAll(Pageable pageable, IssueStatus status, Priority priority) {
+        log.debug("ProblemService: Request to get all Problems: {} AND {}", status, priority);
+        if (status == IssueStatus.ALL && priority == Priority.ALL) {
+          return problemRepository.findByOrderByOpenedAtDesc(pageable)
+            .map(problemMapper::toDto);
+        } else if (status != IssueStatus.ALL && priority != Priority.ALL) {
+          return problemRepository.findByProbStatusAndPriorityOrderByOpenedAtDesc(pageable, status, priority)
+            .map(problemMapper::toDto);
+        } else if (status == IssueStatus.ALL) {
+          return problemRepository.findByPriorityOrderByOpenedAtDesc(pageable, priority)
+            .map(problemMapper::toDto);
+        } else {
+          return problemRepository.findByProbStatusOrderByOpenedAtDesc(pageable, status)
+            .map(problemMapper::toDto);
+        }
+    }
+
     /**
      * Delete the problem by id.
      *
@@ -91,45 +104,5 @@ public class ProblemService {
         incidentRepository.updateProblems(id);
         problemUpdatesRepository.deleteProblemUpdates(id);
         problemRepository.deleteById(id);
-    }
-
-    // My Custom Code - DEPRECATE THIS !!!
-    /**
-     * Get selected problems.
-     *
-     * @param pageable the pagination information
-     * @return the list of DTO's
-     */
-    @Transactional(readOnly = true)
-    public Page<ProblemDTO> findWithStatusAndPriority(Pageable pageable, IssueStatus probStatus, Priority priority) {
-        log.debug("ProblemService: Request to get selected Problems");
-        return problemRepository.findByProbStatusAndPriorityOrderByOpenedAtDesc(pageable, probStatus, priority)
-            .map(problemMapper::toDto);
-    }
-
-    /**
-     * Get selected problems.
-     *
-     * @param pageable the pagination information
-     * @return the list of DTO's
-     */
-    @Transactional(readOnly = true)
-    public Page<ProblemDTO> findWithPriority(Pageable pageable, Priority priority) {
-        log.debug("ProblemService: Request to get selected Problems");
-        return problemRepository.findByPriorityOrderByOpenedAtDesc(pageable, priority)
-            .map(problemMapper::toDto);
-    }
-
-    /**
-     * Get selected problems.
-     *
-     * @param pageable the pagination information
-     * @return the list of DTO's
-     */
-    @Transactional(readOnly = true)
-    public Page<ProblemDTO> findWithStatus(Pageable pageable, IssueStatus probStatus) {
-        log.debug("ProblemService: Request to get selected Problems");
-        return problemRepository.findByProbStatusOrderByOpenedAtDesc(pageable, probStatus)
-            .map(problemMapper::toDto);
     }
 }

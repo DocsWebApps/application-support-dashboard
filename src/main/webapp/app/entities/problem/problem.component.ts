@@ -1,18 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-
 import { IProblem } from 'app/shared/model/problem.model';
 import { AccountService } from 'app/core';
-
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { ProblemService } from './problem.service';
 
 @Component({
     selector: 'jhi-problem',
-    templateUrl: './problem.component.html'
+    templateUrl: './problem.component.html',
+    styleUrls: ['./problem.component.scss']
 })
 export class ProblemComponent implements OnInit, OnDestroy {
     problems: IProblem[];
@@ -24,6 +22,9 @@ export class ProblemComponent implements OnInit, OnDestroy {
     predicate: any;
     reverse: any;
     totalItems: number;
+    selectedStatus;
+    selectedPriority;
+    clearFilter = false;
 
     constructor(
         protected problemService: ProblemService,
@@ -45,7 +46,7 @@ export class ProblemComponent implements OnInit, OnDestroy {
 
     loadAll() {
         this.problemService
-            .query({
+            .query(this.selectedStatus, this.selectedPriority, {
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -54,6 +55,29 @@ export class ProblemComponent implements OnInit, OnDestroy {
                 (res: HttpResponse<IProblem[]>) => this.paginateProblems(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+    }
+
+    onClearFilter() {
+        this.selectedStatus = 'ALL';
+        this.selectedPriority = 'ALL';
+        this.onFilter();
+    }
+
+    onFilter() {
+        this.page = 0;
+        this.problems = [];
+        this.setFilterValues();
+        this.setFilterButton();
+        this.loadAll();
+    }
+
+    setFilterButton() {
+        this.clearFilter = this.selectedStatus !== 'ALL' || this.selectedPriority !== 'ALL';
+    }
+
+    setFilterValues() {
+        this.problemService.selectedStatus = this.selectedStatus;
+        this.problemService.selectedPriority = this.selectedPriority;
     }
 
     reset() {
@@ -68,11 +92,14 @@ export class ProblemComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInProblems();
+        this.selectedStatus = this.problemService.selectedStatus;
+        this.selectedPriority = this.problemService.selectedPriority;
+        this.setFilterButton();
+        this.loadAll();
     }
 
     ngOnDestroy() {

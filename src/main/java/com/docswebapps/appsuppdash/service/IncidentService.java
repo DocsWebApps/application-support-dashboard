@@ -92,7 +92,7 @@ public class IncidentService {
      */
     @Transactional(readOnly = true)
     public Page<IncidentDTO> findAll(Pageable pageable, IssueStatus status, Severity severity) {
-        log.debug("IncidentService: Request to get all Incidents");
+        log.debug("IncidentService: Request to get all Incidents: {} AND {}", status, severity);
         if (status == IssueStatus.ALL && severity == Severity.ALL) {
             return incidentRepository.findByOrderByIncidentStatusDescOpenedAtDesc(pageable)
                 .map(incidentMapper::toDto);

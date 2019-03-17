@@ -51,7 +51,7 @@ export const problemUpdatesRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'new',
+        path: ':problemID/new',
         component: ProblemUpdatesUpdateComponent,
         resolve: {
             problemUpdates: ProblemUpdatesResolve

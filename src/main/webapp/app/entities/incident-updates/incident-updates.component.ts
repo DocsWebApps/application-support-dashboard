@@ -52,12 +52,18 @@ export class IncidentUpdatesComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.incidentUpdatesService.incidentQuery(this.incidentID).subscribe(
-            (res: HttpResponse<IIncidentUpdates[]>) => {
-                this.incidentUpdates = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.incidentUpdatesService
+            .query(this.incidentID, {
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<IIncidentUpdates[]>) => {
+                    this.paginateIncidentUpdates(res.body, res.headers);
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     getIncidentDetails() {

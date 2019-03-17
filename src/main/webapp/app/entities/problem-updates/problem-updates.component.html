@@ -1,14 +1,26 @@
 <div>
+    <div *ngIf="problem">
+      <h2 style="font-weight: bold">Problem No: {{ problemID }}</h2>
+      <h4>{{ problem.title }}</h4>
+      <br/>
+      <h4><span style="font-weight: bold">Statement:</span> {{ problem.statement }}</h4>
+      <br/>
+      <h4><span style="font-weight: bold">Status:</span> {{ problem.probStatus }}</h4>
+      <h4><span style="font-weight: bold">Priority:</span> {{ problem.priority }}</h4>
+      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Risk Link:</span><a [routerLink]="['/risk-update', problem.riskRecId  ]" > {{problem.riskRecId}}</a></h4>
+      <br>
+    </div>
+    <br/>
+    <hr>
     <h2 id="page-heading">
-        <span>Problem Updates</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-problem-updates" [routerLink]="['/problem-updates/new']">
+        <span style="font-weight: bold">Problem Updates</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-problem-updates" [routerLink]="['/problem-updates', problemID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
-            Create new Problem Updates
+              Add Update
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
     <br/>
     <div class="table-responsive" *ngIf="problemUpdates">
         <table class="table table-striped">
@@ -59,4 +71,9 @@
             </tbody>
         </table>
     </div>
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+      <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
 </div>

@@ -76,20 +76,6 @@ public class ProblemUpdatesResource {
     }
 
     /**
-     * GET  /problem-updates : get all the problemUpdates.
-     *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of problemUpdates in body
-     */
-    @GetMapping("/problem-updates")
-    public ResponseEntity<List<ProblemUpdatesDTO>> getAllProblemUpdates(Pageable pageable) {
-        log.debug("ProblemUpdatesResource: REST request to get a page of ProblemUpdates");
-        Page<ProblemUpdatesDTO> page = problemUpdatesService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/problem-updates");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
      * GET  /problem-updates/:id : get the "id" problemUpdates.
      *
      * @param id the id of the problemUpdatesDTO to retrieve
@@ -113,5 +99,18 @@ public class ProblemUpdatesResource {
         log.debug("ProblemUpdatesResource: REST request to delete ProblemUpdates : {}", id);
         problemUpdatesService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    // My Custom Code
+    /**
+     * @param id of Problem for ProblemUpdates
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/problem-updates/problem/{id}")
+    public ResponseEntity<List<ProblemUpdatesDTO>> getUpdatesForProblem(@PathVariable Long id, Pageable pageable) {
+      log.debug("ProblemUpdatesResource: Get ProblemUpdates for Problem id: {}", id);
+      Page<ProblemUpdatesDTO> page = problemUpdatesService.findProblemUpdates(id, pageable);
+      HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/problem-updates");
+      return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }

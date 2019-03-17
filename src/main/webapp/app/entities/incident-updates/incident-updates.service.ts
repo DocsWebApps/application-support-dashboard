@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
-
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IIncidentUpdates } from 'app/shared/model/incident-updates.model';
@@ -47,16 +46,10 @@ export class IncidentUpdatesService {
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
-    incidentQuery(id: number): Observable<HttpResponse<IIncidentUpdates[]>> {
-        return this.http
-            .get<IIncidentUpdates[]>(`${this.resourceUrl}/incident/${id}`, { observe: 'response' })
-            .pipe(map((res: HttpResponse<IIncidentUpdates[]>) => this.convertDateArrayFromServer(res)));
-    }
-
-    query(req?: any): Observable<EntityArrayResponseType> {
+    query(id: number, req?: any): Observable<HttpResponse<IIncidentUpdates[]>> {
         const options = createRequestOption(req);
         return this.http
-            .get<IIncidentUpdates[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .get<IIncidentUpdates[]>(`${this.resourceUrl}/incident/${id}`, { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 

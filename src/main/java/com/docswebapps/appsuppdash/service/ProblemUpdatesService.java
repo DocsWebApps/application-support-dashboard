@@ -10,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing ProblemUpdates.
@@ -46,20 +43,6 @@ public class ProblemUpdatesService {
     }
 
     /**
-     * Get all the problemUpdates.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Transactional(readOnly = true)
-    public Page<ProblemUpdatesDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all ProblemUpdates");
-        return problemUpdatesRepository.findAll(pageable)
-            .map(problemUpdatesMapper::toDto);
-    }
-
-
-    /**
      * Get one problemUpdate by id.
      *
      * @param id the id of the entity
@@ -85,14 +68,14 @@ public class ProblemUpdatesService {
     // My Custom Code
     /**
      * Get all the problemUpdates for a particular problem
-     *
-     * @return the list of entities
+     * @param id the ID of the problem we want to retrieve updates for
+     * @param pageable page details
+     * @return the Page of entities
      */
     @Transactional(readOnly = true)
-    public List<ProblemUpdatesDTO> findProblemUpdates(Long id) {
-        log.debug("ProblemUpdatesService: Request to get all ProblemUpdates", id);
-        return problemUpdatesRepository.findProblemUpdates(id).stream()
-            .map(problemUpdatesMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+    public Page<ProblemUpdatesDTO> findProblemUpdates(Long id, Pageable pageable) {
+        log.debug("ProblemUpdatesService: Request to get all ProblemUpdates for ProblemID", id);
+        return problemUpdatesRepository.findProblemUpdates(id, pageable)
+          .map(problemUpdatesMapper::toDto);
     }
 }

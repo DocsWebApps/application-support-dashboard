@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-
 import { IProblemUpdates } from 'app/shared/model/problem-updates.model';
 import { AccountService } from 'app/core';
-
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { ProblemUpdatesService } from './problem-updates.service';
+import { ActivatedRoute } from '@angular/router';
+import { ProblemService } from 'app/entities/problem';
+import { IProblem } from 'app/shared/model/problem.model';
 
 @Component({
     selector: 'jhi-problem-updates',
@@ -16,6 +16,8 @@ import { ProblemUpdatesService } from './problem-updates.service';
 })
 export class ProblemUpdatesComponent implements OnInit, OnDestroy {
     problemUpdates: IProblemUpdates[];
+    problemID: number;
+    problem: IProblem;
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -31,6 +33,8 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
         protected dataUtils: JhiDataUtils,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
+        private route: ActivatedRoute,
+        private problemService: ProblemService,
         protected accountService: AccountService
     ) {
         this.problemUpdates = [];
@@ -43,17 +47,34 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
         this.reverse = true;
     }
 
+    previousState() {
+        window.history.back();
+    }
+
     loadAll() {
         this.problemUpdatesService
-            .query({
+            .query(this.problemID, {
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
             .subscribe(
-                (res: HttpResponse<IProblemUpdates[]>) => this.paginateProblemUpdates(res.body, res.headers),
+                (res: HttpResponse<IProblemUpdates[]>) => {
+                    this.paginateProblemUpdates(res.body, res.headers);
+                },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+    }
+
+    getProblemDetails() {
+        this.problemService.find(this.problemID).subscribe(
+            (res: HttpResponse<IProblem>) => {
+                this.problem = res.body;
+            },
+            (res: HttpErrorResponse) => {
+                this.onError(res.message);
+            }
+        );
     }
 
     reset() {
@@ -68,6 +89,9 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.problemID = this.route.snapshot.params['problemID'];
+        this.problemUpdatesService.problemID = this.problemID;
+        this.getProblemDetails();
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;

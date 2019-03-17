@@ -1,4 +1,6 @@
 package com.docswebapps.appsuppdash.web.rest;
+import com.docswebapps.appsuppdash.domain.enumeration.IssueStatus;
+import com.docswebapps.appsuppdash.domain.enumeration.Priority;
 import com.docswebapps.appsuppdash.service.ProblemService;
 import com.docswebapps.appsuppdash.web.rest.errors.BadRequestAlertException;
 import com.docswebapps.appsuppdash.web.rest.util.HeaderUtil;
@@ -75,15 +77,19 @@ public class ProblemResource {
     }
 
     /**
-     * GET  /problems : get all the problems.
+     * GET  /problems/{status}/{priority} : get all the problems.
      *
      * @param pageable the pagination information
+     * @param status  OPEN or CLOSED
+     * @param priority ALL, HIGH, MEDIUM or LOW
      * @return the ResponseEntity with status 200 (OK) and the list of problems in body
      */
-    @GetMapping("/problems")
-    public ResponseEntity<List<ProblemDTO>> getAllProblems(Pageable pageable) {
-        log.debug("ProblemResource: REST request to get a page of Problems");
-        Page<ProblemDTO> page = problemService.findAll(pageable);
+    @GetMapping("/problems/{status}/{priority}")
+    public ResponseEntity<List<ProblemDTO>> getAllProblems(Pageable pageable,
+                                                           @PathVariable IssueStatus status,
+                                                           @PathVariable Priority priority) {
+        log.debug("ProblemResource: REST request to get a page of Problems: {} AND {}", status, priority);
+        Page<ProblemDTO> page = problemService.findAll(pageable, status, priority);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/problems");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

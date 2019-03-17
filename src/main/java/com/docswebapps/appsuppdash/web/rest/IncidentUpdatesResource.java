@@ -77,20 +77,6 @@ public class IncidentUpdatesResource {
     }
 
     /**
-     * GET  /incident-updates : get all the incidentUpdates.
-     *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of incidentUpdates in body
-     */
-    @GetMapping("/incident-updates")
-    public ResponseEntity<List<IncidentUpdatesDTO>> getAllIncidentUpdates(Pageable pageable) {
-        log.debug("IncidentsUpdatesResource: REST request to get a page of IncidentUpdates");
-        Page<IncidentUpdatesDTO> page = incidentUpdatesService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/incident-updates");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
      * GET  /incident-updates/:id : get the "id" incidentUpdates.
      *
      * @param id the id of the incidentUpdatesDTO to retrieve
@@ -119,11 +105,14 @@ public class IncidentUpdatesResource {
     // My Custom Code
     /**
      * @param id of Incident for IncidentUpdates
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK)
      */
     @GetMapping("/incident-updates/incident/{id}")
-    public List<IncidentUpdatesDTO> getUpdatesForIncident(@PathVariable Long id) {
-      log.debug("Get IncidentUpdates for Incident id: {}", id);
-      return incidentUpdatesService.findIncidentUpdates(id);
+    public ResponseEntity<List<IncidentUpdatesDTO>> getUpdatesForIncident(@PathVariable Long id, Pageable pageable) {
+      log.debug("IncidentsUpdatesResource: Get IncidentUpdates for Incident id: {}", id);
+      Page<IncidentUpdatesDTO> page = incidentUpdatesService.findIncidentUpdates(id, pageable);
+      HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/incident-updates");
+      return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }

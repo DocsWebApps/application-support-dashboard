@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
-
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IProblemUpdates } from 'app/shared/model/problem-updates.model';
@@ -15,8 +14,17 @@ type EntityArrayResponseType = HttpResponse<IProblemUpdates[]>;
 @Injectable({ providedIn: 'root' })
 export class ProblemUpdatesService {
     public resourceUrl = SERVER_API_URL + 'api/problem-updates';
+    private _problemID;
 
     constructor(protected http: HttpClient) {}
+
+    get problemID() {
+        return this._problemID;
+    }
+
+    set problemID(value) {
+        this._problemID = value;
+    }
 
     create(problemUpdates: IProblemUpdates): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(problemUpdates);
@@ -38,10 +46,10 @@ export class ProblemUpdatesService {
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
-    query(req?: any): Observable<EntityArrayResponseType> {
+    query(id: number, req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http
-            .get<IProblemUpdates[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .get<IProblemUpdates[]>(`${this.resourceUrl}/problem/${id}`, { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 

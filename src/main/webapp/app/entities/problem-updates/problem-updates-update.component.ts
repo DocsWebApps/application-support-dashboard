@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IProblemUpdates } from 'app/shared/model/problem-updates.model';
 import { ProblemUpdatesService } from './problem-updates.service';
 import { IProblem } from 'app/shared/model/problem.model';
-import { ProblemService } from 'app/entities/problem';
 
 @Component({
     selector: 'jhi-problem-updates-update',
@@ -17,30 +14,22 @@ import { ProblemService } from 'app/entities/problem';
 export class ProblemUpdatesUpdateComponent implements OnInit {
     problemUpdates: IProblemUpdates;
     isSaving: boolean;
-
-    problems: IProblem[];
+    problemID: number;
     updatedAtDp: any;
 
     constructor(
         protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
         protected problemUpdatesService: ProblemUpdatesService,
-        protected problemService: ProblemService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
+        this.problemID = this.problemUpdatesService.problemID;
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ problemUpdates }) => {
             this.problemUpdates = problemUpdates;
         });
-        this.problemService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IProblem[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IProblem[]>) => response.body)
-            )
-            .subscribe((res: IProblem[]) => (this.problems = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -60,6 +49,7 @@ export class ProblemUpdatesUpdateComponent implements OnInit {
     }
 
     save() {
+        this.problemUpdates.probUpdateId = this.problemID;
         this.isSaving = true;
         if (this.problemUpdates.id !== undefined) {
             this.subscribeToSaveResponse(this.problemUpdatesService.update(this.problemUpdates));

@@ -102,7 +102,7 @@ public class IncidentResource {
     public ResponseEntity<List<IncidentDTO>> getAllIncidents(Pageable pageable,
                                                              @PathVariable IssueStatus status,
                                                              @PathVariable Severity severity) {
-        log.debug("Incident Resource: REST request to get a page of Incidents");
+        log.debug("Incident Resource: REST request to get a page of Incidents: {} AND {}", status, severity);
         Page<IncidentDTO> page = incidentService.findAll(pageable, status, severity);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/incidents");
         return ResponseEntity.ok().headers(headers).body(page.getContent());

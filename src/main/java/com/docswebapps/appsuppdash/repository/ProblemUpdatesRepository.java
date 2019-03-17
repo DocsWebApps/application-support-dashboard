@@ -1,12 +1,12 @@
 package com.docswebapps.appsuppdash.repository;
 
 import com.docswebapps.appsuppdash.domain.ProblemUpdates;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
-
 
 /**
  * Spring Data  repository for the ProblemUpdates entity.
@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface ProblemUpdatesRepository extends JpaRepository<ProblemUpdates, Long> {
     @Query(value = "select * from problem_updates p where p.prob_update_id = :problemID", nativeQuery = true)
-    List<ProblemUpdates> findProblemUpdates(@Param("problemID") Long problemID);
+    Page<ProblemUpdates> findProblemUpdates(@Param("problemID") Long problemID, Pageable pageable);
 
     @Modifying
     @Transactional

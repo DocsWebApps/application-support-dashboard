@@ -1,33 +1,51 @@
 <div>
-    <h2 id="page-heading">
-        <span>Problems</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-problem" [routerLink]="['/problem/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Create new Problem
-            </span>
-        </button>
+    <h2>
+      <span style="font-weight: bold">Problem List</span>
+      <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right jh-create-entity create-problem" [routerLink]="['/problem/new']">
+        <fa-icon [icon]="'plus'"></fa-icon>
+        <span >
+          Create New Problem
+        </span>
+      </button>
     </h2>
-    <jhi-alert></jhi-alert>
+    <hr>
+    <h5 id="filter-option">Filter  Options:</h5>
+    <br/>
+    <div class="row">
+      <h6 class="col-md-1 filter-choice">Status</h6>
+      <select class="form-control col-md-1" [(ngModel)]="selectedStatus" (ngModelChange)="onFilter()"  name="probStatus" id="field_probStatus">
+        <option value="ALL">ALL</option>
+        <option value="OPEN">OPEN</option>
+        <option value="CLOSED">CLOSED</option>
+      </select>
+      <h6 class="col-md-1 filter-choice">Priority</h6>
+      <select class="form-control col-md-1" [(ngModel)]="selectedPriority" (ngModelChange)="onFilter()"  name="priority" id="field_priority">
+        <option value="ALL">ALL</option>
+        <option value="HIGH">HIGH</option>
+        <option value="MEDIUM">MEDIUM</option>
+        <option value="LOW">LOW</option>
+      </select>
+      <button *ngIf="clearFilter" (click)="onClearFilter()" id="filter-button" class="btn btn-primary">Clear Filters</button>
+    </div>
     <br/>
     <div class="table-responsive" *ngIf="problems">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="openedAt"><span>Opened At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="title"><span>Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="statement"><span>Statement</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="probStatus"><span>Prob Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="priority"><span>Priority</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="closedAt"><span>Closed At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="riskRecId"><span>Risk Rec</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <tr>
+              <th><span>ID</span></th>
+              <th><span>Created</span></th>
+              <th><span>Title</span></th>
+              <th><span>Problem Statement</span></th>
+              <th><span>Status</span></th>
+              <th><span>Priority</span></th>
+              <th><span>Closed </span></th>
+              <th><span>RiskLink?</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let problem of problems ;trackBy: trackId">
-                <td><a [routerLink]="['/problem', problem.id, 'view' ]">{{problem.id}}</a></td>
+                <td>{{problem.id}}</td>
                 <td>{{problem.openedAt | date:'mediumDate'}}</td>
                 <td>{{problem.title}}</td>
                 <td>{{problem.statement}}</td>
@@ -42,18 +60,18 @@
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/problem', problem.id, 'view' ]"
+                                [routerLink]="['/problem-updates', problem.id ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
                                 [routerLink]="['/problem', problem.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
                                 [routerLink]="['/', 'problem', { outlets: { popup: problem.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

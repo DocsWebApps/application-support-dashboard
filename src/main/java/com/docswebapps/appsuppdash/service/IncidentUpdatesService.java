@@ -10,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing IncidentUpdates.
@@ -45,20 +42,6 @@ public class IncidentUpdatesService {
     }
 
     /**
-     * Get all the incidentUpdates.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Transactional(readOnly = true)
-    public Page<IncidentUpdatesDTO> findAll(Pageable pageable) {
-        log.debug("IncidentUpdatesService: Request to get all IncidentUpdates");
-        return incidentUpdatesRepository.findAll(pageable)
-            .map(incidentUpdatesMapper::toDto);
-    }
-
-
-    /**
      * Get one incidentUpdate by id.
      *
      * @param id the id of the entity
@@ -87,10 +70,9 @@ public class IncidentUpdatesService {
      * @return IncidentUpdatesDTO's
      */
     @Transactional(readOnly = true)
-    public List<IncidentUpdatesDTO> findIncidentUpdates(Long id) {
+    public Page<IncidentUpdatesDTO> findIncidentUpdates(Long id, Pageable pageable) {
         log.debug("IncidentUpdatesService: Request to get all IncidentUpdates", id);
-        return incidentUpdatesRepository.findIncidentUpdates(id).stream()
-            .map(incidentUpdatesMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return incidentUpdatesRepository.findIncidentUpdates(id, pageable)
+            .map(incidentUpdatesMapper::toDto);
     }
 }

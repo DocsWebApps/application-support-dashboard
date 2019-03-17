@@ -4,19 +4,35 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
-
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IProblem } from 'app/shared/model/problem.model';
-
 type EntityResponseType = HttpResponse<IProblem>;
 type EntityArrayResponseType = HttpResponse<IProblem[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ProblemService {
+    private _selectedStatus = 'ALL';
+    private _selectedPriority = 'ALL';
     public resourceUrl = SERVER_API_URL + 'api/problems';
 
     constructor(protected http: HttpClient) {}
+
+    get selectedStatus(): string {
+        return this._selectedStatus;
+    }
+
+    set selectedStatus(value: string) {
+        this._selectedStatus = value;
+    }
+
+    get selectedPriority(): string {
+        return this._selectedPriority;
+    }
+
+    set selectedPriority(value: string) {
+        this._selectedPriority = value;
+    }
 
     create(problem: IProblem): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(problem);
@@ -38,10 +54,10 @@ export class ProblemService {
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
-    query(req?: any): Observable<EntityArrayResponseType> {
+    query(status: string, priority: string, req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http
-            .get<IProblem[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .get<IProblem[]>(`${this.resourceUrl}/${status}/${priority}`, { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
