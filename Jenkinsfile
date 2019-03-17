@@ -22,38 +22,42 @@ node {
         sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm"
     }
 
-    stage('backend tests') {
-        try {
-            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml test"
-        } catch(err) {
-            throw err
-        } finally {
-            junit '**/target/surefire-reports/TEST-*.xml'
+//    stage('backend tests') {
+//        try {
+//            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml test"
+//        } catch(err) {
+//            throw err
+//        } finally {
+//            junit '**/target/surefire-reports/TEST-*.xml'
+//        }
+//    }
+//
+//    stage('frontend tests') {
+//        try {
+//            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm -Dfrontend.npm.arguments='run test'"
+//        } catch(err) {
+//            throw err
+//        } finally {
+//            junit '**/target/test-results/TESTS-*.xml'
+//        }
+//    }
+//
+//    stage('packaging') {
+//        sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml verify -Pprod -DskipTests"
+//        archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+//    }
+
+    stage('sonarqube quality analysis') {
+        withSonarQubeEnv('SonarQube76') {
+            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml sonar:sonar -Dsonar.host.url=http://docsappstack:9000 -Dsonar.login=8bcb7f612190fc7749e2697e7b48e2ca605705b0"
         }
     }
 
-    stage('frontend tests') {
-        try {
-            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm -Dfrontend.npm.arguments='run test'"
-        } catch(err) {
-            throw err
-        } finally {
-            junit '**/target/test-results/TESTS-*.xml'
-        }
+    stage('sonarcloud quality analysis') {
+        sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml sonar:sonar -Dsonar.projectKey=DocsWebApps_application-support-dashboard -Dsonar.organization=docswebapps-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=8d3fef1fdf4b002897e7ae41730ca7f652d58dac"
     }
 
-    stage('packaging') {
-        sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml verify -Pprod -DskipTests"
-        archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
-    }
-
-    stage('quality analysis') {
-        withSonarQubeEnv('SonarQube671') {
-            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml sonar:sonar -Dsonar.host.url=http://docsappstack:9000 -Dsonar.login=df8bcf5eeb1f29d651a70a848455fca97621f8bf"
-        }
-    }
-
-    stage('build docker image') {
+  stage('build docker image') {
         sh "cp /root/ApplicationSupportDashboard/Dockerfile ./target"
         sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml -Dmaven.test.skip=true -Pprod dockerfile:build"
     }

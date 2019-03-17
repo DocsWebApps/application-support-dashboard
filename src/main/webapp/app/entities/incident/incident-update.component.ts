@@ -6,6 +6,7 @@ import { JhiAlertService } from 'ng-jhipster';
 import { IIncident } from 'app/shared/model/incident.model';
 import { IncidentService } from './incident.service';
 import { IProblem } from 'app/shared/model/problem.model';
+import { ProblemService } from 'app/entities/problem';
 
 @Component({
     selector: 'jhi-incident-update',
@@ -13,6 +14,7 @@ import { IProblem } from 'app/shared/model/problem.model';
 })
 export class IncidentUpdateComponent implements OnInit {
     incident: IIncident;
+    problems: IProblem[];
     isSaving: boolean;
     openedAtDp: any;
     closedAtDp: any;
@@ -20,7 +22,8 @@ export class IncidentUpdateComponent implements OnInit {
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected incidentService: IncidentService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        private problemService: ProblemService
     ) {}
 
     ngOnInit() {
@@ -28,6 +31,12 @@ export class IncidentUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ incident }) => {
             this.incident = incident;
         });
+        this.problemService
+            .query('ALL', 'ALL')
+            .subscribe(
+                (res: HttpResponse<IProblem[]>) => (this.problems = res.body),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     previousState() {
