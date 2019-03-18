@@ -6,7 +6,7 @@ import { IProblemUpdates } from 'app/shared/model/problem-updates.model';
 import { AccountService } from 'app/core';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { ProblemUpdatesService } from './problem-updates.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProblemService } from 'app/entities/problem';
 import { IProblem } from 'app/shared/model/problem.model';
 
@@ -35,7 +35,8 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
         protected parseLinks: JhiParseLinks,
         private route: ActivatedRoute,
         private problemService: ProblemService,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        private router: Router
     ) {
         this.problemUpdates = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -48,7 +49,7 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
     }
 
     previousState() {
-        window.history.back();
+        this.router.navigate([this.problemUpdatesService.returnRoute]);
     }
 
     loadAll() {

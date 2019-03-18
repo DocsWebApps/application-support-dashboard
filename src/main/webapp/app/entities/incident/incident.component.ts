@@ -6,6 +6,9 @@ import { IIncident } from 'app/shared/model/incident.model';
 import { AccountService } from 'app/core';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { IncidentService } from './incident.service';
+import { Router } from '@angular/router';
+import { IncidentUpdatesService } from 'app/entities/incident-updates';
+import { ProblemUpdatesService } from 'app/entities/problem-updates';
 
 @Component({
     selector: 'jhi-incident',
@@ -31,7 +34,10 @@ export class IncidentComponent implements OnInit, OnDestroy {
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        private router: Router,
+        private incidentUpdatesService: IncidentUpdatesService,
+        private problemUpdatesService: ProblemUpdatesService
     ) {
         this.incidents = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -65,6 +71,16 @@ export class IncidentComponent implements OnInit, OnDestroy {
     loadPage(page) {
         this.page = page;
         this.loadAll();
+    }
+
+    setProblemUpdatesReturnPage(problemID) {
+        this.problemUpdatesService.returnRoute = '/incident';
+        this.router.navigate(['problem-updates', problemID]);
+    }
+
+    setIncidentUpdatesReturnPage(incidentID) {
+        this.incidentUpdatesService.returnRoute = '/incident';
+        this.router.navigate(['/incident-updates', incidentID]);
     }
 
     ngOnInit() {

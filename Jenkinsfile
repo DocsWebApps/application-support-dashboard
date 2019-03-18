@@ -22,30 +22,30 @@ node {
         sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm"
     }
 
-//    stage('backend tests') {
-//        try {
-//            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml test"
-//        } catch(err) {
-//            throw err
-//        } finally {
-//            junit '**/target/surefire-reports/TEST-*.xml'
-//        }
-//    }
-//
-//    stage('frontend tests') {
-//        try {
-//            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm -Dfrontend.npm.arguments='run test'"
-//        } catch(err) {
-//            throw err
-//        } finally {
-//            junit '**/target/test-results/TESTS-*.xml'
-//        }
-//    }
-//
-//    stage('packaging') {
-//        sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml verify -Pprod -DskipTests"
-//        archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
-//    }
+    stage('backend tests') {
+        try {
+            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml test"
+        } catch(err) {
+            throw err
+        } finally {
+            junit '**/target/surefire-reports/TEST-*.xml'
+        }
+    }
+
+    stage('frontend tests') {
+        try {
+            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm -Dfrontend.npm.arguments='run test'"
+        } catch(err) {
+            throw err
+        } finally {
+            junit '**/target/test-results/TESTS-*.xml'
+        }
+    }
+
+    stage('packaging') {
+        sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml verify -Pprod -DskipTests"
+        archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+    }
 
     stage('sonarqube quality analysis') {
         withSonarQubeEnv('SonarQube76') {

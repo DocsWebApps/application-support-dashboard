@@ -7,7 +7,7 @@ import { AccountService } from 'app/core';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { IncidentUpdatesService } from './incident-updates.service';
 import { IncidentService } from 'app/entities/incident';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IIncident } from 'app/shared/model/incident.model';
 
 @Component({
@@ -35,7 +35,8 @@ export class IncidentUpdatesComponent implements OnInit, OnDestroy {
         protected parseLinks: JhiParseLinks,
         protected accountService: AccountService,
         private route: ActivatedRoute,
-        private incidentService: IncidentService
+        private incidentService: IncidentService,
+        private router: Router
     ) {
         this.incidentUpdates = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -48,7 +49,7 @@ export class IncidentUpdatesComponent implements OnInit, OnDestroy {
     }
 
     previousState() {
-        window.history.back();
+        this.router.navigate([this.incidentUpdatesService.returnRoute]);
     }
 
     loadAll() {

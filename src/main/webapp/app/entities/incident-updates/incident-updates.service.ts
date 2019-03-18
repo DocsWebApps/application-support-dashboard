@@ -15,8 +15,17 @@ type EntityArrayResponseType = HttpResponse<IIncidentUpdates[]>;
 export class IncidentUpdatesService {
     public resourceUrl = SERVER_API_URL + 'api/incident-updates';
     private _incidentID;
+    private _returnRoute;
 
     constructor(protected http: HttpClient) {}
+
+    get returnRoute() {
+        return this._returnRoute;
+    }
+
+    set returnRoute(value) {
+        this._returnRoute = value;
+    }
 
     get incidentID() {
         return this._incidentID;
