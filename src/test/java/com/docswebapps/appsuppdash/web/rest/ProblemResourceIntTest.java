@@ -255,7 +255,7 @@ public class ProblemResourceIntTest {
         problemRepository.saveAndFlush(problem);
 
         // Get all the problemList
-        restProblemMockMvc.perform(get("/api/problems?sort=id,desc"))
+        restProblemMockMvc.perform(get("/api/problems/ALL/ALL?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(problem.getId().intValue())))

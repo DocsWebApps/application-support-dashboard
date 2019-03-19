@@ -60,7 +60,7 @@
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/problem-updates', problem.id ]"
+                                (click)="setProblemUpdatesReturnPage(problem.id)"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
