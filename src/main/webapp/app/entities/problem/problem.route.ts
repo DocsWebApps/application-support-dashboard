@@ -7,7 +7,6 @@ import { filter, map } from 'rxjs/operators';
 import { Problem } from 'app/shared/model/problem.model';
 import { ProblemService } from './problem.service';
 import { ProblemComponent } from './problem.component';
-import { ProblemDetailComponent } from './problem-detail.component';
 import { ProblemUpdateComponent } from './problem-update.component';
 import { ProblemDeletePopupComponent } from './problem-delete-dialog.component';
 import { IProblem } from 'app/shared/model/problem.model';
@@ -32,18 +31,6 @@ export const problemRoute: Routes = [
     {
         path: '',
         component: ProblemComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'Problems'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':id/view',
-        component: ProblemDetailComponent,
-        resolve: {
-            problem: ProblemResolve
-        },
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Problems'

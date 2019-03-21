@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-
 import { IRisk } from 'app/shared/model/risk.model';
 import { AccountService } from 'app/core';
-
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { RiskService } from './risk.service';
+import { RiskUpdatesService } from 'app/entities/risk-updates';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'jhi-risk',
-    templateUrl: './risk.component.html'
+    templateUrl: './risk.component.html',
+    styleUrls: ['./risk.component.scss']
 })
 export class RiskComponent implements OnInit, OnDestroy {
     risks: IRisk[];
@@ -24,6 +24,9 @@ export class RiskComponent implements OnInit, OnDestroy {
     predicate: any;
     reverse: any;
     totalItems: number;
+    selectedStatus;
+    selectedPriority;
+    clearFilter = false;
 
     constructor(
         protected riskService: RiskService,
@@ -31,7 +34,9 @@ export class RiskComponent implements OnInit, OnDestroy {
         protected dataUtils: JhiDataUtils,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        private riskUpdatesService: RiskUpdatesService,
+        private router: Router
     ) {
         this.risks = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -45,7 +50,7 @@ export class RiskComponent implements OnInit, OnDestroy {
 
     loadAll() {
         this.riskService
-            .query({
+            .query(this.selectedStatus, this.selectedPriority, {
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -54,6 +59,34 @@ export class RiskComponent implements OnInit, OnDestroy {
                 (res: HttpResponse<IRisk[]>) => this.paginateRisks(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+    }
+
+    setRiskUpdatesReturnPage(riskID) {
+        this.riskUpdatesService.returnRoute = '/risk';
+        this.router.navigate(['risk-updates', riskID]);
+    }
+
+    onClearFilter() {
+        this.selectedStatus = 'ALL';
+        this.selectedPriority = 'ALL';
+        this.onFilter();
+    }
+
+    onFilter() {
+        this.page = 0;
+        this.risks = [];
+        this.setFilterValues();
+        this.setFilterButton();
+        this.loadAll();
+    }
+
+    setFilterButton() {
+        this.clearFilter = this.selectedStatus !== 'ALL' || this.selectedPriority !== 'ALL';
+    }
+
+    setFilterValues() {
+        this.riskService.selectedStatus = this.selectedStatus;
+        this.riskService.selectedPriority = this.selectedPriority;
     }
 
     reset() {
@@ -68,11 +101,14 @@ export class RiskComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInRisks();
+        this.selectedStatus = this.riskService.selectedStatus;
+        this.selectedPriority = this.riskService.selectedPriority;
+        this.setFilterButton();
+        this.loadAll();
     }
 
     ngOnDestroy() {

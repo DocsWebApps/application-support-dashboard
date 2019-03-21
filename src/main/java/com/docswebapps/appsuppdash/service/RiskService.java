@@ -59,12 +59,22 @@ public class RiskService {
      * @return the list of entities
      */
     @Transactional(readOnly = true)
-    public Page<RiskDTO> findAll(Pageable pageable) {
-        log.debug("RiskService: Request to get all Risks");
-        return riskRepository.findByOrderByOpenedAtDesc(pageable)
+    public Page<RiskDTO> findAll(Pageable pageable, IssueStatus status, Priority priority) {
+        log.debug("RiskService: Request to get all Risks: {} AND {}", status, priority);
+        if (status == IssueStatus.ALL && priority == Priority.ALL) {
+          return riskRepository.findByOrderByOpenedAtDesc(pageable)
             .map(riskMapper::toDto);
+        } else if (status != IssueStatus.ALL && priority != Priority.ALL) {
+          return riskRepository.findByRiskStatusAndPriorityOrderByOpenedAtDesc(pageable, status, priority)
+            .map(riskMapper::toDto);
+        } else if (status == IssueStatus.ALL) {
+          return riskRepository.findByPriorityOrderByOpenedAtDesc(pageable, priority)
+            .map(riskMapper::toDto);
+        } else {
+          return riskRepository.findByRiskStatusOrderByOpenedAtDesc(pageable, status)
+            .map(riskMapper::toDto);
+        }
     }
-
 
     /**
      * Get one risk by id.

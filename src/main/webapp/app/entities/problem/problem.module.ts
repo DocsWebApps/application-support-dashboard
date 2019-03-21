@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { ApplicationSupportDashboardSharedModule } from 'app/shared';
 import {
     ProblemComponent,
-    ProblemDetailComponent,
     ProblemUpdateComponent,
     ProblemDeletePopupComponent,
     ProblemDeleteDialogComponent,
@@ -16,13 +15,7 @@ const ENTITY_STATES = [...problemRoute, ...problemPopupRoute];
 
 @NgModule({
     imports: [ApplicationSupportDashboardSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
-        ProblemComponent,
-        ProblemDetailComponent,
-        ProblemUpdateComponent,
-        ProblemDeleteDialogComponent,
-        ProblemDeletePopupComponent
-    ],
+    declarations: [ProblemComponent, ProblemUpdateComponent, ProblemDeleteDialogComponent, ProblemDeletePopupComponent],
     entryComponents: [ProblemComponent, ProblemUpdateComponent, ProblemDeleteDialogComponent, ProblemDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

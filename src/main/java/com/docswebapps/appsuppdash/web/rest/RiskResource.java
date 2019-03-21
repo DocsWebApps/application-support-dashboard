@@ -1,4 +1,6 @@
 package com.docswebapps.appsuppdash.web.rest;
+import com.docswebapps.appsuppdash.domain.enumeration.IssueStatus;
+import com.docswebapps.appsuppdash.domain.enumeration.Priority;
 import com.docswebapps.appsuppdash.service.RiskService;
 import com.docswebapps.appsuppdash.web.rest.errors.BadRequestAlertException;
 import com.docswebapps.appsuppdash.web.rest.util.HeaderUtil;
@@ -76,15 +78,19 @@ public class RiskResource {
     }
 
     /**
-     * GET  /risks : get all the risks.
+     * GET  /risks/{status}/{priority} : get all the risks.
      *
      * @param pageable the pagination information
+     * @param status  OPEN or CLOSED
+     * @param priority ALL, HIGH, MEDIUM or LOW
      * @return the ResponseEntity with status 200 (OK) and the list of risks in body
      */
-    @GetMapping("/risks")
-    public ResponseEntity<List<RiskDTO>> getAllRisks(Pageable pageable) {
-        log.debug("RiskResource: REST request to get a page of Risks");
-        Page<RiskDTO> page = riskService.findAll(pageable);
+    @GetMapping("/risks/{status}/{priority}")
+    public ResponseEntity<List<RiskDTO>> getAllRisks(Pageable pageable,
+                                                     @PathVariable IssueStatus status,
+                                                     @PathVariable Priority priority) {
+        log.debug("RiskResource: REST request to get a page of Risks: {} AND {}", status, priority);
+        Page<RiskDTO> page = riskService.findAll(pageable, status, priority);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/risks");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { ApplicationSupportDashboardSharedModule } from 'app/shared';
 import {
     ProblemUpdatesComponent,
-    ProblemUpdatesDetailComponent,
     ProblemUpdatesUpdateComponent,
     ProblemUpdatesDeletePopupComponent,
     ProblemUpdatesDeleteDialogComponent,
@@ -18,7 +17,6 @@ const ENTITY_STATES = [...problemUpdatesRoute, ...problemUpdatesPopupRoute];
     imports: [ApplicationSupportDashboardSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         ProblemUpdatesComponent,
-        ProblemUpdatesDetailComponent,
         ProblemUpdatesUpdateComponent,
         ProblemUpdatesDeleteDialogComponent,
         ProblemUpdatesDeletePopupComponent

@@ -1,33 +1,49 @@
 <div>
-    <h2 id="page-heading">
-        <span>Risks</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-risk" [routerLink]="['/risk/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Create new Risk
-            </span>
-        </button>
+    <h2>
+      <span style="font-weight: bold">Risk List</span>
+      <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right jh-create-entity create-risk" [routerLink]="['/', { outlets: { popup: ['risk-new'] } }]">
+        <span class="fa fa-plus"></span>
+        <span >Create New Risk</span>
+      </button>
     </h2>
-    <jhi-alert></jhi-alert>
+    <hr>
+    <h5 id="filter-option">Filter  Options:</h5>
+    <br/>
+    <div class="row">
+      <h6 class="col-md-1 filter-choice">Risk Status</h6>
+      <select class="form-control col-md-1" [(ngModel)]="selectedStatus" (ngModelChange)="onFilter()"  name="probStatus" id="field_probStatus">
+        <option value="ALL">ALL</option>
+        <option value="OPEN">OPEN</option>
+        <option value="CLOSED">CLOSED</option>
+      </select>
+      <h6 class="col-md-1 filter-choice">Risk Priority</h6>
+      <select class="form-control col-md-1" [(ngModel)]="selectedPriority" (ngModelChange)="onFilter()"  name="priority" id="field_priority">
+        <option value="ALL">ALL</option>
+        <option value="HIGH">HIGH</option>
+        <option value="MEDIUM">MEDIUM</option>
+        <option value="LOW">LOW</option>
+      </select>
+      <button *ngIf="clearFilter" (click)="onClearFilter()" id="filter-button" class="btn btn-primary">Clear Filters</button>
+    </div>
     <br/>
     <div class="table-responsive" *ngIf="risks">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="openedAt"><span>Opened At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="title"><span>Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="mitigation"><span>Mitigation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="riskStatus"><span>Risk Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="priority"><span>Priority</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="closedAt"><span>Closed At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+            <tr>
+              <th><span>ID</span></th>
+              <th><span>Created On</span></th>
+              <th><span>Title</span></th>
+              <th><span>Description</span></th>
+              <th><span>Mitigation</span></th>
+              <th><span>Status</span></th>
+              <th><span>Priority</span></th>
+              <th><span>Closed On</span></th>
+              <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let risk of risks ;trackBy: trackId">
-                <td><a [routerLink]="['/risk', risk.id, 'view' ]">{{risk.id}}</a></td>
+                <td>{{risk.id}}</td>
                 <td>{{risk.openedAt | date:'mediumDate'}}</td>
                 <td>{{risk.title}}</td>
                 <td>{{risk.description}}</td>
@@ -38,18 +54,18 @@
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/risk', risk.id, 'view' ]"
+                                (click)="setRiskUpdatesReturnPage(risk.id)"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
                                 [routerLink]="['/risk', risk.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
                                 [routerLink]="['/', 'risk', { outlets: { popup: risk.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

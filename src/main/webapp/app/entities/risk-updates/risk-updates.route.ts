@@ -7,7 +7,6 @@ import { filter, map } from 'rxjs/operators';
 import { RiskUpdates } from 'app/shared/model/risk-updates.model';
 import { RiskUpdatesService } from './risk-updates.service';
 import { RiskUpdatesComponent } from './risk-updates.component';
-import { RiskUpdatesDetailComponent } from './risk-updates-detail.component';
 import { RiskUpdatesUpdateComponent } from './risk-updates-update.component';
 import { RiskUpdatesDeletePopupComponent } from './risk-updates-delete-dialog.component';
 import { IRiskUpdates } from 'app/shared/model/risk-updates.model';
@@ -30,20 +29,8 @@ export class RiskUpdatesResolve implements Resolve<IRiskUpdates> {
 
 export const riskUpdatesRoute: Routes = [
     {
-        path: '',
+        path: ':riskID',
         component: RiskUpdatesComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'RiskUpdates'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':id/view',
-        component: RiskUpdatesDetailComponent,
-        resolve: {
-            riskUpdates: RiskUpdatesResolve
-        },
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'RiskUpdates'

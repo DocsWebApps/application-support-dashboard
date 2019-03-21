@@ -7,7 +7,6 @@ import { filter, map } from 'rxjs/operators';
 import { Risk } from 'app/shared/model/risk.model';
 import { RiskService } from './risk.service';
 import { RiskComponent } from './risk.component';
-import { RiskDetailComponent } from './risk-detail.component';
 import { RiskUpdateComponent } from './risk-update.component';
 import { RiskDeletePopupComponent } from './risk-delete-dialog.component';
 import { IRisk } from 'app/shared/model/risk.model';
@@ -32,18 +31,6 @@ export const riskRoute: Routes = [
     {
         path: '',
         component: RiskComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'Risks'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':id/view',
-        component: RiskDetailComponent,
-        resolve: {
-            risk: RiskResolve
-        },
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Risks'

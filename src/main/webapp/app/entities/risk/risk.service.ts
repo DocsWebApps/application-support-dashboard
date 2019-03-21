@@ -14,9 +14,27 @@ type EntityArrayResponseType = HttpResponse<IRisk[]>;
 
 @Injectable({ providedIn: 'root' })
 export class RiskService {
+    private _selectedStatus = 'ALL';
+    private _selectedPriority = 'ALL';
     public resourceUrl = SERVER_API_URL + 'api/risks';
 
     constructor(protected http: HttpClient) {}
+
+    get selectedStatus(): string {
+        return this._selectedStatus;
+    }
+
+    set selectedStatus(value: string) {
+        this._selectedStatus = value;
+    }
+
+    get selectedPriority(): string {
+        return this._selectedPriority;
+    }
+
+    set selectedPriority(value: string) {
+        this._selectedPriority = value;
+    }
 
     create(risk: IRisk): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(risk);
@@ -38,10 +56,10 @@ export class RiskService {
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
-    query(req?: any): Observable<EntityArrayResponseType> {
+    query(status: string, priority: string, req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http
-            .get<IRisk[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .get<IRisk[]>(`${this.resourceUrl}/${status}/${priority}`, { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 

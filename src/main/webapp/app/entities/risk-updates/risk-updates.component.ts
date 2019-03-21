@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-
 import { IRiskUpdates } from 'app/shared/model/risk-updates.model';
 import { AccountService } from 'app/core';
-
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { RiskUpdatesService } from './risk-updates.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RiskService } from 'app/entities/risk';
+import { IRisk } from 'app/shared/model/risk.model';
 
 @Component({
     selector: 'jhi-risk-updates',
@@ -16,6 +16,8 @@ import { RiskUpdatesService } from './risk-updates.service';
 })
 export class RiskUpdatesComponent implements OnInit, OnDestroy {
     riskUpdates: IRiskUpdates[];
+    riskID: number;
+    risk: IRisk;
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -31,7 +33,10 @@ export class RiskUpdatesComponent implements OnInit, OnDestroy {
         protected dataUtils: JhiDataUtils,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        private route: ActivatedRoute,
+        private riskService: RiskService,
+        private router: Router
     ) {
         this.riskUpdates = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -43,9 +48,13 @@ export class RiskUpdatesComponent implements OnInit, OnDestroy {
         this.reverse = true;
     }
 
+    previousState() {
+        this.router.navigate([this.riskUpdatesService.returnRoute]);
+    }
+
     loadAll() {
         this.riskUpdatesService
-            .query({
+            .query(this.riskID, {
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -68,11 +77,25 @@ export class RiskUpdatesComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.riskID = this.route.snapshot.params['riskID'];
+        this.riskUpdatesService.riskID = this.riskID;
+        this.getRiskDetails();
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInRiskUpdates();
+    }
+
+    getRiskDetails() {
+        this.riskService.find(this.riskID).subscribe(
+            (res: HttpResponse<IRisk>) => {
+                this.risk = res.body;
+            },
+            (res: HttpErrorResponse) => {
+                this.onError(res.message);
+            }
+        );
     }
 
     ngOnDestroy() {
