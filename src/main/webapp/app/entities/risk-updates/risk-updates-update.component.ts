@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IRiskUpdates } from 'app/shared/model/risk-updates.model';
 import { RiskUpdatesService } from './risk-updates.service';
@@ -17,9 +15,9 @@ import { RiskService } from 'app/entities/risk';
 export class RiskUpdatesUpdateComponent implements OnInit {
     riskUpdates: IRiskUpdates;
     isSaving: boolean;
-
     risks: IRisk[];
     updatedAtDp: any;
+    riskID: number;
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -30,17 +28,11 @@ export class RiskUpdatesUpdateComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.riskID = this.riskUpdatesService.riskID;
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ riskUpdates }) => {
             this.riskUpdates = riskUpdates;
         });
-        this.riskService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IRisk[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IRisk[]>) => response.body)
-            )
-            .subscribe((res: IRisk[]) => (this.risks = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -60,6 +52,7 @@ export class RiskUpdatesUpdateComponent implements OnInit {
     }
 
     save() {
+        this.riskUpdates.riskkUpdateId = this.riskID;
         this.isSaving = true;
         if (this.riskUpdates.id !== undefined) {
             this.subscribeToSaveResponse(this.riskUpdatesService.update(this.riskUpdates));

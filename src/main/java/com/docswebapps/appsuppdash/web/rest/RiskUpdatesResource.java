@@ -76,20 +76,6 @@ public class RiskUpdatesResource {
     }
 
     /**
-     * GET  /risk-updates : get all the riskUpdates.
-     *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of riskUpdates in body
-     */
-    @GetMapping("/risk-updates")
-    public ResponseEntity<List<RiskUpdatesDTO>> getAllRiskUpdates(Pageable pageable) {
-        log.debug("RiskUpdatesResource: REST request to get a page of RiskUpdates");
-        Page<RiskUpdatesDTO> page = riskUpdatesService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/risk-updates");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
      * GET  /risk-updates/:id : get the "id" riskUpdates.
      *
      * @param id the id of the riskUpdatesDTO to retrieve
@@ -113,5 +99,19 @@ public class RiskUpdatesResource {
         log.debug("RiskUpdatesResource: REST request to delete RiskUpdates : {}", id);
         riskUpdatesService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    // My Custom Code
+    /**
+     * @param id of Risk for RiskUpdates
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/risk-updates/risk/{id}")
+    public ResponseEntity<List<RiskUpdatesDTO>> getUpdatesForRisk(@PathVariable Long id, Pageable pageable) {
+      log.debug("RiskUpdatesResource: Get RiskUpdates for Risk id: {}", id);
+      Page<RiskUpdatesDTO> page = riskUpdatesService.findRiskUpdates(id, pageable);
+      HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/risk-updates");
+      return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }

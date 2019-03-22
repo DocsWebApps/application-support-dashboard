@@ -8,6 +8,7 @@ import { ITEMS_PER_PAGE } from 'app/shared';
 import { ProblemService } from './problem.service';
 import { ProblemUpdatesService } from 'app/entities/problem-updates';
 import { Router } from '@angular/router';
+import { RiskUpdatesService } from 'app/entities/risk-updates';
 
 @Component({
     selector: 'jhi-problem',
@@ -36,7 +37,8 @@ export class ProblemComponent implements OnInit, OnDestroy {
         protected parseLinks: JhiParseLinks,
         protected accountService: AccountService,
         private problemUpdatesService: ProblemUpdatesService,
-        private router: Router
+        private router: Router,
+        private riskUpdatesService: RiskUpdatesService
     ) {
         this.problems = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -64,6 +66,11 @@ export class ProblemComponent implements OnInit, OnDestroy {
     setProblemUpdatesReturnPage(problemID) {
         this.problemUpdatesService.returnRoute = '/problem';
         this.router.navigate(['problem-updates', problemID]);
+    }
+
+    setRiskUpdatesReturnPage(riskID) {
+        this.riskUpdatesService.returnRoute = '/problem';
+        this.router.navigate(['risk-updates', riskID]);
     }
 
     onClearFilter() {

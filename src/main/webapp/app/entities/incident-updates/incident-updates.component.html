@@ -5,7 +5,7 @@
       <br/>
       <h4><span style="font-weight: bold">Status:</span> {{ incident.incidentStatus }}</h4>
       <h4><span style="font-weight: bold">Severity:</span> {{ incident.severity}}</h4>
-      <h4 *ngIf="incident.probRecId"><span style="font-weight: bold">Problem Link:</span><a [routerLink]="['/problem-updates', incident.probRecId  ]"> {{incident.probRecId}}</a></h4>
+      <h4 *ngIf="incident.probRecId"><span style="font-weight: bold">Problem Link:</span><a (click)=setProblemUpdatesReturnPage(incident.probRecId)>{{incident.probRecId}}</a></h4>
       <br>
     </div>
     <hr>
@@ -13,9 +13,7 @@
         <span style="font-weight: bold">Incident Updates</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-incident-updates" [routerLink]="['/incident-updates', incidentID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-              Add Update
-            </span>
+            <span>Add Update</span>
         </button>
     </h2>
     <div class="table-responsive" *ngIf="incidentUpdates">
@@ -30,7 +28,7 @@
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let incidentUpdates of incidentUpdates ;trackBy: trackId">
-                <td><a [routerLink]="['/incident-updates', incidentUpdates.id, 'view' ]">{{incidentUpdates.id}}</a></td>
+                <td>{{incidentUpdates.id}}</td>
                 <td>{{incidentUpdates.updatedAt | date:'mediumDate'}}</td>
                 <td>{{incidentUpdates.updateText}}</td>
                 <td class="text-right">

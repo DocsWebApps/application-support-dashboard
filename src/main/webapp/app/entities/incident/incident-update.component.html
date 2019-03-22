@@ -74,9 +74,8 @@
                         </span>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label class="form-control-label" for="field_probRec">Prob Rec</label>
+                    <label class="form-control-label" for="field_probRec">Problem Record ID</label>
                     <select class="form-control" id="field_probRec" name="probRec" [(ngModel)]="incident.probRecId" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="problemOption.id" *ngFor="let problemOption of problems; trackBy: trackProblemById">{{problemOption.id}}</option>

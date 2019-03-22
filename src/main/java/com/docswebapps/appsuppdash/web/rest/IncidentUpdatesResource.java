@@ -110,7 +110,7 @@ public class IncidentUpdatesResource {
      */
     @GetMapping("/incident-updates/incident/{id}")
     public ResponseEntity<List<IncidentUpdatesDTO>> getUpdatesForIncident(@PathVariable Long id, Pageable pageable) {
-      log.debug("IncidentsUpdatesResource: Get IncidentUpdates for Incident id: {}", id);
+      log.debug("IncidentUpdatesResource: Get IncidentUpdates for Incident id: {}", id);
       Page<IncidentUpdatesDTO> page = incidentUpdatesService.findIncidentUpdates(id, pageable);
       HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/incident-updates");
       return ResponseEntity.ok().headers(headers).body(page.getContent());

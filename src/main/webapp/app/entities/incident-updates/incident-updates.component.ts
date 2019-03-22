@@ -9,6 +9,7 @@ import { IncidentUpdatesService } from './incident-updates.service';
 import { IncidentService } from 'app/entities/incident';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IIncident } from 'app/shared/model/incident.model';
+import { ProblemUpdatesService } from 'app/entities/problem-updates';
 
 @Component({
     selector: 'jhi-incident-updates',
@@ -36,7 +37,8 @@ export class IncidentUpdatesComponent implements OnInit, OnDestroy {
         protected accountService: AccountService,
         private route: ActivatedRoute,
         private incidentService: IncidentService,
-        private router: Router
+        private router: Router,
+        private problemUpdatesService: ProblemUpdatesService
     ) {
         this.incidentUpdates = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -50,6 +52,11 @@ export class IncidentUpdatesComponent implements OnInit, OnDestroy {
 
     previousState() {
         this.router.navigate([this.incidentUpdatesService.returnRoute]);
+    }
+
+    setProblemUpdatesReturnPage(problemID) {
+        this.problemUpdatesService.returnRoute = '/incident-updates/' + this.incident.id;
+        this.router.navigate(['problem-updates', problemID]);
     }
 
     loadAll() {

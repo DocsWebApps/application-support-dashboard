@@ -3,11 +3,11 @@
       <h2 style="font-weight: bold">Problem No: {{ problemID }}</h2>
       <h4>{{ problem.title }}</h4>
       <br/>
-      <h4><span style="font-weight: bold">Statement:</span> {{ problem.statement }}</h4>
+      <h4><span style="font-weight: bold">Problem Statement:</span> {{ problem.statement }}</h4>
       <br/>
       <h4><span style="font-weight: bold">Status:</span> {{ problem.probStatus }}</h4>
       <h4><span style="font-weight: bold">Priority:</span> {{ problem.priority }}</h4>
-      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Risk Link:</span><a [routerLink]="['/risk-update', problem.riskRecId  ]" > {{problem.riskRecId}}</a></h4>
+      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Risk Link:</span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId)> {{problem.riskRecId}}</a></h4>
       <br>
     </div>
     <br/>
@@ -16,33 +16,25 @@
         <span style="font-weight: bold">Problem Updates</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-problem-updates" [routerLink]="['/problem-updates', problemID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-              Add Update
-            </span>
+            <span >Add Update</span>
         </button>
     </h2>
     <br/>
     <div class="table-responsive" *ngIf="problemUpdates">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updateText"><span>Update Text</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="probUpdateId"><span>Prob Update</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+            <tr>
+              <th><span>ID</span></th>
+              <th><span>Updated At</span></th>
+              <th><span>Update Text</span></th>
+              <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let problemUpdates of problemUpdates ;trackBy: trackId">
-                <td><a [routerLink]="['/problem-updates', problemUpdates.id, 'view' ]">{{problemUpdates.id}}</a></td>
+                <td>{{problemUpdates.id}}</td>
                 <td>{{problemUpdates.updatedAt | date:'mediumDate'}}</td>
                 <td>{{problemUpdates.updateText}}</td>
-                <td>
-                    <div *ngIf="problemUpdates.probUpdateId">
-                        <a [routerLink]="['../problem', problemUpdates.probUpdateId , 'view' ]" >{{problemUpdates.probUpdateId}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

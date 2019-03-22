@@ -38,7 +38,7 @@ export const riskUpdatesRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'new',
+        path: ':riskID/new',
         component: RiskUpdatesUpdateComponent,
         resolve: {
             riskUpdates: RiskUpdatesResolve

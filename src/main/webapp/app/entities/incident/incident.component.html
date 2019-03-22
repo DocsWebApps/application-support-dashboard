@@ -3,9 +3,7 @@
         <span style="font-weight: bold">Incident List</span>
         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-incident" [routerLink]="['/incident/new']">
           <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-                Create New Incident
-            </span>
+          <span>Create New Incident</span>
         </button>
     </h2>
     <hr>
@@ -53,7 +51,7 @@
                 <td>{{incident.closedAt | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="incident.probRecId">
-                      <a (click)="setProblemUpdatesReturnPage(incident.probRecId )" >{{incident.probRecId}}</a>
+                      <a (click)="setProblemUpdatesReturnPage(incident.probRecId )">{{incident.probRecId}}</a>
                     </div>
                 </td>
                 <td class="text-right">

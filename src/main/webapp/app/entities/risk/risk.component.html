@@ -1,9 +1,9 @@
 <div>
     <h2>
       <span style="font-weight: bold">Risk List</span>
-      <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right jh-create-entity create-risk" [routerLink]="['/', { outlets: { popup: ['risk-new'] } }]">
-        <span class="fa fa-plus"></span>
-        <span >Create New Risk</span>
+      <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right jh-create-entity create-risk" [routerLink]="['/risk/new']">
+        <fa-icon [icon]="'plus'"></fa-icon>
+        <span>Create New Risk</span>
       </button>
     </h2>
     <hr>

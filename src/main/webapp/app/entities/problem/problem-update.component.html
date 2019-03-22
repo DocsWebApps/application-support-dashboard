@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_riskRec">Risk Rec</label>
+                    <label class="form-control-label" for="field_riskRec">Risk Record ID</label>
                     <select class="form-control" id="field_riskRec" name="riskRec" [(ngModel)]="problem.riskRecId" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="riskOption.id" *ngFor="let riskOption of risks; trackBy: trackRiskById">{{riskOption.id}}</option>

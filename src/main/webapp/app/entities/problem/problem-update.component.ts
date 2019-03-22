@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IProblem } from 'app/shared/model/problem.model';
 import { ProblemService } from './problem.service';
@@ -17,7 +15,6 @@ import { RiskService } from 'app/entities/risk';
 export class ProblemUpdateComponent implements OnInit {
     problem: IProblem;
     isSaving: boolean;
-
     risks: IRisk[];
     openedAtDp: any;
     closedAtDp: any;
@@ -36,12 +33,8 @@ export class ProblemUpdateComponent implements OnInit {
             this.problem = problem;
         });
         this.riskService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IRisk[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IRisk[]>) => response.body)
-            )
-            .subscribe((res: IRisk[]) => (this.risks = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .query('ALL', 'ALL')
+            .subscribe((res: HttpResponse<IRisk[]>) => (this.risks = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
