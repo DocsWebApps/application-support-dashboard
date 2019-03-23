@@ -10,7 +10,7 @@ node {
     }
 
     stage('set local environment variables for SonarQube Analysis') {
-      sh "source /var/libs/jenkins/.bash_profile"
+      sh "source /var/lib/jenkins/.bash_profile"
     }
 
     stage('clean') {
