@@ -9,10 +9,6 @@ node {
         sh "java -version"
     }
 
-    stage('set local environment variables for SonarQube Analysis') {
-      sh "source /var/lib/jenkins/.bash_profile"
-    }
-
     stage('clean') {
         sh "chmod +x mvnw"
         sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml clean"
@@ -52,11 +48,8 @@ node {
     }
 
     stage('sonarqube quality analysis') {
-      sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml sonar:sonar -Dsonar.host.url=http://docsappstack:9000 -Dsonar.login=${SONAR_LOCAL_TOKEN}"
-    }
-
-    stage('sonarcloud quality analysis') {
-        sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml sonar:sonar -Dsonar.projectKey=DocsWebApps_application-support-dashboard -Dsonar.organization=docswebapps-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_CLOUD_TOKEN}"
+        sh "cp /var/lib/jenkins/appdash_sonar.bash ."
+        sh "./appdash_sonar.bash"
     }
 
     stage('build docker image') {
