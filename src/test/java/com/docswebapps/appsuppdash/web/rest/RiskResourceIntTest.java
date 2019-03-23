@@ -260,7 +260,7 @@ public class RiskResourceIntTest {
         riskRepository.saveAndFlush(risk);
 
         // Get all the riskList
-        restRiskMockMvc.perform(get("/api/risks?sort=id,desc"))
+        restRiskMockMvc.perform(get("/api/risks/ALL/ALL?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(risk.getId().intValue())))

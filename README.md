@@ -1,10 +1,25 @@
-# ApplicationSupportDashboard
+# Application Support Dashboard
+
+Version 0.1.0 23rd March 2019 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DocsWebApps_application-support-dashboard&metric=alert_status)](https://sonarcloud.io/dashboard?id=DocsWebApps_application-support-dashboard)
+
+Do you work in Application support? If so then you know it can be a challenge keeping track of faults, problems and risks in your day to day work.
+The Application Support Dashboard is a tool for doing just that, it keeps track of incidents, problems and risks and also gives visibility of the status
+of your application to your managers and the user community via a visual dashboard containing key information.
+
+<p><img src="https://s26.postimg.cc/7vglimyc9/Dash_Homepage.png" alt=""></p>
 
 This application was generated using JHipster 5.8.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.2](https://www.jhipster.tech/documentation-archive/v5.8.2).
 
+## Instructions
+
+## Installation
+
 ## Development
 
-Before you can build this project, you must install and configure the following dependencies on your machine:
+If you want to work on this project yourself, then you can use any good IDE like IntelliJ or Eclipse. Once you have
+chosen an IDE you will need to set up your machine as per the instructions below.
+
+You must install and configure the following dependencies on your machine:
 
 1.  [Node.js][]: We use Node to run a development web server and build the project.
     Depending on your system, you can install Node either from source or as a pre-packaged bundle.
@@ -37,9 +52,9 @@ Service workers are commented by default, to enable them please uncomment the fo
 ```html
 <script>
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-        .register('./service-worker.js')
-        .then(function() { console.log('Service Worker Registered'); });
+        navigator.serviceWorker.register('./service-worker.js').then(function() {
+            console.log('Service Worker Registered');
+        });
     }
 </script>
 ```
@@ -177,3 +192,7 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [protractor]: https://angular.github.io/protractor/
 [leaflet]: http://leafletjs.com/
 [definitelytyped]: http://definitelytyped.org/
+
+### License
+
+This project is released under the <a href="http://www.opensource.org/licenses/MIT" target="_blank">MIT License</a>.
