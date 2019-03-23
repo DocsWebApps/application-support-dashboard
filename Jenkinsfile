@@ -48,9 +48,7 @@ node {
     }
 
     stage('sonarqube quality analysis') {
-        withSonarQubeEnv('SonarQube76') {
-            sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml sonar:sonar -Dsonar.host.url=http://docsappstack:9000 -Dsonar.login=${SONAR_LOCAL_TOKEN}"
-        }
+      sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml sonar:sonar -Dsonar.host.url=http://docsappstack:9000 -Dsonar.login=${SONAR_LOCAL_TOKEN}"
     }
 
     stage('sonarcloud quality analysis') {
