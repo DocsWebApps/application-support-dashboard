@@ -9,6 +9,10 @@ node {
         sh "java -version"
     }
 
+    stage('set local environment variables for SonarQube Analysis') {
+      sh "source /var/libs/jenkins/.bash_profile"
+    }
+
     stage('clean') {
         sh "chmod +x mvnw"
         sh "./mvnw -s /opt/maven/mvn3/conf/settings.xml clean"
