@@ -740,7 +740,7 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <repository>applicaionsupportdashboard</repository>
+                        <repository>applicationsupportdashboard</repository>
                         <contextDirectory>${project.build.directory}</contextDirectory>
                     </configuration>
                 </plugin>
