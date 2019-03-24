@@ -27,6 +27,7 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
@@ -57,6 +58,12 @@ public class AppResourceIntTest {
 
     private static final LocalDate DEFAULT_LAST_PROBLEM_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_LAST_PROBLEM_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final String SYS_MESSAGE = "System is OK: No Major Incidents Reported";
+    private static final String SYS_MESSAGE_COLOR = "green";
+    private static final String MSG_DETAIL = ChronoUnit.DAYS.between(DEFAULT_LAST_PROBLEM_DATE, LocalDate.now()) + " Days Since the Last P1/P2";
+    private static final String MSG_COLOR = "black";
+    private static final String PROB_COUNT ="0 Previous P1/P2's Recorded";
 
     @Autowired
     private AppRepository appRepository;
@@ -328,6 +335,37 @@ public class AppResourceIntTest {
         // Validate the database is empty
         List<App> appList = appRepository.findAll();
         assertThat(appList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void checkGetAppName() throws Exception {
+      // Initialize the database
+      appRepository.saveAndFlush(app);
+
+      // Get the app
+      restAppMockMvc.perform(get("/api/apps/name"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
+    }
+
+    @Test
+    @Transactional
+    public void checkGetAppStatus() throws Exception {
+      // Initialize the database
+      appRepository.saveAndFlush(app);
+
+      // Get the app
+      restAppMockMvc.perform(get("/api/apps/status"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(jsonPath("$.sysMessage").value(SYS_MESSAGE))
+        .andExpect(jsonPath("$.sysMessageColor").value(SYS_MESSAGE_COLOR))
+        .andExpect(jsonPath("$.msgDetail").value(MSG_DETAIL))
+        .andExpect(jsonPath("$.msgColor").value(MSG_COLOR))
+        .andExpect(jsonPath("$.appStatus").value(DEFAULT_SYS_STATUS.toString()))
+        .andExpect(jsonPath("$.probCount").value(PROB_COUNT));
     }
 
     @Test

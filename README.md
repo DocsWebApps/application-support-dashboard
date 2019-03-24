@@ -8,6 +8,10 @@ Do you work in Application support? If so then you know it can be a challenge ke
 The Application Support Dashboard is a tool for doing just that, it keeps track of incidents, problems and risks and also gives visibility of the status
 of your application to your managers and the user community via a visual dashboard containing key information.
 
+Semantic versioning is applied to this project.
+
+Good luck and enjoy !
+
 <p><img src="https://s26.postimg.cc/7vglimyc9/Dash_Homepage.png" alt=""></p>
 
 This application was generated using JHipster 5.8.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.2](https://www.jhipster.tech/documentation-archive/v5.8.2).

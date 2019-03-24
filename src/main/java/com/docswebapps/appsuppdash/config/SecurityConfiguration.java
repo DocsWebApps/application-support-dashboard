@@ -106,6 +106,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
+            .antMatchers("/api/profile-info").permitAll()
+            // Add open route to get application status data
+            .antMatchers(HttpMethod.GET,"/api/apps/status").permitAll()
+            // Add open route to get application name data
+            .antMatchers(HttpMethod.GET,"/api/apps/name").permitAll()
+            // Add open route to get banner incident
+            .antMatchers(HttpMethod.GET,"/api/incidents/incident").permitAll()
+            // Add open route to get banner stats
+            .antMatchers(HttpMethod.GET,"/api/incidents/stats").permitAll()
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/info").permitAll()
