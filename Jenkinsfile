@@ -48,8 +48,8 @@ node {
     }
 
     stage('sonarqube quality analysis') {
-        sh "cp /var/lib/jenkins/appdash_sonar.bash ."
-        sh "./appdash_sonar.bash"
+        sh "cp /var/lib/jenkins/sonar_scripts/appdash_sonar_dev.bash ."
+        sh "./appdash_sonar_dev.bash"
     }
 
     stage('build docker image') {
