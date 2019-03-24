@@ -175,20 +175,20 @@ public class ProblemUpdatesResourceIntTest {
         assertThat(problemUpdatesList).hasSize(databaseSizeBeforeTest);
     }
 
-//    @Test
-//    @Transactional
-//    public void getAllProblemUpdates() throws Exception {
-//        // Initialize the database
-//        problemUpdatesRepository.saveAndFlush(problemUpdates);
-//
-//        // Get all the problemUpdatesList
-//        restProblemUpdatesMockMvc.perform(get("/api/problem-updates?sort=id,desc"))
-//            .andExpect(status().isOk())
-//            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-//            .andExpect(jsonPath("$.[*].id").value(hasItem(problemUpdates.getId().intValue())))
-//            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-//            .andExpect(jsonPath("$.[*].updateText").value(hasItem(DEFAULT_UPDATE_TEXT.toString())));
-//    }
+    @Test
+    @Transactional
+    public void getAllProblemUpdates() throws Exception {
+        // Initialize the database
+        problemUpdatesRepository.saveAndFlush(problemUpdates);
+
+        // Get all the problemUpdatesList
+        restProblemUpdatesMockMvc.perform(get("/api/problem-updates/problem/{id}?sort=id,desc", problemUpdates.getProbUpdate().getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(problemUpdates.getId().intValue())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updateText").value(hasItem(DEFAULT_UPDATE_TEXT.toString())));
+    }
     
     @Test
     @Transactional

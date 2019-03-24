@@ -9,7 +9,6 @@ import com.docswebapps.appsuppdash.service.IncidentUpdatesService;
 import com.docswebapps.appsuppdash.service.dto.IncidentUpdatesDTO;
 import com.docswebapps.appsuppdash.service.mapper.IncidentUpdatesMapper;
 import com.docswebapps.appsuppdash.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,15 +22,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
-
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-
-
 import static com.docswebapps.appsuppdash.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -175,20 +170,20 @@ public class IncidentUpdatesResourceIntTest {
         assertThat(incidentUpdatesList).hasSize(databaseSizeBeforeTest);
     }
 
-//    @Test
-//    @Transactional
-//    public void getAllIncidentUpdates() throws Exception {
-//        // Initialize the database
-//        incidentUpdatesRepository.saveAndFlush(incidentUpdates);
-//
-//        // Get all the incidentUpdatesList
-//        restIncidentUpdatesMockMvc.perform(get("/api/incident-updates?sort=id,desc"))
-//            .andExpect(status().isOk())
-//            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-//            .andExpect(jsonPath("$.[*].id").value(hasItem(incidentUpdates.getId().intValue())))
-//            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-//            .andExpect(jsonPath("$.[*].updateText").value(hasItem(DEFAULT_UPDATE_TEXT.toString())));
-//    }
+    @Test
+    @Transactional
+    public void getAllIncidentUpdates() throws Exception {
+        // Initialize the database
+        incidentUpdatesRepository.saveAndFlush(incidentUpdates);
+
+        // Get all the incidentUpdatesList
+        restIncidentUpdatesMockMvc.perform(get("/api/incident-updates/incident/{id}?sort=id,desc", incidentUpdates.getInUpdate().getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(incidentUpdates.getId().intValue())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updateText").value(hasItem(DEFAULT_UPDATE_TEXT.toString())));
+    }
     
     @Test
     @Transactional

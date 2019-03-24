@@ -23,15 +23,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
-
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-
-
 import static com.docswebapps.appsuppdash.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -175,20 +171,20 @@ public class RiskUpdatesResourceIntTest {
         assertThat(riskUpdatesList).hasSize(databaseSizeBeforeTest);
     }
 
-//    @Test
-//    @Transactional
-//    public void getAllRiskUpdates() throws Exception {
-//        // Initialize the database
-//        riskUpdatesRepository.saveAndFlush(riskUpdates);
-//
-//        // Get all the riskUpdatesList
-//        restRiskUpdatesMockMvc.perform(get("/api/risk-updates?sort=id,desc"))
-//            .andExpect(status().isOk())
-//            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-//            .andExpect(jsonPath("$.[*].id").value(hasItem(riskUpdates.getId().intValue())))
-//            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-//            .andExpect(jsonPath("$.[*].updateText").value(hasItem(DEFAULT_UPDATE_TEXT.toString())));
-//    }
+    @Test
+    @Transactional
+    public void getAllRiskUpdates() throws Exception {
+        // Initialize the database
+        riskUpdatesRepository.saveAndFlush(riskUpdates);
+
+        // Get all the riskUpdatesList
+        restRiskUpdatesMockMvc.perform(get("/api/risk-updates/risk/{id}?sort=id,desc", riskUpdates.getRiskkUpdate().getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(riskUpdates.getId().intValue())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updateText").value(hasItem(DEFAULT_UPDATE_TEXT.toString())));
+    }
     
     @Test
     @Transactional

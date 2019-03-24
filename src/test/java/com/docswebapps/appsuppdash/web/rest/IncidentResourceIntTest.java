@@ -1,7 +1,6 @@
 package com.docswebapps.appsuppdash.web.rest;
 
 import com.docswebapps.appsuppdash.ApplicationSupportDashboardApp;
-
 import com.docswebapps.appsuppdash.domain.App;
 import com.docswebapps.appsuppdash.domain.Incident;
 import com.docswebapps.appsuppdash.domain.enumeration.SystemStatus;
@@ -11,7 +10,6 @@ import com.docswebapps.appsuppdash.service.IncidentService;
 import com.docswebapps.appsuppdash.service.dto.IncidentDTO;
 import com.docswebapps.appsuppdash.service.mapper.IncidentMapper;
 import com.docswebapps.appsuppdash.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,19 +24,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
-
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-
-
 import static com.docswebapps.appsuppdash.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import com.docswebapps.appsuppdash.domain.enumeration.Severity;
 import com.docswebapps.appsuppdash.domain.enumeration.IssueStatus;
 /**
