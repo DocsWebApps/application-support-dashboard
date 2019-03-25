@@ -254,23 +254,50 @@ public class RiskResourceIntTest {
     }
 
     @Test
-    @Transactional
-    public void getAllRisks() throws Exception {
-        // Initialize the database
-        riskRepository.saveAndFlush(risk);
+    public void checkAllRiskCombos() throws Exception {
+            this.getAllRisks(IssueStatus.ALL, Priority.ALL);
+            this.getAllRisks(IssueStatus.ALL, Priority.HIGH);
+            this.getAllRisks(IssueStatus.ALL, Priority.MEDIUM);
+            this.getAllRisks(IssueStatus.ALL, Priority.LOW);
+            this.getAllRisks(IssueStatus.OPEN, Priority.ALL);
+            this.getAllRisks(IssueStatus.OPEN, Priority.HIGH);
+            this.getAllRisks(IssueStatus.OPEN, Priority.MEDIUM);
+            this.getAllRisks(IssueStatus.OPEN, Priority.LOW);
+            this.getAllRisks(IssueStatus.CLOSED, Priority.ALL);
+            this.getAllRisks(IssueStatus.CLOSED, Priority.HIGH);
+            this.getAllRisks(IssueStatus.CLOSED, Priority.MEDIUM);
+            this.getAllRisks(IssueStatus.CLOSED, Priority.LOW);
+      }
 
-        // Get all the riskList
-        restRiskMockMvc.perform(get("/api/risks/ALL/ALL?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(risk.getId().intValue())))
-            .andExpect(jsonPath("$.[*].openedAt").value(hasItem(DEFAULT_OPENED_AT.toString())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].mitigation").value(hasItem(DEFAULT_MITIGATION.toString())))
-            .andExpect(jsonPath("$.[*].riskStatus").value(hasItem(DEFAULT_RISK_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].priority").value(hasItem(DEFAULT_PRIORITY.toString())))
-            .andExpect(jsonPath("$.[*].closedAt").value(hasItem(DEFAULT_CLOSED_AT.toString())));
+      @Transactional
+      public void getAllRisks(IssueStatus status, Priority priority) throws Exception {
+          // Initialize the database
+          Risk testRisk = new Risk()
+              .openedAt(DEFAULT_OPENED_AT)
+              .title(DEFAULT_TITLE)
+              .description(DEFAULT_DESCRIPTION)
+              .mitigation(DEFAULT_MITIGATION)
+              .riskStatus(status)
+              .priority(priority)
+              .closedAt(DEFAULT_CLOSED_AT);
+
+          riskRepository.saveAndFlush(testRisk);
+
+          // Get all the incidentList
+          restRiskMockMvc.perform(get("/api/risks/{status}/{severity}", status, priority))
+              .andExpect(status().isOk())
+              .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+              .andExpect(jsonPath("$.[*].id").value(hasItem(testRisk.getId().intValue())))
+              .andExpect(jsonPath("$.[*].openedAt").value(hasItem(DEFAULT_OPENED_AT.toString())))
+              .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
+              .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+              .andExpect(jsonPath("$.[*].mitigation").value(hasItem(DEFAULT_MITIGATION.toString())))
+              .andExpect(jsonPath("$.[*].riskStatus").value(hasItem(status.toString())))
+              .andExpect(jsonPath("$.[*].priority").value(hasItem(priority.toString())))
+              .andExpect(jsonPath("$.[*].closedAt").value(hasItem(DEFAULT_CLOSED_AT.toString())));
+
+          // Clean Up DataBase
+          riskRepository.delete(testRisk);
     }
     
     @Test

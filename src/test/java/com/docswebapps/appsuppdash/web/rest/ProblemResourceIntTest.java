@@ -249,23 +249,50 @@ public class ProblemResourceIntTest {
     }
 
     @Test
-    @Transactional
-    public void getAllProblems() throws Exception {
-        // Initialize the database
-        problemRepository.saveAndFlush(problem);
+    public void checkAllProblemCombos() throws Exception {
+          this.getAllProblems(IssueStatus.ALL, Priority.ALL);
+          this.getAllProblems(IssueStatus.ALL, Priority.HIGH);
+          this.getAllProblems(IssueStatus.ALL, Priority.MEDIUM);
+          this.getAllProblems(IssueStatus.ALL, Priority.LOW);
+          this.getAllProblems(IssueStatus.OPEN, Priority.ALL);
+          this.getAllProblems(IssueStatus.OPEN, Priority.HIGH);
+          this.getAllProblems(IssueStatus.OPEN, Priority.MEDIUM);
+          this.getAllProblems(IssueStatus.OPEN, Priority.LOW);
+          this.getAllProblems(IssueStatus.CLOSED, Priority.ALL);
+          this.getAllProblems(IssueStatus.CLOSED, Priority.HIGH);
+          this.getAllProblems(IssueStatus.CLOSED, Priority.MEDIUM);
+          this.getAllProblems(IssueStatus.CLOSED, Priority.LOW);
+    }
 
-        // Get all the problemList
-        restProblemMockMvc.perform(get("/api/problems/ALL/ALL?sort=id,desc"))
+    @Transactional
+    public void getAllProblems(IssueStatus status, Priority priority) throws Exception {
+        // Initialize the database
+        Problem testProblem = new Problem()
+            .openedAt(DEFAULT_OPENED_AT)
+            .title(DEFAULT_TITLE)
+            .statement(DEFAULT_STATEMENT)
+            .probStatus(status)
+            .priority(priority)
+            .closedAt(DEFAULT_CLOSED_AT);
+
+        problemRepository.saveAndFlush(testProblem);
+
+        // Get all the incidentList
+        restProblemMockMvc.perform(get("/api/problems/{status}/{severity}", status, priority))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(problem.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(testProblem.getId().intValue())))
             .andExpect(jsonPath("$.[*].openedAt").value(hasItem(DEFAULT_OPENED_AT.toString())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
             .andExpect(jsonPath("$.[*].statement").value(hasItem(DEFAULT_STATEMENT.toString())))
-            .andExpect(jsonPath("$.[*].probStatus").value(hasItem(DEFAULT_PROB_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].priority").value(hasItem(DEFAULT_PRIORITY.toString())))
+            .andExpect(jsonPath("$.[*].probStatus").value(hasItem(status.toString())))
+            .andExpect(jsonPath("$.[*].priority").value(hasItem(priority.toString())))
             .andExpect(jsonPath("$.[*].closedAt").value(hasItem(DEFAULT_CLOSED_AT.toString())));
+
+        // Clean Up DataBase
+        problemRepository.delete(testProblem);
     }
+
     
     @Test
     @Transactional
