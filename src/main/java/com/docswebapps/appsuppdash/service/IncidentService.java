@@ -13,12 +13,10 @@ import com.docswebapps.appsuppdash.service.dto.IncidentDTO;
 import com.docswebapps.appsuppdash.service.mapper.IncidentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -30,7 +28,6 @@ import java.util.Optional;
 public class IncidentService {
 
     private final Logger log = LoggerFactory.getLogger(IncidentService.class);
-
     private final IncidentRepository incidentRepository;
     private final ProblemRepository problemRepository;
     private final RiskRepository riskRepository;
@@ -65,8 +62,6 @@ public class IncidentService {
         incident = incidentRepository.save(incident);
         return incidentMapper.toDto(incident);
     }
-
-
 
     /**
      * Get one incident by id.

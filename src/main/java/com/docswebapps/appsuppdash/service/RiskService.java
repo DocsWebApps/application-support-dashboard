@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Optional;
 
 /**
@@ -53,30 +52,6 @@ public class RiskService {
     }
 
     /**
-     * Get all the risks.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Transactional(readOnly = true)
-    public Page<RiskDTO> findAll(Pageable pageable, IssueStatus status, Priority priority) {
-        log.debug("RiskService: Request to get all Risks: {} AND {}", status, priority);
-        if (status == IssueStatus.ALL && priority == Priority.ALL) {
-          return riskRepository.findByOrderByOpenedAtDesc(pageable)
-            .map(riskMapper::toDto);
-        } else if (status != IssueStatus.ALL && priority != Priority.ALL) {
-          return riskRepository.findByRiskStatusAndPriorityOrderByOpenedAtDesc(pageable, status, priority)
-            .map(riskMapper::toDto);
-        } else if (status == IssueStatus.ALL) {
-          return riskRepository.findByPriorityOrderByOpenedAtDesc(pageable, priority)
-            .map(riskMapper::toDto);
-        } else {
-          return riskRepository.findByRiskStatusOrderByOpenedAtDesc(pageable, status)
-            .map(riskMapper::toDto);
-        }
-    }
-
-    /**
      * Get one risk by id.
      *
      * @param id the id of the entity
@@ -89,6 +64,31 @@ public class RiskService {
             .map(riskMapper::toDto);
     }
 
+    // My Custom Code
+    /**
+     * Get all the risks.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<RiskDTO> findAll(Pageable pageable, IssueStatus status, Priority priority) {
+      log.debug("RiskService: Request to get all Risks: {} AND {}", status, priority);
+      if (status == IssueStatus.ALL && priority == Priority.ALL) {
+        return riskRepository.findByOrderByOpenedAtDesc(pageable)
+          .map(riskMapper::toDto);
+      } else if (status != IssueStatus.ALL && priority != Priority.ALL) {
+        return riskRepository.findByRiskStatusAndPriorityOrderByOpenedAtDesc(pageable, status, priority)
+          .map(riskMapper::toDto);
+      } else if (status == IssueStatus.ALL) {
+        return riskRepository.findByPriorityOrderByOpenedAtDesc(pageable, priority)
+          .map(riskMapper::toDto);
+      } else {
+        return riskRepository.findByRiskStatusOrderByOpenedAtDesc(pageable, status)
+          .map(riskMapper::toDto);
+      }
+    }
+
     /**
      * Delete the risk by id.
      *
@@ -99,41 +99,5 @@ public class RiskService {
         problemRepository.updateProblems(id);
         riskUpdatesRepository.deleteRiskUpdates(id);
         riskRepository.deleteById(id);
-    }
-
-    // My Custom Code - ***** DEPRECATE CODE BELOW USING GET ALL ***
-    /**
-     * Find with Status and Priority
-     * @param status: Open or Closed
-     * @param priority: High, Medium or Low
-     * @return Page of RiskDTOs
-     */
-    @Transactional(readOnly = true)
-    public Page<RiskDTO> findWithStatusAndPriority(Pageable pageable, IssueStatus status, Priority priority) {
-        log.debug("RiskService: Find All Risks with Status: {} and Priority: {} ", status, priority);
-        return riskRepository.findByRiskStatusAndPriorityOrderByOpenedAtDesc(pageable, status, priority)
-            .map(riskMapper::toDto);
-    }
-
-    /**
-     * Find with Status
-     * @param status: Open or Closed
-     * @return Page of RiskDTOs
-     */
-    public Page<RiskDTO> findWithStatus(Pageable pageable, IssueStatus status) {
-        log.debug("RiskService: Find All Risks with Status: {}", status);
-        return riskRepository.findByRiskStatusOrderByOpenedAtDesc(pageable, status)
-            .map(riskMapper::toDto);
-    }
-
-    /**
-     * Find with Priority
-     * @param priority: High, Medium, Low
-     * @return Page of RiskDTOs
-     */
-    public Page<RiskDTO> findWithPriority(Pageable pageable, Priority priority) {
-        log.debug("RiskService: Find All Risks with Priority: {}",priority);
-        return riskRepository.findByPriorityOrderByOpenedAtDesc(pageable, priority)
-            .map(riskMapper::toDto);
     }
 }

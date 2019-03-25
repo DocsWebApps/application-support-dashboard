@@ -42,19 +42,6 @@ public class RiskUpdatesService {
   }
 
   /**
-   * Get all the riskUpdates.
-   *
-   * @param pageable the pagination information
-   * @return the list of entities
-   */
-  @Transactional(readOnly = true)
-  public Page<RiskUpdatesDTO> findAll(Pageable pageable) {
-    log.debug("RiskUpdatesService: Request to get all RiskUpdates");
-    return riskUpdatesRepository.findAll(pageable)
-      .map(riskUpdatesMapper::toDto);
-  }
-
-  /**
    * Get one riskUpdate by id.
    *
    * @param id the id of the entity

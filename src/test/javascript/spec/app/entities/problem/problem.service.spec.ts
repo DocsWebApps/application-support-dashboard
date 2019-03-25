@@ -98,36 +98,36 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            // it('should return a list of Problem', async () => {
-            //     const returnedFromService = Object.assign(
-            //         {
-            //             openedAt: currentDate.format(DATE_FORMAT),
-            //             title: 'BBBBBB',
-            //             statement: 'BBBBBB',
-            //             probStatus: 'BBBBBB',
-            //             priority: 'BBBBBB',
-            //             closedAt: currentDate.format(DATE_FORMAT)
-            //         },
-            //         elemDefault
-            //     );
-            //     const expected = Object.assign(
-            //         {
-            //             openedAt: currentDate,
-            //             closedAt: currentDate
-            //         },
-            //         returnedFromService
-            //     );
-            //     service
-            //         .query(expected)
-            //         .pipe(
-            //             take(1),
-            //             map(resp => resp.body)
-            //         )
-            //         .subscribe(body => expect(body).toContainEqual(expected));
-            //     const req = httpMock.expectOne({ method: 'GET' });
-            //     req.flush(JSON.stringify([returnedFromService]));
-            //     httpMock.verify();
-            // });
+            it('should return a list of Problem', async () => {
+                const returnedFromService = Object.assign(
+                    {
+                        openedAt: currentDate.format(DATE_FORMAT),
+                        title: 'BBBBBB',
+                        statement: 'BBBBBB',
+                        probStatus: 'BBBBBB',
+                        priority: 'BBBBBB',
+                        closedAt: currentDate.format(DATE_FORMAT)
+                    },
+                    elemDefault
+                );
+                const expected = Object.assign(
+                    {
+                        openedAt: currentDate,
+                        closedAt: currentDate
+                    },
+                    returnedFromService
+                );
+                service
+                    .query('ALL', 'ALL', expected)
+                    .pipe(
+                        take(1),
+                        map(resp => resp.body)
+                    )
+                    .subscribe(body => expect(body).toContainEqual(expected));
+                const req = httpMock.expectOne({ method: 'GET' });
+                req.flush(JSON.stringify([returnedFromService]));
+                httpMock.verify();
+            });
 
             it('should delete a Problem', async () => {
                 const rxPromise = service.delete(123).subscribe(resp => expect(resp.ok));
