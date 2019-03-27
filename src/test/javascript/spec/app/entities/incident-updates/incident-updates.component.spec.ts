@@ -7,12 +7,18 @@ import { ApplicationSupportDashboardTestModule } from '../../../test.module';
 import { IncidentUpdatesComponent } from 'app/entities/incident-updates/incident-updates.component';
 import { IncidentUpdatesService } from 'app/entities/incident-updates/incident-updates.service';
 import { IncidentUpdates } from 'app/shared/model/incident-updates.model';
+import { IncidentService } from 'app/entities/incident';
+import { Incident } from 'app/shared/model/incident.model';
+import { ProblemUpdatesService } from 'app/entities/problem-updates';
 
 describe('Component Tests', () => {
     describe('IncidentUpdates Management Component', () => {
         let comp: IncidentUpdatesComponent;
         let fixture: ComponentFixture<IncidentUpdatesComponent>;
         let service: IncidentUpdatesService;
+        let service1: IncidentService;
+        // let service2: ProblemUpdatesService;
+        // let incident: Incident;
 
         beforeEach(() => {
             TestBed.configureTestingModule({
@@ -45,6 +51,9 @@ describe('Component Tests', () => {
             fixture = TestBed.createComponent(IncidentUpdatesComponent);
             comp = fixture.componentInstance;
             service = fixture.debugElement.injector.get(IncidentUpdatesService);
+            service1 = fixture.debugElement.injector.get(IncidentService);
+            // service2 = fixture.debugElement.injector.get(ProblemUpdatesService);
+            // incident = new Incident(123);
         });
 
         it('Should call load all on init', () => {
@@ -59,12 +68,23 @@ describe('Component Tests', () => {
                 )
             );
 
+            spyOn(service1, 'find').and.returnValue(
+                of(
+                    new HttpResponse({
+                        body: [new Incident(345)],
+                        headers
+                    })
+                )
+            );
+
             // WHEN
             comp.ngOnInit();
 
             // THEN
             expect(service.query).toHaveBeenCalled();
+            expect(service1.find).toHaveBeenCalled();
             expect(comp.incidentUpdates[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+            expect(comp.incident[0]).toEqual(jasmine.objectContaining({ id: 345 }));
         });
 
         it('should load a page', () => {
@@ -108,6 +128,14 @@ describe('Component Tests', () => {
             expect(service.query).toHaveBeenCalledTimes(2);
             expect(comp.incidentUpdates[0]).toEqual(jasmine.objectContaining({ id: 123 }));
         });
+
+        // it('should give return routes', () => {
+        //   // WHEN
+        //   comp.setProblemUpdatesReturnPage(1);
+        //
+        //   // THEN
+        //   expect(service2.returnRoute).toEqual('/incident-updates/' + incident.id);
+        // });
 
         it('should calculate the sort attribute for an id', () => {
             // WHEN
