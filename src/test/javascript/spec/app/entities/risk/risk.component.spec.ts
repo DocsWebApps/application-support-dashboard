@@ -45,6 +45,19 @@ describe('Component Tests', () => {
             service = fixture.debugElement.injector.get(RiskService);
         });
 
+        it('should clear the filter values', () => {
+            // GIVEN
+            comp.selectedPriority = 'HIGH';
+            comp.selectedStatus = 'OPEN';
+
+            // WHEN
+            comp.onClearFilter();
+
+            // THEN
+            expect(comp.selectedStatus).toEqual('ALL');
+            expect(comp.selectedPriority).toEqual('ALL');
+        });
+
         it('Should call load all on init', () => {
             // GIVEN
             const headers = new HttpHeaders().append('link', 'link;link');

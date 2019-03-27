@@ -23,6 +23,9 @@ describe('Component Tests', () => {
                     {
                         provide: ActivatedRoute,
                         useValue: {
+                            snapshot: {
+                                params: { incidentID: 123 }
+                            },
                             data: {
                                 subscribe: (fn: (value: Data) => void) =>
                                     fn({
@@ -45,25 +48,25 @@ describe('Component Tests', () => {
             service = fixture.debugElement.injector.get(ProblemUpdatesService);
         });
 
-        // it('Should call load all on init', () => {
-        //     // GIVEN
-        //     const headers = new HttpHeaders().append('link', 'link;link');
-        //     spyOn(service, 'query').and.returnValue(
-        //         of(
-        //             new HttpResponse({
-        //                 body: [new ProblemUpdates(123)],
-        //                 headers
-        //             })
-        //         )
-        //     );
-        //
-        //     // WHEN
-        //     comp.ngOnInit();
-        //
-        //     // THEN
-        //     expect(service.query).toHaveBeenCalled();
-        //     expect(comp.problemUpdates[0]).toEqual(jasmine.objectContaining({ id: 123 }));
-        // });
+        it('Should call load all on init', () => {
+            // GIVEN
+            const headers = new HttpHeaders().append('link', 'link;link');
+            spyOn(service, 'query').and.returnValue(
+                of(
+                    new HttpResponse({
+                        body: [new ProblemUpdates(123)],
+                        headers
+                    })
+                )
+            );
+
+            // WHEN
+            comp.ngOnInit();
+
+            // THEN
+            expect(service.query).toHaveBeenCalled();
+            expect(comp.problemUpdates[0]).toEqual(jasmine.objectContaining({ id: 123 }));
+        });
 
         it('should load a page', () => {
             // GIVEN

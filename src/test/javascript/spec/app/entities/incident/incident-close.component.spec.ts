@@ -4,13 +4,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { ApplicationSupportDashboardTestModule } from '../../../test.module';
-import { IncidentDeleteDialogComponent } from 'app/entities/incident/incident-delete-dialog.component';
 import { IncidentService } from 'app/entities/incident/incident.service';
+import { IncidentCloseDialogComponent } from 'app/entities/incident';
 
 describe('Component Tests', () => {
-    describe('Incident Management Delete Component', () => {
-        let comp: IncidentDeleteDialogComponent;
-        let fixture: ComponentFixture<IncidentDeleteDialogComponent>;
+    describe('Incident Management Close Component', () => {
+        let comp: IncidentCloseDialogComponent;
+        let fixture: ComponentFixture<IncidentCloseDialogComponent>;
         let service: IncidentService;
         let mockEventManager: any;
         let mockActiveModal: any;
@@ -18,30 +18,30 @@ describe('Component Tests', () => {
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [ApplicationSupportDashboardTestModule],
-                declarations: [IncidentDeleteDialogComponent]
+                declarations: [IncidentCloseDialogComponent]
             })
-                .overrideTemplate(IncidentDeleteDialogComponent, '')
+                .overrideTemplate(IncidentCloseDialogComponent, '')
                 .compileComponents();
-            fixture = TestBed.createComponent(IncidentDeleteDialogComponent);
+            fixture = TestBed.createComponent(IncidentCloseDialogComponent);
             comp = fixture.componentInstance;
             service = fixture.debugElement.injector.get(IncidentService);
             mockEventManager = fixture.debugElement.injector.get(JhiEventManager);
             mockActiveModal = fixture.debugElement.injector.get(NgbActiveModal);
         });
 
-        describe('confirmDelete', () => {
-            it('Should call delete service on confirmDelete', inject(
+        describe('confirmClose', () => {
+            it('Should call close service on confirmDelete', inject(
                 [],
                 fakeAsync(() => {
                     // GIVEN
-                    spyOn(service, 'delete').and.returnValue(of({}));
+                    spyOn(service, 'close').and.returnValue(of({}));
 
                     // WHEN
-                    comp.confirmDelete(123);
+                    comp.confirmClose(123);
                     tick();
 
                     // THEN
-                    expect(service.delete).toHaveBeenCalledWith(123);
+                    expect(service.close).toHaveBeenCalledWith(123);
                     expect(mockActiveModal.dismissSpy).toHaveBeenCalled();
                     expect(mockEventManager.broadcastSpy).toHaveBeenCalled();
                 })
