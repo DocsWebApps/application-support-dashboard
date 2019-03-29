@@ -25,7 +25,7 @@ describe('App e2e test', () => {
         await navBarPage.goToEntity('app');
         appComponentsPage = new AppComponentsPage();
         const countCreateButtons = await appComponentsPage.countCreateButtons();
-        if (countCreateButtons != 1) {
+        if (countCreateButtons !== 1) {
             await appComponentsPage.clickOnLastDeleteButton();
             appDeleteDialog = new AppDeleteDialog();
             expect(await appDeleteDialog.getDialogTitle()).to.eq('Are you sure you want to delete this App?');
