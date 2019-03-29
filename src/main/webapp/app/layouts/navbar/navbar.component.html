@@ -27,6 +27,12 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                      <a class="dropdown-item" routerLink="app" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span>Application Details</span>
+                      </a>
+                    </li>
                     <li>
                         <a class="dropdown-item" routerLink="incident" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
@@ -36,7 +42,7 @@
                     <li>
                         <a class="dropdown-item" routerLink="problem" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>List Problem</span>
+                            <span>List Problems</span>
                         </a>
                     </li>
                     <li>
@@ -56,12 +62,6 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
-                    <li>
-                      <a class="dropdown-item" routerLink="app" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                        <span>Application Details</span>
-                      </a>
-                    </li>
                     <li>
                         <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="user" fixedWidth="true"></fa-icon>

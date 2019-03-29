@@ -1,7 +1,7 @@
 <div>
-    <h2>
+    <h2 id="page-heading">
       <span style="font-weight: bold">Risk List</span>
-      <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right jh-create-entity create-risk" [routerLink]="['/risk/new']">
+      <button id="jh-create-entity" *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right create-risk" [routerLink]="['/risk/new']">
         <fa-icon [icon]="'plus'"></fa-icon>
         <span>Create New Risk</span>
       </button>

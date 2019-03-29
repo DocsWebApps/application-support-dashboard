@@ -25,7 +25,7 @@ describe('Risk e2e test', () => {
         await navBarPage.goToEntity('risk');
         riskComponentsPage = new RiskComponentsPage();
         await browser.wait(ec.visibilityOf(riskComponentsPage.title), 5000);
-        expect(await riskComponentsPage.getTitle()).to.eq('Risks');
+        expect(await riskComponentsPage.getTitle()).to.eq('Risk List');
     });
 
     it('should load create Risk page', async () => {

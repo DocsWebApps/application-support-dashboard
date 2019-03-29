@@ -2,6 +2,7 @@ import { element, by, ElementFinder } from 'protractor';
 
 export class AppComponentsPage {
     createButton = element(by.id('jh-create-entity'));
+    createButtons = element.all(by.id('jh-create-entity'));
     deleteButtons = element.all(by.css('jhi-app div table .btn-danger'));
     title = element.all(by.css('jhi-app div h2#page-heading span')).first();
 
@@ -15,6 +16,10 @@ export class AppComponentsPage {
 
     async countDeleteButtons() {
         return this.deleteButtons.count();
+    }
+
+    async countCreateButtons() {
+        return this.createButtons.count();
     }
 
     async getTitle() {

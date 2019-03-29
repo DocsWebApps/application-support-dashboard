@@ -1,7 +1,7 @@
 <div>
-    <h2>
+    <h2 id="page-heading">
       <span style="font-weight: bold">Application Details</span>
-      <button class="btn btn-primary float-right jh-create-entity create-app" *ngIf="apps.length === 0" [routerLink]="['/app/new']">
+      <button id="jh-create-entity" class="btn btn-primary float-right create-app" *ngIf="apps.length === 0" [routerLink]="['/app/new']">
         <fa-icon [icon]="'plus'"></fa-icon>
         <span>Enter Your Application Details</span>
       </button>
