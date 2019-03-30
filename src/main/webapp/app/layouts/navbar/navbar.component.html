@@ -27,12 +27,6 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-                    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
-                      <a class="dropdown-item" routerLink="app" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                        <span>Application Details</span>
-                      </a>
-                    </li>
                     <li>
                         <a class="dropdown-item" routerLink="incident" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
@@ -50,6 +44,13 @@
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>List Risks</span>
                         </a>
+                    </li>
+                  <hr>
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                      <a class="dropdown-item" routerLink="app" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span>Application Details</span>
+                      </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
