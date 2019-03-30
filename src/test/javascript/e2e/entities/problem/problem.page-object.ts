@@ -2,7 +2,7 @@ import { element, by, ElementFinder } from 'protractor';
 
 export class ProblemComponentsPage {
     createButton = element(by.id('jh-create-entity'));
-    viewButton = element.all(by.css('view-button')).first();
+    viewButton = element.all(by.id('view-button')).first();
     deleteButtons = element.all(by.css('jhi-problem div table .btn-danger'));
     title = element.all(by.css('jhi-problem div h2#page-heading span')).first();
 

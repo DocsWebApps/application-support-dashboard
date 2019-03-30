@@ -71,7 +71,7 @@ describe('Problem e2e test', () => {
         problemUpdatesComponentsPage = new ProblemUpdatesComponentsPage();
         await problemUpdatesComponentsPage.clickOnCreateButton();
         problemUpdatesUpdatePage = new ProblemUpdatesUpdatePage();
-        expect(await problemUpdatesUpdatePage.getPageTitle()).to.eq('Create or edit a Problem Updates');
+        expect(await problemUpdatesUpdatePage.getPageTitle()).to.eq('Create or edit a Problem Update');
         await problemUpdatesUpdatePage.cancel();
     });
 
@@ -81,8 +81,7 @@ describe('Problem e2e test', () => {
         await problemUpdatesComponentsPage.clickOnCreateButton();
         await promise.all([
             problemUpdatesUpdatePage.setUpdatedAtInput('2000-12-31'),
-            problemUpdatesUpdatePage.setUpdateTextInput('updateText'),
-            problemUpdatesUpdatePage.probUpdateSelectLastOption()
+            problemUpdatesUpdatePage.setUpdateTextInput('updateText')
         ]);
         expect(await problemUpdatesUpdatePage.getUpdatedAtInput()).to.eq('2000-12-31');
         expect(await problemUpdatesUpdatePage.getUpdateTextInput()).to.eq('updateText');
@@ -104,6 +103,7 @@ describe('Problem e2e test', () => {
     });
 
     it('should delete last Problem', async () => {
+        await navBarPage.goToEntity('problem');
         const nbButtonsBeforeDelete = await problemComponentsPage.countDeleteButtons();
         await problemComponentsPage.clickOnLastDeleteButton();
 
