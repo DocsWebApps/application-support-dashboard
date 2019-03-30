@@ -19,6 +19,6 @@ public interface RiskUpdatesRepository extends JpaRepository<RiskUpdates, Long> 
 
     @Modifying
     @Transactional
-    @Query(value = "delete from risk_updates r where r.riskk_update_id = :riskID", nativeQuery = true)
+    @Query(value = "delete from risk_updates where riskk_update_id = :riskID", nativeQuery = true)
     void deleteRiskUpdates(@Param("riskID") Long riskID);
 }

@@ -19,6 +19,6 @@ public interface ProblemUpdatesRepository extends JpaRepository<ProblemUpdates, 
 
     @Modifying
     @Transactional
-    @Query(value = "delete from problem_updates p where p.prob_update_id = :problemID", nativeQuery = true)
+    @Query(value = "delete from problem_updates where prob_update_id = :problemID", nativeQuery = true)
     void deleteProblemUpdates(@Param("problemID") Long problemID);
 }

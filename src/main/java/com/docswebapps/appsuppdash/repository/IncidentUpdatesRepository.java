@@ -19,6 +19,6 @@ public interface IncidentUpdatesRepository extends JpaRepository<IncidentUpdates
 
     @Modifying
     @Transactional
-    @Query(value = "delete from incident_updates i where i.in_update_id = :incidentID", nativeQuery = true)
+    @Query(value = "delete from incident_updates where in_update_id = :incidentID", nativeQuery = true)
     void deleteIncidentUpdates(@Param("incidentID") Long incidentID);
 }

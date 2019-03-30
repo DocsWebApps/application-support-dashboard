@@ -14,7 +14,7 @@ REM src/main/resources/config/application-prod.yml
 REM *** REMEMBER TO CHANGE THE USERNAME AND PASSWORD :-) ***
 REM Start App with ./mvnw -Pprod
 REM Access DB directly using mysql -u appdash_admin -p appdashdb
-set DB_URL=jdbc:mariadb://appdashdb:3306/appdashdb
+set DB_URL=jdbc:mariadb://192.168.0.103:9200/appdashdb
 set ADMIN_USERNAME=appdash_admin
 set ADMIN_PASSWORD=appdash_admin
 
