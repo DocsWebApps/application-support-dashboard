@@ -2,8 +2,13 @@ import { element, by, ElementFinder } from 'protractor';
 
 export class RiskComponentsPage {
     createButton = element(by.id('jh-create-entity'));
+    viewButton = element.all(by.id('view-button')).first();
     deleteButtons = element.all(by.css('jhi-risk div table .btn-danger'));
     title = element.all(by.css('jhi-risk div h2#page-heading span')).first();
+
+    async clickOnViewButton() {
+        await this.viewButton.click();
+    }
 
     async clickOnCreateButton() {
         await this.createButton.click();
