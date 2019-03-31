@@ -1,3 +1,13 @@
-<p>
-  status works!
-</p>
+<div id="status">
+  <h1>Production Status</h1>
+  <img [src]="imageColor" alt="">
+  <h4 [ngStyle]="{'color': sysMessageColor }">
+    {{ sysMessage }}
+  </h4>
+  <h4 [ngStyle]="{'color': msgColor}">
+    {{ msgDetail }}
+  </h4>
+  <h4 style="{color:black}">
+    {{ probCount }}
+  </h4>
+</div>
