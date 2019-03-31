@@ -25,13 +25,16 @@ REM mvnw -Pdev clean test - Integration tests are done with the Spring Test Cont
 REM mvnw -Pprod -Dskip.npm=true -Dskip.webpack=true -DskipTests
 REM ** You can also run the tests from the IDE but it won't compile the app so do both for a complete test!!!
 
-REM Back End
+REM Front End
 REM npm test - Jest front end tests
-
 REM End 2 End
 REM Before running e2e comment out setTimeout() code in status.component.ts
 REM npm run e2e - Protractor browser based integration tests, must have the back end up!
 REM npm run e2e -- --specs src\test\javascript\e2e\account\account.spec.ts
+
+REM Access DB
+REM *********
+REM mysql -u {username} -p {dbname}
 
 
 

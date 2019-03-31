@@ -8,6 +8,8 @@ import { Title } from '@angular/platform-browser';
     templateUrl: './main.component.html'
 })
 export class JhiMainComponent implements OnInit {
+    currentRoute: string;
+
     constructor(private titleService: Title, private router: Router) {}
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
@@ -21,6 +23,7 @@ export class JhiMainComponent implements OnInit {
 
     ngOnInit() {
         this.router.events.subscribe(event => {
+            this.currentRoute = this.router.url;
             if (event instanceof NavigationEnd) {
                 this.titleService.setTitle(this.getPageTitle(this.router.routerState.snapshot.root));
             }
