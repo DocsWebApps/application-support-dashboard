@@ -1,3 +1,29 @@
-<p>
-  banner works!
-</p>
+<div *ngIf="incidentSwitch; then appStats else incidentDesc"></div>
+
+<ng-template #appStats>
+  <div class="row">
+    <div class="col-md-6">
+      <div id="tickets">
+        <p id="ticket-title">Open P3/P4 Incidents</p>
+        <p id="p3-ticket">P3: <span [ngStyle]="{color: p3Count === 0 ? 'green' : 'red'}">{{ p3Count }}</span></p>
+        <p id="p4-ticket">P4: <span [ngStyle]="{color: p4Count === 0 ? 'green' : 'red'}">{{ p4Count }}</span></p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div id="defects">
+        <p id="defect-title">Open Issues</p>
+        <p id="problem">Problems: <span [ngStyle]="{color: problemCount === 0 ? 'green' : 'red'}">{{ problemCount }}</span></p>
+        <p id="risk">Risks: <span [ngStyle]="{color: riskCount === 0 ? 'green' : 'red'}">{{ riskCount }}</span></p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #incidentDesc>
+  <div id="incident">
+    <div class="row">
+      <div class="col-md-2" id="status" [ngStyle]="{color: incidentStatus === 'P1' ? '#ec4a24' : '#f0d234'}">{{ incidentStatus }}</div>
+      <div class="col-md-10" id="desc">{{ incidentDescription }}</div>
+    </div>
+  </div>
+</ng-template>

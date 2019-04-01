@@ -1,0 +1,63 @@
+#tickets {
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: bold;
+    margin: 0 130px 10px 150px;
+
+    #ticket-title {
+        font-size: 50px;
+    }
+
+    #p3-ticket {
+        font-size: 100px;
+        margin-top: -21px;
+    }
+
+    #p4-ticket {
+        font-size: 100px;
+        margin-top: -21px;
+    }
+}
+
+#defects {
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: bold;
+    margin: 0 150px 40px 150px;
+
+    #defect-title {
+        font-size: 50px;
+    }
+
+    #problem {
+        margin-top: 15px;
+        font-size: 80px;
+    }
+
+    #risk {
+        margin-bottom: 35px;
+        font-size: 80px;
+    }
+}
+
+#incident {
+    border: 2px solid black;
+    margin: 0 50px 120px 20px;
+    border-radius: 50px;
+    background-color: white;
+
+    #status {
+        margin: auto;
+        font-size: 200px;
+        font-weight: bold;
+        color: #f3d43c;
+    }
+
+    #desc {
+        font-size: 40px;
+        margin: auto;
+        font-weight: bold;
+    }
+}
