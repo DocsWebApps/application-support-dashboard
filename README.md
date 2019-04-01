@@ -2,7 +2,7 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DocsWebApps_application-support-dashboard&metric=alert_status)](https://sonarcloud.io/dashboard?id=DocsWebApps_application-support-dashboard)
 
-Version 0.2.0 30th March 2019
+Version 0.5.0 1st April 2019
 
 Do you work in Application support? If so then you know it can be a challenge keeping track of faults, problems and risks in your day to day work.
 The Application Support Dashboard is a tool for doing just that, it keeps track of incidents, problems and risks and also gives visibility of the status
@@ -26,7 +26,7 @@ I have built a Docker image and pushed this to my public library @DocsWebApps on
 firstly install Docker and Docker Compose on your server.
 
 Then use the docker-compose file that is part of this repository in src/main/docker/docker-compose.yml.
-PLease replace the following configuration settings in the docker-compose.yml file with your own values.
+Please replace the following configuration settings in the docker-compose.yml file with your own values.
 
     {port} - this will be the port you want to use to connect to the application on the host, eg. 80
     {db-directory} - this is where the Maria DB files will be stored on your host using Docker volumes
