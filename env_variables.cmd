@@ -36,5 +36,8 @@ REM Access DB
 REM *********
 REM mysql -u {username} -p {dbname}
 
+REM FontAwersome!!
+REM Sometimes need to import icons in the vendor.ts file.
+
 
 

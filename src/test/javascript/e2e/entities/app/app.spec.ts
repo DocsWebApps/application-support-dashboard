@@ -52,12 +52,12 @@ describe('App e2e test', () => {
 
         await appComponentsPage.clickOnCreateButton();
         await promise.all([
-            appUpdatePage.setNameInput('name'),
+            appUpdatePage.setNameInput('{Application Name}'),
             appUpdatePage.setProblemCountInput('5'),
             appUpdatePage.sysStatusSelectLastOption(),
             appUpdatePage.setLastProblemDateInput('2000-12-31')
         ]);
-        expect(await appUpdatePage.getNameInput()).to.eq('name');
+        expect(await appUpdatePage.getNameInput()).to.eq('{Application Name}');
         expect(await appUpdatePage.getProblemCountInput()).to.eq('5');
         expect(await appUpdatePage.getLastProblemDateInput()).to.eq('2000-12-31');
         await appUpdatePage.save();
@@ -82,12 +82,12 @@ describe('App e2e test', () => {
 
         await appComponentsPage.clickOnCreateButton();
         await promise.all([
-            appUpdatePage.setNameInput('name'),
+            appUpdatePage.setNameInput('{Application Name}'),
             appUpdatePage.setProblemCountInput('5'),
             appUpdatePage.sysStatusSelectLastOption(),
             appUpdatePage.setLastProblemDateInput('2000-12-31')
         ]);
-        expect(await appUpdatePage.getNameInput()).to.eq('name');
+        expect(await appUpdatePage.getNameInput()).to.eq('{Application Name}');
         expect(await appUpdatePage.getProblemCountInput()).to.eq('5');
         expect(await appUpdatePage.getLastProblemDateInput()).to.eq('2000-12-31');
         await appUpdatePage.save();

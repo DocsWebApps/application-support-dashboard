@@ -60,6 +60,7 @@ public class IncidentService {
         log.debug("IncidentService: Request to save Incident : {}", incidentDTO);
         Incident incident = incidentMapper.toEntity(incidentDTO);
         incident = incidentRepository.save(incident);
+        this.setAppSysStatus();
         return incidentMapper.toDto(incident);
     }
 
@@ -172,23 +173,23 @@ public class IncidentService {
         return bannerStats;
     }
 
-    /**
-     * Check for Open P1's or P2's
-     */
-    @Transactional(readOnly = true)
-    public boolean checkOpenP1P2Incidents(IncidentDTO incidentDTO) {
-        log.debug("IncidentService: Check for an Open P1 or P2");
-        Long incidentCount = incidentRepository.countBySeverityAndIncidentStatus(incidentDTO.getSeverity(), IssueStatus.OPEN);
-        if (incidentCount == 0) {
-            return false;
-        } else if (incidentDTO.getId() == null) {
-            return true;
-        }
-        else {
-            Incident incident = incidentRepository.findFirstBySeverityAndIncidentStatusOrderByIdDesc(incidentDTO.getSeverity(), IssueStatus.OPEN);
-            return !incidentDTO.getId().equals(incident.getId());
-        }
-    }
+//    /**
+//     * Check for Open P1's or P2's
+//     */
+//    @Transactional(readOnly = true)
+//    public boolean checkOpenP1P2Incidents(IncidentDTO incidentDTO) {
+//        log.debug("IncidentService: Check for an Open P1 or P2");
+//        Long incidentCount = incidentRepository.countBySeverityAndIncidentStatus(incidentDTO.getSeverity(), IssueStatus.OPEN);
+//        if (incidentCount == 0) {
+//            return false;
+//        } else if (incidentDTO.getId() == null) {
+//            return true;
+//        }
+//        else {
+//            Incident incident = incidentRepository.findFirstBySeverityAndIncidentStatusOrderByIdDesc(incidentDTO.getSeverity(), IssueStatus.OPEN);
+//            return !incidentDTO.getId().equals(incident.getId());
+//        }
+//    }
 
     /**
      * SET App Status

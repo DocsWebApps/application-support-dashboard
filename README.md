@@ -12,7 +12,7 @@ Semantic versioning is applied to this project.
 
 Good luck and enjoy !
 
-<p><img src="https://s26.postimg.cc/7vglimyc9/Dash_Homepage.png" alt=""></p>
+<p><img src="https://i.postimg.cc/7hRLgs1v/Dash-Homepage.png" alt=""></p>
 
 This application was generated using JHipster 5.8.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.2](https://www.jhipster.tech/documentation-archive/v5.8.2).
 
