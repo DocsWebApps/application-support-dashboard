@@ -16,28 +16,60 @@ Good luck and enjoy !
 
 This application was generated using JHipster 5.8.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.2](https://www.jhipster.tech/documentation-archive/v5.8.2).
 
-## Instructions
-
 ## Installation
+
+This project is free to use for anyone. If you wish to try it here is how you can install it.
+
+#### How to use the Docker Image
+
+I have built a Docker image and pushed this to my public library on DockerHub. To use this image,
+simply install Docker and Docker Compose.
+
+Then use the docker-compose file that is part of this repository, src/main/docker/docker-compose.yml.
+You first have to replace the following settings in the docker-compose.yml file with your own values.
+
+    {port} - this will be the port you want to use to connect to the application on the host, eg. 8080
+    {base-directory} - this directory will be where the Maria DB files will be stored on your host using Docker volumes
+    {root-password} - the root password for MariaDB
+    {username} - the username you want to use for the appdashdb database
+    {password} - the password you want to use for the appdashdb database
+
+Once you have made your changes, you can start/stop the whole application and database using the following commands:
+
+To start the application and database:
+
+    docker-compose -f ./docker-compose.yml up -d
+
+To stop the application and database:
+
+    docker-compose -f ./docker-compose.yml down
+
+## Instructions on how to use the Application Dashboard
+
+Under development!
 
 ## Development
 
 If you want to work on this project yourself, then you can use any good IDE like IntelliJ or Eclipse. Once you have
 chosen an IDE you will need to set up your machine as per the instructions below.
 
+First download this repository onto your computer either by cloning it or by downloading the zip file.
+
+    git clone https://github.com/DocsWebApps/application-support-dashboard.git {choose-directory}
+
 You must install and configure the following dependencies on your machine:
 
 1.  [Node.js][]: We use Node to run a development web server and build the project.
     Depending on your system, you can install Node either from source or as a pre-packaged bundle.
 
-After installing Node, you should be able to run the following command to install development tools.
+After installing Node, change directory to the root of this project and you should be able to run the following command to install development tools.
 You will only need to run this command when dependencies change in [package.json](package.json).
 
     npm install
 
 We use npm scripts and [Webpack][] as our build system.
 
-Run the following commands in two separate terminals to create a blissful development experience where your browser
+Again, from the root directory run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
     ./mvnw
