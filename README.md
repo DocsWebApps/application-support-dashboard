@@ -6,7 +6,7 @@ Version 0.2.0 30th March 2019
 
 Do you work in Application support? If so then you know it can be a challenge keeping track of faults, problems and risks in your day to day work.
 The Application Support Dashboard is a tool for doing just that, it keeps track of incidents, problems and risks and also gives visibility of the status
-of your application to your managers and the user community via a visual dashboard containing key information.
+of your application to your managers and the user community via a visual web based dashboard containing key information.
 
 Semantic versioning is applied to this project.
 
@@ -18,23 +18,24 @@ This application was generated using JHipster 5.8.2, you can find documentation 
 
 ## Installation
 
-This project is free to use for anyone. If you wish to try it here is how you can install it.
+This project is free to use for anyone. If you wish to use it then please follow the instructions below.
 
 #### How to use the Docker Image
 
-I have built a Docker image and pushed this to my public library on DockerHub. To use this image,
-simply install Docker and Docker Compose.
+I have built a Docker image and pushed this to my public library @DocsWebApps on DockerHub. To use this image,
+firstly install Docker and Docker Compose on your server.
 
-Then use the docker-compose file that is part of this repository, src/main/docker/docker-compose.yml.
-You first have to replace the following settings in the docker-compose.yml file with your own values.
+Then use the docker-compose file that is part of this repository in src/main/docker/docker-compose.yml.
+PLease replace the following configuration settings in the docker-compose.yml file with your own values.
 
-    {port} - this will be the port you want to use to connect to the application on the host, eg. 8080
-    {base-directory} - this directory will be where the Maria DB files will be stored on your host using Docker volumes
+    {port} - this will be the port you want to use to connect to the application on the host, eg. 80
+    {db-directory} - this is where the Maria DB files will be stored on your host using Docker volumes
     {root-password} - the root password for MariaDB
-    {username} - the username you want to use for the appdashdb database
-    {password} - the password you want to use for the appdashdb database
+    {username} - the username you want to use for the database
+    {password} - the password you want to use for the database
 
-Once you have made your changes, you can start/stop the whole application and database using the following commands:
+Once you have made your changes, you can start/stop the whole application and database to have a complete working instance
+of the Application Dashboard using the following commands:
 
 To start the application and database:
 
@@ -43,6 +44,12 @@ To start the application and database:
 To stop the application and database:
 
     docker-compose -f ./docker-compose.yml down
+
+Once up and running, you can access the Application Dashboard using at the following address
+
+    http://{your-hostname or ipaddress}:{port}
+
+To login as administrator use the default username and password which is admin / admin
 
 ## Instructions on how to use the Application Dashboard
 
