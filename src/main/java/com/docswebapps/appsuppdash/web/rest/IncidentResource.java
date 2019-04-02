@@ -50,6 +50,7 @@ public class IncidentResource {
         if (incidentDTO.getId() != null) {
             throw new BadRequestAlertException("Incident Resource: A new incident cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        this.checkP1P2(incidentDTO);
         IncidentDTO result = incidentService.save(incidentDTO);
         return ResponseEntity.created(new URI("/api/incidents/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -71,6 +72,7 @@ public class IncidentResource {
         if (incidentDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        this.checkP1P2(incidentDTO);
         IncidentDTO result = incidentService.save(incidentDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, incidentDTO.getId().toString()))
@@ -91,7 +93,6 @@ public class IncidentResource {
     }
 
     // My Custom Code
-
     /**
      * GET  /incidents/{status}/{severity : get all the incidents.
      *
@@ -151,5 +152,14 @@ public class IncidentResource {
     public BannerStats getBannerStats() {
         log.debug("Incident Resource: REST request to get the incident/problem stats to display on the banner section");
         return incidentService.getBannerStats();
+    }
+
+    private void checkP1P2(IncidentDTO incidentDTO) {
+      log.debug("Incident Resource: Check if a P1 or P2 already is OPEN");
+      if (incidentDTO.getSeverity() == Severity.P1 || incidentDTO.getSeverity() == Severity.P2) {
+        if (incidentService.checkOpenP1P2Incidents(incidentDTO)) {
+          throw new BadRequestAlertException("An open " + incidentDTO.getSeverity() + " incident already exists!", ENTITY_NAME, "An open " + incidentDTO.getSeverity() + " incident already exists!");
+        }
+      }
     }
 }

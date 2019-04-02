@@ -5,8 +5,8 @@
 Version 0.5.0 1st April 2019
 
 Do you work in Application support? If so then you know it can be a challenge keeping track of faults, problems and risks in your day to day work.
-The Application Support Dashboard is a tool for doing just that, it keeps track of incidents, problems and risks and also gives visibility of the status
-of your application to your managers and the user community via a visual web based dashboard containing key information.
+The Application Support Dashboard is a tool for doing just that, it keeps a track of all incidents, problems and risks associated with your application
+and also gives visibility of the status of your application to your managers and the user community via a visual web based dashboard containing key information.
 
 Semantic versioning is applied to this project.
 
@@ -14,19 +14,26 @@ Good luck and enjoy !
 
 <p><img src="https://i.postimg.cc/7hRLgs1v/Dash-Homepage.png" alt=""></p>
 
-This application was generated using JHipster 5.8.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.2](https://www.jhipster.tech/documentation-archive/v5.8.2).
-
 ## Installation
 
 This project is free to use for anyone. If you wish to use it then please follow the instructions below.
 
-#### How to use the Docker Image
+### How to use the Docker Image
 
 I have built a Docker image and pushed this to my public library @DocsWebApps on DockerHub. To use this image,
 firstly install Docker and Docker Compose on your server.
 
-Then use the docker-compose file that is part of this repository in src/main/docker/docker-compose.yml.
-Please replace the following configuration settings in the docker-compose.yml file with your own values.
+If you're unsure how to do this, please visit the following websites:
+
+    https://docs.docker.com/install/  - To install Docker
+
+    https://docs.docker.com/compose/install/  - To install Docker Compose
+
+Once Docker and Docker Compose have been installed, use the docker-compose file that is part of this repository in
+
+    src/main/docker/docker-compose.yml
+
+Replace the following configuration settings in the docker-compose.yml file with your own values.
 
     {port} - this will be the port you want to use to connect to the application on the host, eg. 80
     {db-directory} - this is where the Maria DB files will be stored on your host using Docker volumes
@@ -59,6 +66,8 @@ Under development!
 
 If you want to work on this project yourself, then you can use any good IDE like IntelliJ or Eclipse. Once you have
 chosen an IDE you will need to set up your machine as per the instructions below.
+
+This application was generated using JHipster 5.8.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.2](https://www.jhipster.tech/documentation-archive/v5.8.2).
 
 First download this repository onto your computer either by cloning it or by downloading the zip file.
 
