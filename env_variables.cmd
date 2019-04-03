@@ -39,5 +39,11 @@ REM mysql -u {username} -p {dbname}
 REM FontAwersome!!
 REM Sometimes need to import icons in the vendor.ts file.
 
+REM New Production Version
+REM 1. change POM version
+REM 2. change README version
+REM 3. commit "Version xx.xx"
+REM 4. add tag
+
 
 
