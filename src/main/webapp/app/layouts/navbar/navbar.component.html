@@ -45,8 +45,8 @@
                             <span>List Risks</span>
                         </a>
                     </li>
-                  <hr>
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                      <hr>
                       <a class="dropdown-item" routerLink="app" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                         <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                         <span>Application Details</span>

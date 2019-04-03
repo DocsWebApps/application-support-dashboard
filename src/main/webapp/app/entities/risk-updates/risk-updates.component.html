@@ -1,23 +1,41 @@
 <div>
     <div *ngIf="risk">
-      <h2 style="font-weight: bold">Risk No: {{ riskID }}</h2>
-      <h4>{{ risk.title }}</h4>
+      <h2 style="font-weight: bold">Risk No: {{riskID}}</h2>
+      <h4>{{risk.title}}</h4>
       <br>
-      <h4><span style="font-weight: bold">Description:</span> {{ risk.description }}</h4>
+      <h4><span style="font-weight: bold">Description: </span>{{risk.description}}</h4>
       <br>
-      <h4><span style="font-weight: bold">Mitigation:</span> {{ risk.mitigation }}</h4>
+      <h4><span style="font-weight: bold">Mitigation: </span>{{risk.mitigation }}</h4>
       <br/>
-      <h4><span style="font-weight: bold">Status:</span> {{ risk.riskStatus }}</h4>
-      <h4><span style="font-weight: bold">Priority:</span> {{ risk.priority }}</h4>
+      <h4><span style="font-weight: bold">Open: </span>{{risk.openedAt | date:'mediumDate'}}</h4>
+      <h4><span style="font-weight: bold">Status: </span>{{risk.riskStatus}}</h4>
+      <h4><span style="font-weight: bold">Priority: </span>{{risk.priority}}</h4>
+      <h4 *ngIf="risk.closedAt"><span style="font-weight: bold">Closed: </span>{{risk.closedAt | date:'mediumDate'}}</h4>
       <br>
     </div>
     <br/>
+    <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+            type="submit"
+            [routerLink]="['/risk', risk.id, 'edit']"
+            class="btn btn-primary btn-sm">
+      <fa-icon [icon]="'pencil-alt'"></fa-icon>
+      <span class="d-none d-md-inline">Edit</span>
+    </button>
+    <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+            type="submit"
+            [routerLink]="['/', 'risk', { outlets: { popup: risk.id + '/delete'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-danger btn-sm">
+      <fa-icon [icon]="'times'"></fa-icon>
+      <span class="d-none d-md-inline">Delete</span>
+    </button>
     <hr>
     <h2 id="page-heading">
         <span style="font-weight: bold">Risk Updates</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right create-risk-updates" [routerLink]="['/risk-updates', riskID, 'new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right create-risk-updates" [routerLink]="['/risk-updates', riskID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span >Add Update</span>
+            <span>Add Update</span>
         </button>
     </h2>
     <br/>
@@ -37,7 +55,7 @@
                 <td>{{riskUpdates.updatedAt | date:'mediumDate'}}</td>
                 <td>{{riskUpdates.updateText}}</td>
                 <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
+                    <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/risk-updates', riskUpdates.id, 'edit']"
                                 class="btn btn-primary btn-sm">

@@ -64,20 +64,6 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
-                                [routerLink]="['/problem', problem.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
-                                [routerLink]="['/', 'problem', { outlets: { popup: problem.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
                     </div>
                 </td>
             </tr>

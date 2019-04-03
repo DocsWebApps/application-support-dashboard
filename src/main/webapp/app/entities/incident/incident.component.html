@@ -55,14 +55,7 @@
                     </div>
                 </td>
                 <td class="text-right">
-                  <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group flex-btn-group-container">
-                      <button *ngIf="incident.incidentStatus != 'CLOSED'"
-                              type="submit"
-                              [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/close'} }]"
-                              class="btn btn-dark btn-sm">
-                        <fa-icon [icon]="'times'"></fa-icon>
-                        <span class="d-none d-md-inline">Close</span>
-                      </button>
+                  <div class="btn-group flex-btn-group-container">
                       <button id="view-button"
                               type="submit"
                               (click)="setIncidentUpdatesReturnPage(incident.id)"
@@ -70,20 +63,15 @@
                           <fa-icon [icon]="'eye'"></fa-icon>
                           <span class="d-none d-md-inline">View</span>
                       </button>
-                      <button type="submit"
-                              [routerLink]="['/incident', incident.id, 'edit']"
-                              class="btn btn-primary btn-sm">
-                          <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                          <span class="d-none d-md-inline">Edit</span>
-                      </button>
-                      <button type="submit"
-                              [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/delete'} }]"
-                              replaceUrl="true"
-                              queryParamsHandling="merge"
-                              class="btn btn-danger btn-sm">
+                      <span *ngIf="incident.incidentStatus != 'CLOSED'">
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
+                                [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/close'} }]"
+                                class="btn btn-dark btn-sm">
                           <fa-icon [icon]="'times'"></fa-icon>
-                          <span class="d-none d-md-inline">Delete</span>
-                      </button>
+                          <span class="d-none d-md-inline">Close</span>
+                        </button>
+                      </span>
                   </div>
                 </td>
             </tr>

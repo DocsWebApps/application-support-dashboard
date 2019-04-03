@@ -1,20 +1,37 @@
 <div>
     <div *ngIf="problem">
-      <h2 style="font-weight: bold">Problem No: {{ problemID }}</h2>
+      <h2 style="font-weight: bold">Problem No: {{problemID}}</h2>
       <h4>{{ problem.title }}</h4>
       <br/>
-      <h4><span style="font-weight: bold">Problem Statement:</span> {{ problem.statement }}</h4>
+      <h4><span style="font-weight: bold">Problem Statement: </span>{{problem.statement}}</h4>
       <br/>
-      <h4><span style="font-weight: bold">Status:</span> {{ problem.probStatus }}</h4>
-      <h4><span style="font-weight: bold">Priority:</span> {{ problem.priority }}</h4>
-      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Risk Link:</span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId)> {{problem.riskRecId}}</a></h4>
+      <h4><span style="font-weight: bold">Opened: </span>{{problem.openedAt | date:'mediumDate'}}</h4>
+      <h4><span style="font-weight: bold">Status: </span>{{problem.probStatus}}</h4>
+      <h4><span style="font-weight: bold">Priority: </span>{{problem.priority}}</h4>
+      <h4 *ngIf="problem.closedAt"><span style="font-weight: bold">Closed: </span>{{problem.closedAt | date:'mediumDate'}}</h4>
+      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Risk Link: </span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId)>{{problem.riskRecId}}</a></h4>
       <br>
     </div>
-    <br/>
+    <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+            type="submit"
+            [routerLink]="['/problem', problem.id, 'edit']"
+            class="btn btn-primary btn-sm">
+      <fa-icon [icon]="'pencil-alt'"></fa-icon>
+      <span class="d-none d-md-inline">Edit</span>
+    </button>
+    <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+            type="submit"
+            [routerLink]="['/', 'problem', { outlets: { popup: problem.id + '/delete'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-danger btn-sm">
+      <fa-icon [icon]="'times'"></fa-icon>
+      <span class="d-none d-md-inline">Delete</span>
+    </button>
     <hr>
     <h2 id="page-heading">
         <span style="font-weight: bold">Problem Updates</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right create-problem-updates" [routerLink]="['/problem-updates', problemID, 'new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right create-problem-updates" [routerLink]="['/problem-updates', problemID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >Add Update</span>
         </button>
@@ -36,7 +53,7 @@
                 <td>{{problemUpdates.updatedAt | date:'mediumDate'}}</td>
                 <td>{{problemUpdates.updateText}}</td>
                 <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
+                    <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/problem-updates', problemUpdates.id, 'edit']"
                                 class="btn btn-primary btn-sm">
