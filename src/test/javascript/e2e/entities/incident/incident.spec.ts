@@ -106,8 +106,8 @@ describe('Incident e2e test', () => {
         incidentUpdatesComponentsPage = new IncidentUpdatesComponentsPage();
         await incidentUpdatesComponentsPage.clickOnIncidentDeleteButton();
         incidentDeleteDialog = new IncidentDeleteDialog();
-        //expect(await incidentDeleteDialog.getDialogTitle()).to.eq('Are you sure you want to delete this Incident?');
-        //await incidentDeleteDialog.clickOnConfirmButton();
+        // expect(await incidentDeleteDialog.getDialogTitle()).to.eq('Are you sure you want to delete this Incident?');
+        // await incidentDeleteDialog.clickOnConfirmButton();
     });
 
     after(async () => {
