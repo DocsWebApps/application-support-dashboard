@@ -22,7 +22,8 @@
             [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/delete'} }]"
             replaceUrl="true"
             queryParamsHandling="merge"
-            class="btn btn-danger btn-sm">
+            class="btn btn-danger btn-sm"
+            id="incident-delete">
         <fa-icon [icon]="'times'"></fa-icon>
         <span class="d-none d-md-inline">Delete</span>
     </button>

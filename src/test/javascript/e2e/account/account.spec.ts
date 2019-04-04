@@ -16,7 +16,7 @@ describe('account', () => {
     });
 
     it('should fail to login with bad password', async () => {
-        const expect1 = 'Welcome, Java Hipster!';
+        const expect1 = 'DocsWebApps Application';
         const value1 = await element(by.css('h1')).getText();
         expect(value1).to.eq(expect1);
         signInPage = await navBarPage.getSignInPage();
@@ -36,9 +36,9 @@ describe('account', () => {
         expect(value1).to.eq(expect1);
         await signInPage.autoSignInUsing('admin', 'admin');
 
-        const expect2 = 'You are logged in as user "admin".';
-        await browser.wait(ec.visibilityOf(element(by.id('home-logged-message'))));
-        const value2 = await element(by.id('home-logged-message')).getText();
+        const expect2 = 'Administration';
+        await browser.wait(ec.visibilityOf(element(by.id('admin-menu'))));
+        const value2 = await element(by.id('admin-menu')).getText();
         expect(value2).to.eq(expect2);
     });
 

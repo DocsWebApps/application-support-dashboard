@@ -4,13 +4,22 @@ export class IncidentUpdatesComponentsPage {
     createButton = element(by.id('jh-create-entity'));
     deleteButtons = element.all(by.css('jhi-incident-updates div table .btn-danger'));
     title = element.all(by.css('jhi-incident-updates div h2#page-heading span')).first();
+    incidentDeleteButton = element(by.id('incident-delete'));
 
     async clickOnCreateButton() {
         await this.createButton.click();
     }
 
+    async clickOnIncidentDeleteButton() {
+        this.incidentDeleteButton.click();
+    }
+
     async clickOnLastDeleteButton() {
         await this.deleteButtons.last().click();
+    }
+
+    async clickOnFirstDeleteButton() {
+        await this.deleteButtons.first().click();
     }
 
     async countDeleteButtons() {
@@ -85,6 +94,19 @@ export class IncidentUpdatesUpdatePage {
 export class IncidentUpdatesDeleteDialog {
     private dialogTitle = element(by.id('jhi-delete-incidentUpdates-heading'));
     private confirmButton = element(by.id('jhi-confirm-delete-incidentUpdates'));
+
+    async getDialogTitle() {
+        return this.dialogTitle.getText();
+    }
+
+    async clickOnConfirmButton() {
+        await this.confirmButton.click();
+    }
+}
+
+export class IncidentDeleteDialog {
+    private dialogTitle = element(by.id('jhi-delete-incident-heading'));
+    private confirmButton = element(by.id('jhi-confirm-delete-incident'));
 
     async getDialogTitle() {
         return this.dialogTitle.getText();

@@ -82,7 +82,7 @@ describe('App e2e test', () => {
 
         await appComponentsPage.clickOnCreateButton();
         await promise.all([
-            appUpdatePage.setNameInput('{Application Name}'),
+            appUpdatePage.setNameInput('DocsWebApps Application'),
             appUpdatePage.setProblemCountInput('5'),
             appUpdatePage.sysStatusSelectLastOption(),
             appUpdatePage.setLastProblemDateInput('2000-12-31')
