@@ -42,7 +42,7 @@ Replace the following configuration settings in the docker-compose.yml file with
     {password} - the password you want to use for the database
 
 Once you have made your changes, you can start/stop the whole application and database to have a complete working instance
-of the Application Dashboard using the following commands:
+of the Application Dashboard using the following commands.
 
 To start the application and database:
 
