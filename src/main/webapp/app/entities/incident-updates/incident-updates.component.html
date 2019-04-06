@@ -10,26 +10,33 @@
       <h4 *ngIf="incident.probRecId"><span style="font-weight: bold">Problem Link: </span><a (click)=setProblemUpdatesReturnPage(incident.probRecId)>{{incident.probRecId}}</a></h4>
       <br>
     </div>
-    <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-            type="submit"
-            [routerLink]="['/incident', incident.id, 'edit']"
-            class="btn btn-primary btn-sm">
-        <fa-icon [icon]="'pencil-alt'"></fa-icon>
-        <span class="d-none d-md-inline">Edit</span>
-    </button>
-    <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-            type="submit"
-            [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/delete'} }]"
-            replaceUrl="true"
-            queryParamsHandling="merge"
-            class="btn btn-danger btn-sm"
-            id="incident-delete">
+    <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group">
+      <button *ngIf="incident.incidentStatus != 'CLOSED'"
+              type="submit"
+              [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/close'} }]"
+              class="btn btn-dark btn-sm">
         <fa-icon [icon]="'times'"></fa-icon>
-        <span class="d-none d-md-inline">Delete</span>
-    </button>
+        <span class="d-none d-md-inline">Close Incident</span>
+      </button>
+      <button type="submit"
+              [routerLink]="['/incident', incident.id, 'edit']"
+              class="btn btn-primary btn-sm">
+          <fa-icon [icon]="'pencil-alt'"></fa-icon>
+          <span class="d-none d-md-inline">Edit Incident</span>
+      </button>
+      <button type="submit"
+              [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/delete'} }]"
+              replaceUrl="true"
+              queryParamsHandling="merge"
+              class="btn btn-danger btn-sm"
+              id="incident-delete">
+          <fa-icon [icon]="'times'"></fa-icon>
+          <span class="d-none d-md-inline">Delete Incident</span>
+      </button>
+    </div>
     <hr>
     <h2 id="page-heading">
-        <span style="font-weight: bold">Incident Updates</span>
+        <span style="font-weight: bold">Incident History</span>
         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right create-incident-updates" [routerLink]="['/incident-updates', incidentID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span>Add Update</span>
@@ -51,7 +58,7 @@
                 <td>{{incidentUpdates.updatedAt | date:'mediumDate'}}</td>
                 <td>{{incidentUpdates.updateText}}</td>
                 <td class="text-right">
-                    <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group flex-btn-group-container">
+                    <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group">
                         <button type="submit"
                                 [routerLink]="['/incident-updates', incidentUpdates.id, 'edit']"
                                 class="btn btn-primary btn-sm">

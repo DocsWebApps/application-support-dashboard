@@ -17,7 +17,7 @@
             [routerLink]="['/problem', problem.id, 'edit']"
             class="btn btn-primary btn-sm">
       <fa-icon [icon]="'pencil-alt'"></fa-icon>
-      <span class="d-none d-md-inline">Edit</span>
+      <span class="d-none d-md-inline">Edit Problem</span>
     </button>
     <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
             type="submit"
@@ -26,14 +26,14 @@
             queryParamsHandling="merge"
             class="btn btn-danger btn-sm">
       <fa-icon [icon]="'times'"></fa-icon>
-      <span class="d-none d-md-inline">Delete</span>
+      <span class="d-none d-md-inline">Delete Problem</span>
     </button>
     <hr>
     <h2 id="page-heading">
-        <span style="font-weight: bold">Problem Updates</span>
+        <span style="font-weight: bold">Problem History</span>
         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right create-problem-updates" [routerLink]="['/problem-updates', problemID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span >Add Update</span>
+            <span>Add Update</span>
         </button>
     </h2>
     <br/>
@@ -53,7 +53,7 @@
                 <td>{{problemUpdates.updatedAt | date:'mediumDate'}}</td>
                 <td>{{problemUpdates.updateText}}</td>
                 <td class="text-right">
-                    <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group flex-btn-group-container">
+                    <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group">
                         <button type="submit"
                                 [routerLink]="['/problem-updates', problemUpdates.id, 'edit']"
                                 class="btn btn-primary btn-sm">

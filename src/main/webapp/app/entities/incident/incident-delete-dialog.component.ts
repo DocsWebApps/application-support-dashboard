@@ -12,7 +12,12 @@ import { IncidentService } from './incident.service';
 export class IncidentDeleteDialogComponent {
     incident: IIncident;
 
-    constructor(protected incidentService: IncidentService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
+    constructor(
+        protected incidentService: IncidentService,
+        public activeModal: NgbActiveModal,
+        protected eventManager: JhiEventManager,
+        private router: Router
+    ) {}
 
     clear() {
         this.activeModal.dismiss('cancel');

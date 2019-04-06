@@ -55,24 +55,13 @@
                     </div>
                 </td>
                 <td class="text-right">
-                  <div class="btn-group flex-btn-group-container">
-                      <button id="view-button"
-                              type="submit"
-                              (click)="setIncidentUpdatesReturnPage(incident.id)"
-                              class="btn btn-info btn-sm">
-                          <fa-icon [icon]="'eye'"></fa-icon>
-                          <span class="d-none d-md-inline">View</span>
-                      </button>
-                      <span *ngIf="incident.incidentStatus != 'CLOSED'">
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-                                type="submit"
-                                [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/close'} }]"
-                                class="btn btn-dark btn-sm">
-                          <fa-icon [icon]="'times'"></fa-icon>
-                          <span class="d-none d-md-inline">Close</span>
-                        </button>
-                      </span>
-                  </div>
+                    <button id="view-button"
+                            type="submit"
+                            (click)="setIncidentUpdatesReturnPage(incident.id)"
+                            class="btn btn-info btn-sm">
+                        <fa-icon [icon]="'eye'"></fa-icon>
+                        <span class="d-none d-md-inline">View</span>
+                    </button>
                 </td>
             </tr>
             </tbody>

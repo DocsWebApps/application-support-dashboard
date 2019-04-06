@@ -19,7 +19,7 @@
             [routerLink]="['/risk', risk.id, 'edit']"
             class="btn btn-primary btn-sm">
       <fa-icon [icon]="'pencil-alt'"></fa-icon>
-      <span class="d-none d-md-inline">Edit</span>
+      <span class="d-none d-md-inline">Edit Risk</span>
     </button>
     <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
             type="submit"
@@ -28,11 +28,11 @@
             queryParamsHandling="merge"
             class="btn btn-danger btn-sm">
       <fa-icon [icon]="'times'"></fa-icon>
-      <span class="d-none d-md-inline">Delete</span>
+      <span class="d-none d-md-inline">Delete Risk</span>
     </button>
     <hr>
     <h2 id="page-heading">
-        <span style="font-weight: bold">Risk Updates</span>
+        <span style="font-weight: bold">Risk History</span>
         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right create-risk-updates" [routerLink]="['/risk-updates', riskID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span>Add Update</span>
@@ -55,7 +55,7 @@
                 <td>{{riskUpdates.updatedAt | date:'mediumDate'}}</td>
                 <td>{{riskUpdates.updateText}}</td>
                 <td class="text-right">
-                    <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group flex-btn-group-container">
+                    <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group">
                         <button type="submit"
                                 [routerLink]="['/risk-updates', riskUpdates.id, 'edit']"
                                 class="btn btn-primary btn-sm">
