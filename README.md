@@ -10,9 +10,19 @@ and also gives visibility of the status of your application to your managers and
 
 Semantic versioning is applied to this project.
 
-Good luck and enjoy !
+Good luck and enjoy ! Example screenshots below.
 
-<p><img src="https://i.postimg.cc/7hRLgs1v/Dash-Homepage.png" alt=""></p>
+All is OK.
+
+<p><img src="https://i.postimg.cc/LhzQj6pb/App-Dash-OK.jpg" alt=""></p>
+
+Significant P2 incident affecting users.
+
+<p><img src="https://i.postimg.cc/56gPk7j5/App-Dash-P2.jpg" alt=""></p>
+
+Major P1 incident!
+
+<p><img src="https://i.postimg.cc/WhTW8Lpb/App-Dash-P1.jpg" alt=""></p>
 
 ## Installation
 
