@@ -2,31 +2,33 @@
 # {port} - this will be the port you want to use to connect to the application on the host, eg. 80
 # {db-directory} - this is where the Maria DB files will be stored on your host using Docker volumes
 # {root-password} - the root password for MariaDB
-# {username} - the username you want to use for the database
-# {password} - the password you want to use for the database
 #
 # Once you have made your selections start the application and database using the following command:
 # docker-compose -f ./docker-compose.yml up -d
 # To stop the application and database:
 # docker-compose -f ./docker-compose.yml down
 version: '3.1'
-    services:
 
-      appdash:
-        image: docswebapps/applicationsupportdashboard:latest
-        restart: always
-        ports:
-          - {port}:8080
-        depends_on:
-          - appdashdb
+services:
 
-      appdashdb:
-        image: mariadb:latest
-        restart: always
-        volumes:
-          - {db-directory}/appdashdb:/var/lib/mysql
-        environment:
-          MYSQL_ROOT_PASSWORD: {root-password}
-          MYSQL_DATABASE: appdashdb
-          MYSQL_USER: {username}
-          MYSQL_PASSWORD: {password}
+  appdash:
+    image: docswebapps/applicationsupportdashboard:latest
+    restart: always
+    ports:
+      - {port}:8080
+    depends_on:
+      - appdashdb
+
+  appdashdb:
+    image: mariadb:10.3.7
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - {db-directory}/appdashdb_v1:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: {root-password}
+      MYSQL_DATABASE: appdashdb
+      MYSQL_USER: appdash_admin
+      MYSQL_PASSWORD: appdash_admin
+

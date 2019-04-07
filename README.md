@@ -48,8 +48,6 @@ Replace the following configuration settings in the docker-compose.yml file with
     {port} - this will be the port you want to use to connect to the application on the host, eg. 80
     {db-directory} - this is where the Maria DB files will be stored on your host using Docker volumes
     {root-password} - the root password for MariaDB
-    {username} - the username you want to use for the database
-    {password} - the password you want to use for the database
 
 Once you have made your changes, you can start/stop the whole application and database to have a complete working instance
 of the Application Dashboard using the following commands.
