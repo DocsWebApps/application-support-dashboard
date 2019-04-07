@@ -14,15 +14,15 @@ Good luck and enjoy ! Example screenshots below.
 
 All is OK.
 
-<p><img src="https://i.postimg.cc/LhzQj6pb/App-Dash-OK.jpg" alt=""></p>
+<p><img src="https://i.postimg.cc/zvYcvgmg/App-Dash-OK.png" alt=""></p>
 
 Significant P2 incident affecting users.
 
-<p><img src="https://i.postimg.cc/56gPk7j5/App-Dash-P2.jpg" alt=""></p>
+<p><img src="https://i.postimg.cc/GtRXdnYP/App-Dash-P2.png" alt=""></p>
 
 Major P1 incident!
 
-<p><img src="https://i.postimg.cc/WhTW8Lpb/App-Dash-P1.jpg" alt=""></p>
+<p><img src="https://i.postimg.cc/Hs2hWn6r/App-Dash-P1.png" alt=""></p>
 
 ## Installation
 
