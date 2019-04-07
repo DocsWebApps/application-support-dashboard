@@ -26,9 +26,9 @@ export class StatusComponent implements OnInit {
 
     private getAppStatus() {
         // Comment out the code below before running npm test e2e
-        // setTimeout(() => {
-        //     this.getAppStatus();
-        // }, 10000);
+        setTimeout(() => {
+            this.getAppStatus();
+        }, 10000);
 
         this.statusService.getAppStatus().subscribe(
             (res: HttpResponse<AppStatus>) => {

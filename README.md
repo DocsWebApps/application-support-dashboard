@@ -2,7 +2,7 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DocsWebApps_application-support-dashboard&metric=alert_status)](https://sonarcloud.io/dashboard?id=DocsWebApps_application-support-dashboard)
 
-Version 0.5.0 1st April 2019
+Version 1.0.0 1st April 2019
 
 Do you work in Application support? If so then you know it can be a challenge keeping track of faults, problems and risks in your day to day work.
 The Application Support Dashboard is a tool for doing just that, it keeps a track of all incidents, problems and risks associated with your application

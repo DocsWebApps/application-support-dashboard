@@ -42,8 +42,9 @@ REM Sometimes need to import icons in the vendor.ts file.
 REM New Production Version
 REM 1. change POM version
 REM 2. change README version
-REM 3. commit "Version xx.xx"
-REM 4. add tag
+REM 3. Change CHANGELOG
+REM 4. commit "Version xx.xx"
+REM 5. add tag
 
 
 

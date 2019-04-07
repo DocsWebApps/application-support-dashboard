@@ -10,9 +10,14 @@
 4. Changes and Releases
 5. On-call log
 6. Uploading documents to support problem investigations
+7. Add initial updates to Incidents, Problems and Risks when creating them and closing them
 
-## Release Version 1 - th April 2019
+## Release Version 1.0.0 - 8th April 2019
 
+Updated design of data entry screens. Dave Collier 06/04/2019 15:58
+Fixed incident.spec.ts. Dave Collier 04/04/2019 20:20
+Fixed some of the e2e tests, account/administration. Dave Collier 04/04/2019 19:55
+Minor updates to the navbar and footer. Dave Collier 04/04/2019 14:49
 Updated the incident, problem and risk updates pages - looking good! Dave Collier 03/04/2019 20:54
 Navbar update and version advice added. Dave Collier 03/04/2019 18:51
 Added a guard method to only allow a single open P2 or single open P1. Dave Collier 02/04/2019 15:56
