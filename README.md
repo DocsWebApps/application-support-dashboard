@@ -12,15 +12,15 @@ Semantic versioning is applied to this project.
 
 Good luck and enjoy ! Example screenshots below.
 
-All is OK.
+Screen Shot 1: System is OK.
 
 <p><img src="https://i.postimg.cc/zvYcvgmg/App-Dash-OK.png" alt=""></p>
 
-Significant P2 incident affecting users.
+Screen Shot 2: Significant P2 incident affecting users.
 
 <p><img src="https://i.postimg.cc/GtRXdnYP/App-Dash-P2.png" alt=""></p>
 
-Major P1 incident!
+Screen Shot 3: Major P1 incident!
 
 <p><img src="https://i.postimg.cc/Hs2hWn6r/App-Dash-P1.png" alt=""></p>
 

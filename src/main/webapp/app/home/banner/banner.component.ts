@@ -20,7 +20,9 @@ export class BannerComponent implements OnInit {
     problemCount: any;
     riskCount: any;
 
-    constructor(private statusService: StatusService, private bannerService: BannerService, private jhiAlertService: JhiAlertService) {
+    constructor(private statusService: StatusService, private bannerService: BannerService, private jhiAlertService: JhiAlertService) {}
+
+    ngOnInit() {
         this.statusService.incidentSwitch.subscribe((appStatus: string) => {
             if (appStatus === 'green') {
                 this.bannerService.getBannerStats().subscribe(
@@ -49,8 +51,6 @@ export class BannerComponent implements OnInit {
             }
         });
     }
-
-    ngOnInit() {}
 
     private onError(error) {
         this.jhiAlertService.error(error, null, null);

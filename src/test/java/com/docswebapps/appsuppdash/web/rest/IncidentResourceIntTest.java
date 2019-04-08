@@ -11,7 +11,9 @@ import com.docswebapps.appsuppdash.service.dto.IncidentDTO;
 import com.docswebapps.appsuppdash.service.mapper.IncidentMapper;
 import com.docswebapps.appsuppdash.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +90,9 @@ public class IncidentResourceIntTest {
     private MockMvc restIncidentMockMvc;
 
     private Incident incident;
+
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     private void createApp() {
         final String DEFAULT_NAME = "AAAAAAAAAA";
@@ -526,5 +531,55 @@ public class IncidentResourceIntTest {
     public void testEntityFromId() {
         assertThat(incidentMapper.fromId(42L).getId()).isEqualTo(42);
         assertThat(incidentMapper.fromId(null)).isNull();
+    }
+
+    @Test
+    @Transactional
+    public void P1P2CheckShouldThrowException() throws Exception {
+      int databaseSizeBeforeCreate = incidentRepository.findAll().size();
+
+      // Initialize the database
+      Incident testIncident = new Incident()
+        .openedAt(DEFAULT_OPENED_AT)
+        .description(DEFAULT_DESCRIPTION)
+        .severity(Severity.P2)
+        .incidentStatus(IssueStatus.OPEN)
+        .closedAt(DEFAULT_CLOSED_AT);
+
+      // Create a P2 Incident
+      IncidentDTO incidentDTO = incidentMapper.toDto(testIncident);
+      restIncidentMockMvc.perform(post("/api/incidents")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(incidentDTO)))
+        .andExpect(status().isCreated());
+
+      // Create another P2 Incident - should throw BadRequest exception
+      restIncidentMockMvc.perform(post("/api/incidents")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(incidentDTO)))
+        .andExpect(status().isBadRequest());
+
+      // Create a P1 Incident
+      incidentDTO.setSeverity(Severity.P1);
+      restIncidentMockMvc.perform(post("/api/incidents")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(incidentDTO)))
+        .andExpect(status().isCreated());
+
+      // Create another P1 Incident - should throw BadRequest exception
+      restIncidentMockMvc.perform(post("/api/incidents")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(incidentDTO)))
+        .andExpect(status().isBadRequest());
+
+      // Validate the Incident in the database
+//      List<Incident> incidentList = incidentRepository.findAll();
+//      assertThat(incidentList).hasSize(databaseSizeBeforeCreate + 1);
+//      Incident testIncident = incidentList.get(incidentList.size() - 1);
+//      assertThat(testIncident.getOpenedAt()).isEqualTo(DEFAULT_OPENED_AT);
+//      assertThat(testIncident.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+//      assertThat(testIncident.getSeverity()).isEqualTo(DEFAULT_SEVERITY);
+//      assertThat(testIncident.getIncidentStatus()).isEqualTo(DEFAULT_INCIDENT_STATUS);
+//      assertThat(testIncident.getClosedAt()).isEqualTo(DEFAULT_CLOSED_AT);
     }
 }
