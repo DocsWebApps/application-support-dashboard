@@ -5,7 +5,7 @@
 Version 1.0.0 8th April 2019
 
 Do you work in Application support? If so then you know it can be a challenge keeping track of faults, problems and risks in your day to day work.
-The Application Support Dashboard is a tool for doing just that, it keeps a track of all incidents, problems and risks associated with your application
+The Application Support Dashboard is a tool for doing just that, it keeps a track of all faults/incidents, problems and risks associated with your application
 and also gives visibility of the status of your application to your managers and the user community via a visual web based dashboard containing key information.
 
 When an incident occurs on a particular system, you enter the details of the fault and the date and time it took place, you then choose a severity level and commit the information to the database. Any browser displaying the dashboard will then automatically update itself within 30 seconds to show the details of that incident to your user community.
@@ -78,7 +78,7 @@ To login as administrator use the default username and password which is admin /
 
 The dashboard works on the principle that a Risk can lead to a Problem, and a Problem can then lead to an Incident on your system.
 
-For a description of Risks, Problems and Incidents please read the following blog posts:
+For a description of Risks, Problems and Incidents, and the relationships between them, please read the following blog posts:
 
 [Risks, Problems and Incidents](http://www.docswebapps.com/#/blog/9).
 
