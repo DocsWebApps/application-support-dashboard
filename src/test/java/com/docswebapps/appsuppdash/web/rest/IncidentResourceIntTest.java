@@ -536,8 +536,6 @@ public class IncidentResourceIntTest {
     @Test
     @Transactional
     public void P1P2CheckShouldThrowException() throws Exception {
-      int databaseSizeBeforeCreate = incidentRepository.findAll().size();
-
       // Initialize the database
       Incident testIncident = new Incident()
         .openedAt(DEFAULT_OPENED_AT)
@@ -572,14 +570,30 @@ public class IncidentResourceIntTest {
         .content(TestUtil.convertObjectToJsonBytes(incidentDTO)))
         .andExpect(status().isBadRequest());
 
-      // Validate the Incident in the database
-//      List<Incident> incidentList = incidentRepository.findAll();
-//      assertThat(incidentList).hasSize(databaseSizeBeforeCreate + 1);
-//      Incident testIncident = incidentList.get(incidentList.size() - 1);
-//      assertThat(testIncident.getOpenedAt()).isEqualTo(DEFAULT_OPENED_AT);
-//      assertThat(testIncident.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-//      assertThat(testIncident.getSeverity()).isEqualTo(DEFAULT_SEVERITY);
-//      assertThat(testIncident.getIncidentStatus()).isEqualTo(DEFAULT_INCIDENT_STATUS);
-//      assertThat(testIncident.getClosedAt()).isEqualTo(DEFAULT_CLOSED_AT);
+      // Create a P3 Incident
+      incidentDTO.setSeverity(Severity.P3);
+      restIncidentMockMvc.perform(post("/api/incidents")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(incidentDTO)))
+        .andExpect(status().isCreated());
+
+      // Create another P3 Incident - should not throw BadRequest exception
+      restIncidentMockMvc.perform(post("/api/incidents")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(incidentDTO)))
+        .andExpect(status().isCreated());
+
+      // Create a P4 Incident
+      incidentDTO.setSeverity(Severity.P4);
+      restIncidentMockMvc.perform(post("/api/incidents")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(incidentDTO)))
+        .andExpect(status().isCreated());
+
+      // Create another P4 Incident - should not throw BadRequest exception
+      restIncidentMockMvc.perform(post("/api/incidents")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(incidentDTO)))
+        .andExpect(status().isCreated());
     }
 }
