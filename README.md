@@ -84,7 +84,7 @@ For a description of Risks, Problems and Incidents, and the relationships betwee
 
 [Incident Management vs Problem Management](https://www.bmc.com/blogs/incident-management-vs-problem-management-whats-the-difference).
 
-Firstly, enter the details of you application via the 'Application Details' menu option. This will set up your dashboard for use. Include the application name,
+Firstly, enter the details of your application via the 'Application Details' menu option. This will set up your dashboard for use. Include the application name,
 the problem count (normally 0 for a new application), the system status (default to 'GREEN') and the last problem date which can be left blank for a new application.
 
 You can now use the dashboard menu options to enter Risks, Problems and Incidents respectively, and to establish links between them. It also allows you to add updates to any Risks, Problems or Incidents as you go along, so that you can keep a history of important information regarding a particular issue.

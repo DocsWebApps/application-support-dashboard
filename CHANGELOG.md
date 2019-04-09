@@ -14,6 +14,16 @@
 
 ## Release Version 1.0.0 - 8th April 2019
 
+Updated README. Dave Collier 09/04/2019 18:48
+Updated README. Dave Collier 09/04/2019 18:35
+Updated README. Dave Collier 09/04/2019 16:52
+Increased client coverage. All tests passing! Trying to reach 80% on new code. Dave Collier 09/04/2019 16:15
+Increased client coverage. All tests passing! Trying to reach 80% on new code. Dave Collier 09/04/2019 15:49
+Increased client coverage. All tests passing! Dave Collier 08/04/2019 17:45
+Updates to docker-compose.yml. Dave Collier 07/04/2019 14:31
+Swapped JPEGS for PNG to get better quality. Dave Collier 07/04/2019 12:19
+Updated README with new images. Dave Collier 07/04/2019 12:07
+Version 1.0.0. Dave Collier 07/04/2019 11:34
 Updated design of data entry screens. Dave Collier 06/04/2019 15:58
 Fixed incident.spec.ts. Dave Collier 04/04/2019 20:20
 Fixed some of the e2e tests, account/administration. Dave Collier 04/04/2019 19:55
