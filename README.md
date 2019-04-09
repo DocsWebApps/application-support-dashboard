@@ -2,7 +2,7 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DocsWebApps_application-support-dashboard&metric=alert_status)](https://sonarcloud.io/dashboard?id=DocsWebApps_application-support-dashboard)
 
-Version 1.0.0 1st April 2019
+Version 1.0.0 8th April 2019
 
 Do you work in Application support? If so then you know it can be a challenge keeping track of faults, problems and risks in your day to day work.
 The Application Support Dashboard is a tool for doing just that, it keeps a track of all incidents, problems and risks associated with your application
@@ -68,7 +68,22 @@ To login as administrator use the default username and password which is admin /
 
 ## Instructions on how to use the Application Dashboard
 
-Under development!
+The dashboard works on the principle that a Risk can lead to a Problem, that can lead to an Incident to occur on your system.
+
+For a description of Risks, Problems and Incidents please read the following blog posts:
+
+[Risks, Problems and Incidents](http://www.docswebapps.com/#/blog/9).
+  
+[Incident Management vs Problem Management](https://www.bmc.com/blogs/incident-management-vs-problem-management-whats-the-difference).
+
+Firstly, add the details of you application via the 'Application Details' menu option. This will set up your dashboard for use. Include the application name,
+the problem count (normally 0 for a new application), the system status (default to 'GREEN') and the last problem date which can be left blank for a new application.
+
+You can now use the dashboard menu options to enter Risks, Problems and Incidents respectively, and to establish links between them. It also allows you to add updates to any Risks, Problems or Incidents as you go along, so that you can keep a history of important information regarding a particular issue.
+
+In normal circumstances it will display useful statistics for your users or manager to view about the status of the system (Screen Shot 1).
+
+However, if you're unlucky enough to have a serious incident (P1 - Screen Shot 3, P2 - Screen Shot 2), then the dashboard will change to display and highlight the incident details.
 
 ## Development
 
