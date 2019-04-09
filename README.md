@@ -1,4 +1,4 @@
-# Application Support Dashboard
+# Welcome to the Application Support Dashboard
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DocsWebApps_application-support-dashboard&metric=alert_status)](https://sonarcloud.io/dashboard?id=DocsWebApps_application-support-dashboard)
 
@@ -8,11 +8,19 @@ Do you work in Application support? If so then you know it can be a challenge ke
 The Application Support Dashboard is a tool for doing just that, it keeps a track of all incidents, problems and risks associated with your application
 and also gives visibility of the status of your application to your managers and the user community via a visual web based dashboard containing key information.
 
+When an incident occurs on a particular system, you enter the details of the fault and the date and time it took place, you then choose a severity level and commit the information to the database. Any browser displaying the dashboard will then automatically update itself within 30 seconds to show the details of that incident to your user community.
+
+The status of your system is colour coded to show whether the system is operating normally (green), has a significant problem with it (yellow) or has a major problem with it (red). This means you can display the dashboard on a monitor or smart television mounted within your office space giving your user community a visual representation of the status of your system.
+
+Users can login to the dashboard and see the details of the incident, plus any updates to share with your users such as the details of any workarounds you want to convey to your user community or an estimated time to fix the fault.
+
+It therefore provides a simple but effective way to keep your key stakeholders updated with any problems that your systems or services may be experiencing and what work is being undertaken to restore them.
+
 Semantic versioning is applied to this project.
 
 Good luck and enjoy ! Example screenshots below.
 
-Screen Shot 1: System is OK.
+Screen Shot 1: System is OK, just working on a minor issue (P3).
 
 <p><img src="https://i.postimg.cc/zvYcvgmg/App-Dash-OK.png" alt=""></p>
 
@@ -68,15 +76,15 @@ To login as administrator use the default username and password which is admin /
 
 ## Instructions on how to use the Application Dashboard
 
-The dashboard works on the principle that a Risk can lead to a Problem, that can lead to an Incident to occur on your system.
+The dashboard works on the principle that a Risk can lead to a Problem, and a Problem can then lead to an Incident on your system.
 
 For a description of Risks, Problems and Incidents please read the following blog posts:
 
 [Risks, Problems and Incidents](http://www.docswebapps.com/#/blog/9).
-  
+
 [Incident Management vs Problem Management](https://www.bmc.com/blogs/incident-management-vs-problem-management-whats-the-difference).
 
-Firstly, add the details of you application via the 'Application Details' menu option. This will set up your dashboard for use. Include the application name,
+Firstly, enter the details of you application via the 'Application Details' menu option. This will set up your dashboard for use. Include the application name,
 the problem count (normally 0 for a new application), the system status (default to 'GREEN') and the last problem date which can be left blank for a new application.
 
 You can now use the dashboard menu options to enter Risks, Problems and Incidents respectively, and to establish links between them. It also allows you to add updates to any Risks, Problems or Incidents as you go along, so that you can keep a history of important information regarding a particular issue.
