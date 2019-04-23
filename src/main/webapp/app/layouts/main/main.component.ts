@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '@angular/router';
+import { Router, NavigationEnd, NavigationError } from '@angular/router';
 
 import { Title } from '@angular/platform-browser';
+import { NameService } from 'app/shared/services/name.service';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Name } from 'app/shared/model/name.model';
+import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-main',
@@ -10,26 +14,33 @@ import { Title } from '@angular/platform-browser';
 export class JhiMainComponent implements OnInit {
     currentRoute: string;
 
-    constructor(private titleService: Title, private router: Router) {}
-
-    private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
-        let title: string =
-            routeSnapshot.data && routeSnapshot.data['pageTitle'] ? routeSnapshot.data['pageTitle'] : 'applicationSupportDashboardApp';
-        if (routeSnapshot.firstChild) {
-            title = this.getPageTitle(routeSnapshot.firstChild) || title;
-        }
-        return title;
-    }
+    constructor(
+        private titleService: Title,
+        private router: Router,
+        private nameService: NameService,
+        private jhiAlertService: JhiAlertService
+    ) {}
 
     ngOnInit() {
         this.router.events.subscribe(event => {
             this.currentRoute = this.router.url;
             if (event instanceof NavigationEnd) {
-                this.titleService.setTitle(this.getPageTitle(this.router.routerState.snapshot.root));
+                this.nameService.getName().subscribe(
+                    (res: HttpResponse<Name>) => {
+                        this.titleService.setTitle(res.body.name);
+                    },
+                    (res: HttpErrorResponse) => {
+                        this.onError(res);
+                    }
+                );
             }
             if (event instanceof NavigationError && event.error.status === 404) {
                 this.router.navigate(['/404']);
             }
         });
+    }
+
+    private onError(error) {
+        this.jhiAlertService.error(error, null, null);
     }
 }
