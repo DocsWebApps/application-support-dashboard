@@ -14,6 +14,8 @@
 
 ## Release Version 1.0.0 - 8th April 2019
 
+Updated title and favicon. Dave Collier 23/04/2019 18:04
+Updated CHANGELOG. Dave Collier 09/04/2019 20:02
 Updated README. Dave Collier 09/04/2019 18:48
 Updated README. Dave Collier 09/04/2019 18:35
 Updated README. Dave Collier 09/04/2019 16:52
