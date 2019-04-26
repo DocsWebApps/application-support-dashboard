@@ -34,9 +34,67 @@ Screen Shot 3: Major P1 incident!
 
 ## Installation
 
-This project is free to use for anyone. If you wish to use it then please follow the instructions below.
+This project is free to use for anyone. If you wish to use it then please follow the instructions below. There are 4 ways of using the application.
 
-### How to use the Docker Image
+1. Download the WAR file and execute directly it using Java8 or above, and hook it up to your own MariaDB database.
+2. Use the Docker image directly and hook it up to your own MariaDB database.
+3. Use Docker Compose and have a complete working Dashboard application and MariaDB database setup for you.
+4. If you want to use a different database, please download the project, switch the driver and re-build the WAR file. See "Building for production" below for information on how to rebuild the WAR.
+
+#### 1. Using the WAR file.
+
+Please download the latest WAR file [here](https://www.docswebapps.com/jars/application-support-dashboard.war). It can be executed directly using JAVA as it has an embedded Java capable web server.
+
+You must have access to a MariaDB database and have the details of a user that has schema level privileges (ie. can create database objects like Tables etc.).
+
+For Linux users export the following environment variables (replace values in curly brackets{} with your own DB details):
+
+    export DB_URL=jdbc:mariadb://{DB Hostname/IPAddress}:{port}/{database name}
+    export ADMIN_USERNAME={db-username}
+    export ADMIN_PASSWORD={db-password}
+
+For Windows users set the following environment variables (replace values in curly brackets{} with your own DB details):
+
+    set DB_URL=jdbc:mariadb://{DB Hostname/IPAddress}:{port}/{database name}
+    set ADMIN_USERNAME={db-username}
+    set ADMIN_PASSWORD={db-password}
+
+Once you've setup your MariaDB and exported the environment variables simply launch the WAR file using Java8 or higher.
+
+    java -jar application-support-dashboard.war
+
+Once up and running, you can access the Application Dashboard by typing at the following address into your browser:
+
+    http://{AppSver Hostname/IPAdress}:8080
+
+To login as administrator use the default username and password which is admin / admin
+
+#### 2. Using the Docker Image
+
+I have built a Docker image and pushed this to my public library @DocsWebApps on DockerHub. To use this image,
+firstly install Docker on your server.
+
+If you're unsure how to do this, please visit the following websites:
+
+    https://docs.docker.com/install/  - To install Docker
+
+You must have access to a MariaDB database and have the details of a user that has schema level privileges.
+
+To start the docker image, type the following command replacing the database environment variables with your own.
+
+    docker run -d --name appsupport-dashboard  \
+    -e DB_URL=jdbc:mariadb://{DB Hostname/IPAddress}:{port}/{database name} \
+    -e ADMIN_USERNAME={db-username} \
+    -e ADMIN_PASSWORD={db-password} \
+    -p 80:8080 docswebapps/applicationsupportdashboard:latest
+
+Once up and running, you can access the Application Dashboard by typing at the following address into your browser:
+
+    http://{AppSver Hostname/IPAdress}:80
+
+To login as administrator use the default username and password which is admin / admin
+
+#### 3. Using Docker Compose
 
 I have built a Docker image and pushed this to my public library @DocsWebApps on DockerHub. To use this image,
 firstly install Docker and Docker Compose on your server.
