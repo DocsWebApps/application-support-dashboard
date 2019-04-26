@@ -49,13 +49,13 @@ You must have access to a MariaDB database and have the details of a user that h
 
 For Linux users export the following environment variables (replace values in curly brackets{} with your own DB details):
 
-    export DB_URL=jdbc:mariadb://{DB Hostname/IPAddress}:{port}/{database name}
+    export DB_URL=jdbc:mariadb://{db-hostname/db-ipaddress}:{port}/{db-name}
     export ADMIN_USERNAME={db-username}
     export ADMIN_PASSWORD={db-password}
 
 For Windows users set the following environment variables (replace values in curly brackets{} with your own DB details):
 
-    set DB_URL=jdbc:mariadb://{DB Hostname/IPAddress}:{port}/{database name}
+    set DB_URL=jdbc:mariadb://{db-hostname/db-ipaddress}:{port}/{db-name}
     set ADMIN_USERNAME={db-username}
     set ADMIN_PASSWORD={db-password}
 
@@ -65,7 +65,7 @@ Once you've setup your MariaDB and exported the environment variables simply lau
 
 Once up and running, you can access the Application Dashboard by typing at the following address into your browser:
 
-    http://{AppSver Hostname/IPAdress}:8080
+    http://{appsvr-hostname/appsvr-ipaddress}:8080
 
 To login as administrator use the default username and password which is admin / admin
 
@@ -83,14 +83,14 @@ You must have access to a MariaDB database and have the details of a user that h
 To start the docker image, type the following command replacing the database environment variables with your own.
 
     docker run -d --name appsupport-dashboard  \
-    -e DB_URL=jdbc:mariadb://{DB Hostname/IPAddress}:{port}/{database name} \
+    -e DB_URL=jdbc:mariadb://{db-hostname/db-ipaddress}:{port}/{db-name} \
     -e ADMIN_USERNAME={db-username} \
     -e ADMIN_PASSWORD={db-password} \
     -p 80:8080 docswebapps/applicationsupportdashboard:latest
 
 Once up and running, you can access the Application Dashboard by typing at the following address into your browser:
 
-    http://{AppSver Hostname/IPAdress}:80
+    http://{appsvr-hostname/appsvr-ipaddress}
 
 To login as administrator use the default username and password which is admin / admin
 
@@ -128,7 +128,7 @@ To stop the application and database:
 
 Once up and running, you can access the Application Dashboard using at the following address
 
-    http://{your-hostname or ipaddress}:{port}
+    http://{appsvr-hostname/appsvr-ipaddress}:{port}
 
 To login as administrator use the default username and password which is admin / admin
 
