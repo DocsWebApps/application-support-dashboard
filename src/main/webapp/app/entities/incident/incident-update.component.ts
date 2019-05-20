@@ -32,7 +32,11 @@ export class IncidentUpdateComponent implements OnInit {
             this.incident = incident;
         });
         this.problemService
-            .query('ALL', 'ALL')
+            .query('OPEN', 'ALL', {
+                page: 0,
+                size: 1000,
+                sort: ['id,desc']
+            })
             .subscribe(
                 (res: HttpResponse<IProblem[]>) => (this.problems = res.body),
                 (res: HttpErrorResponse) => this.onError(res.message)

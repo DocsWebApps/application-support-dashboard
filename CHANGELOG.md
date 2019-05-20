@@ -1,6 +1,13 @@
+## Bugs
+
+1. Can't select all open problem id's when updating an incident
+2. Problem not appearing on incident details when prob id updated from DB
+
 ## To-Do
 
 1. Reporting
+2. List all problem resulting from risk
+3. List all incidents resulting from problem
 
 ## Possible Future Features
 
@@ -11,6 +18,7 @@
 5. On-call log
 6. Uploading documents to support problem investigations
 7. Add initial updates to Incidents, Problems and Risks when creating them and closing them
+8. Search facility
 
 ## Release Version 1.0.0 - 8th April 2019
 
