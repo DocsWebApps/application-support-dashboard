@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SuppressWarnings("unused")
 @Repository
 public interface ProblemUpdatesRepository extends JpaRepository<ProblemUpdates, Long> {
-    @Query(value = "select * from problem_updates p where p.prob_update_id = :problemID", nativeQuery = true)
+    @Query(value = "select * from problem_updates p where p.prob_update_id = :problemID order by updated_at desc", nativeQuery = true)
     Page<ProblemUpdates> findProblemUpdates(@Param("problemID") Long problemID, Pageable pageable);
 
     @Modifying
