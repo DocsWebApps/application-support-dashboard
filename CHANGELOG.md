@@ -2,10 +2,6 @@
 
 ## To-Do
 
-1. Reporting
-2. List all problem resulting from risk
-3. List all incidents resulting from problem
-
 ## Possible Future Features
 
 1. Add teams, have a 'Meet the Team' page
@@ -16,8 +12,16 @@
 6. Uploading documents to support problem investigations
 7. Add initial updates to Incidents, Problems and Risks when creating them and closing them
 8. Search facility
+9. Reporting- List all problems resulting from risk, list all incidents resulting from problem
 
-## Release Version 1.1.0 - XXth XXX 2019
+## Release Version 1.1.0 - 26th June 2019
+
+Version 1.1.0. Dave.Collier 26/06/2019 20:33
+Ordered incident, problem and risk updates by updated_at desc. Dave.Collier 26/06/2019 19:12
+Increased the number of problem records returned on Incident screen to 1000 open problems. Dave Collier 20/05/2019 20:25
+Slight corrections to README. Dave Collier 26/04/2019 12:21
+Updated README with 4 different ways of using the application. Dave Collier 26/04/2019 12:02
+Updated CHANGELOG. Dave Collier 24/04/2019 14:12
 
 ## Release Version 1.0.0 - 8th April 2019
 
