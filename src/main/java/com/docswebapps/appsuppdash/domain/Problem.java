@@ -41,7 +41,6 @@ public class Problem implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    
     @Lob
     @Column(name = "statement", nullable = false)
     private String statement;
@@ -59,6 +58,9 @@ public class Problem implements Serializable {
     @Column(name = "closed_at")
     private LocalDate closedAt;
 
+    @Transient
+    private Long incidentCount;
+
     @OneToMany(mappedBy = "probRec")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Incident> incidents = new HashSet<>();
@@ -68,6 +70,14 @@ public class Problem implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("problems")
     private Risk riskRec;
+
+    public Long getIncidentCount() {
+      return this.incidentCount;
+    }
+
+    public void setIncidentCount(Long incidentCount) {
+      this.incidentCount = incidentCount;
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

@@ -103,8 +103,8 @@ public class ProblemResource {
     @GetMapping("/problems/{id}")
     public ResponseEntity<ProblemDTO> getProblem(@PathVariable Long id) {
         log.debug("ProblemResource: REST request to get Problem : {}", id);
-        Optional<ProblemDTO> problemDTO = problemService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(problemDTO);
+        ProblemDTO problemDTO = problemService.findOne(id);
+        return ResponseEntity.ok().body(problemDTO);
     }
 
     /**

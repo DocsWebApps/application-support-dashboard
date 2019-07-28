@@ -8,6 +8,7 @@
       <h4><span style="font-weight: bold">Opened: </span>{{problem.openedAt | date:'mediumDate'}}</h4>
       <h4><span style="font-weight: bold">Status: </span>{{problem.probStatus}}</h4>
       <h4><span style="font-weight: bold">Priority: </span>{{problem.priority}}</h4>
+      <h4><span style="font-weight: bold">Resulting Incident Count: </span>{{problemIncidentCount}}</h4>
       <h4 *ngIf="problem.closedAt"><span style="font-weight: bold">Closed: </span>{{problem.closedAt | date:'mediumDate'}}</h4>
       <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Risk Link: </span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId)>{{problem.riskRecId}}</a></h4>
       <br>
@@ -29,7 +30,7 @@
       <span class="d-none d-md-inline">Delete Problem</span>
     </button>
     <hr>
-    <h2 id="page-heading">
+    <h2>
         <span style="font-weight: bold">Problem History</span>
         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right create-problem-updates" [routerLink]="['/problem-updates', problemID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
@@ -48,20 +49,20 @@
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let problemUpdates of problemUpdates ;trackBy: trackId">
-                <td>{{problemUpdates.id}}</td>
-                <td>{{problemUpdates.updatedAt | date:'mediumDate'}}</td>
-                <td>{{problemUpdates.updateText}}</td>
+            <tr *ngFor="let problemUpdate of problemUpdates ;trackBy: trackId">
+                <td>{{problemUpdate.id}}</td>
+                <td>{{problemUpdate.updatedAt | date:'mediumDate'}}</td>
+                <td>{{problemUpdate.updateText}}</td>
                 <td class="text-right">
                     <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group">
                         <button type="submit"
-                                [routerLink]="['/problem-updates', problemUpdates.id, 'edit']"
+                                [routerLink]="['/problem-updates', problemUpdate.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'problem-updates', { outlets: { popup: problemUpdates.id + '/delete'} }]"
+                                [routerLink]="['/', 'problem-updates', { outlets: { popup: problemUpdate.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
@@ -75,11 +76,11 @@
         </table>
     </div>
     <hr>
-    <h2 id="page-heading">
-      <span style="font-weight: bold">Resulting Incidents = 30</span>
+    <h2>
+      <span style="font-weight: bold">Resulting Incidents</span>
     </h2>
     <br/>
-    <div class="table-responsive" *ngIf="problemUpdates">
+    <div class="table-responsive" *ngIf="problemIncidents">
       <table class="table table-striped">
         <thead>
         <tr>
@@ -89,10 +90,10 @@
         </tr>
         </thead>
         <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-        <tr *ngFor="let problemUpdates of problemUpdates ;trackBy: trackId">
-          <td>{{problemUpdates.id}}</td>
-          <td>{{problemUpdates.updatedAt | date:'mediumDate'}}</td>
-          <td>{{problemUpdates.updateText}}</td>
+        <tr *ngFor="let problemIncident of problemIncidents ;trackBy: trackId">
+          <td>{{problemIncident.id}}</td>
+          <td>{{problemIncident.description}}}</td>
+          <td>{{problemIncident.severity}}</td>
         </tr>
         </tbody>
       </table>

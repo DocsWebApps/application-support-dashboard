@@ -24,6 +24,7 @@ export interface IProblem {
     incidents?: IIncident[];
     problemUpdates?: IProblemUpdates[];
     riskRecId?: number;
+    incidentCount?: number;
 }
 
 export class Problem implements IProblem {
@@ -37,6 +38,7 @@ export class Problem implements IProblem {
         public closedAt?: Moment,
         public incidents?: IIncident[],
         public problemUpdates?: IProblemUpdates[],
-        public riskRecId?: number
+        public riskRecId?: number,
+        public incidentCount?: number
     ) {}
 }

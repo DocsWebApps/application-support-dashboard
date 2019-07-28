@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface IncidentRepository extends JpaRepository<Incident, Long> {
     Long countBySeverityAndIncidentStatus(Severity severity, IssueStatus incidentStatus);
+    Long countByProbRec(Problem problem);
     Page<Incident> findByOrderByIncidentStatusDescOpenedAtDesc(Pageable page);
     Page<Incident> findByIncidentStatusOrderByOpenedAtDesc(Pageable page, IssueStatus incidentStatus);
     Page<Incident> findBySeverityOrderByOpenedAtDesc(Pageable page, Severity severity);

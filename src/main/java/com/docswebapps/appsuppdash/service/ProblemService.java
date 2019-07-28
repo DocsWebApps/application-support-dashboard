@@ -52,6 +52,7 @@ public class ProblemService {
         return problemMapper.toDto(problem);
     }
 
+    // My Custom Code
     /**
      * Get one problem by id.
      *
@@ -59,13 +60,20 @@ public class ProblemService {
      * @return the entity
      */
     @Transactional(readOnly = true)
-    public Optional<ProblemDTO> findOne(Long id) {
-        log.debug("ProblemService: Request to get Problem : {}", id);
-        return problemRepository.findById(id)
-            .map(problemMapper::toDto);
+    public ProblemDTO findOne(Long id) {
+      log.debug("ProblemService: Request to get Problem : {}", id);
+      Optional<Problem> tryProblem = problemRepository.findById(id);
+      if (tryProblem.isPresent()) {
+        Problem problem = tryProblem.get();
+        problem.setIncidentCount(incidentRepository.countByProbRec(problem));
+        return problemMapper.toDto(problem);
+      } else {
+        ProblemDTO problemDTO = new ProblemDTO();
+        problemDTO.setStatement("No Problem Exists for Problem ID:" + id);
+        return problemDTO;
+      }
     }
 
-    // My Custom Code
     /**
      * Get all the problems.
      *

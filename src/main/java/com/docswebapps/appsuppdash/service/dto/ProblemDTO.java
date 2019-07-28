@@ -32,8 +32,17 @@ public class ProblemDTO implements Serializable {
 
     private LocalDate closedAt;
 
-
     private Long riskRecId;
+
+    private Long incidentCount;
+
+    public Long getIncidentCount() {
+      return this.incidentCount;
+    }
+
+    public void setIncidentCount(Long incidentCount) {
+      this.incidentCount = incidentCount;
+    }
 
     public Long getId() {
         return id;

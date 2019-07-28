@@ -10,6 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProblemService } from 'app/entities/problem';
 import { IProblem } from 'app/shared/model/problem.model';
 import { RiskUpdatesService } from 'app/entities/risk-updates';
+import { IIncident } from 'app/shared/model/incident.model';
+import { IncidentService } from 'app/entities/incident';
 
 @Component({
     selector: 'jhi-problem-updates',
@@ -17,6 +19,8 @@ import { RiskUpdatesService } from 'app/entities/risk-updates';
 })
 export class ProblemUpdatesComponent implements OnInit, OnDestroy {
     problemUpdates: IProblemUpdates[];
+    problemIncidents: IIncident[];
+    problemIncidentCount: number;
     problemID: number;
     problem: IProblem;
     currentAccount: any;
@@ -38,9 +42,11 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
         private problemService: ProblemService,
         protected accountService: AccountService,
         private router: Router,
-        private riskUpdatesService: RiskUpdatesService
+        private riskUpdatesService: RiskUpdatesService,
+        private incidentService: IncidentService
     ) {
         this.problemUpdates = [];
+        this.problemIncidents = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
         this.links = {
@@ -72,12 +78,26 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+
+        this.incidentService
+            .problemIncidents(this.problemID, {
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<IIncident[]>) => {
+                    this.paginateProblemIncidents(res.body, res.headers);
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     getProblemDetails() {
         this.problemService.find(this.problemID).subscribe(
             (res: HttpResponse<IProblem>) => {
                 this.problem = res.body;
+                this.problemIncidentCount = this.problem.incidentCount;
             },
             (res: HttpErrorResponse) => {
                 this.onError(res.message);
@@ -140,6 +160,14 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
             this.problemUpdates.push(data[i]);
+        }
+    }
+
+    protected paginateProblemIncidents(data: IIncident[], headers: HttpHeaders) {
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        for (let i = 0; i < data.length; i++) {
+            this.problemIncidents.push(data[i]);
         }
     }
 

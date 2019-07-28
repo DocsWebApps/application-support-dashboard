@@ -94,72 +94,87 @@ public class IncidentResource {
 
     // My Custom Code
     /**
-     * GET  /incidents/{status}/{severity : get all the incidents.
-     *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of incidents in body
-     */
-    @GetMapping("/incidents/{status}/{severity}")
-    public ResponseEntity<List<IncidentDTO>> getAllIncidents(Pageable pageable,
-                                                             @PathVariable IssueStatus status,
-                                                             @PathVariable Severity severity) {
-        log.debug("Incident Resource: REST request to get a page of Incidents: {} AND {}", status, severity);
-        Page<IncidentDTO> page = incidentService.findAll(pageable, status, severity);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/incidents");
+       * GET /incidents/problem/{id}
+       *
+       * @param id - the problem id
+       * @param pageable the pagination information
+       * @return a list of Incidents related to the problem
+      */
+      @GetMapping("/incidents/problem/{id}")
+      public ResponseEntity<List<IncidentDTO>> getRelatedIncidents(Pageable pageable, @PathVariable Long id) {
+        log.debug("Incident Resource: REST request to get all related incidents for problem id: {}", id);
+        Page<IncidentDTO> page = incidentService.getRelatedIncidents(pageable, id);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/incidents/problem/{id}");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
+      }
 
-    /**
-     * DELETE  /incidents/:id : delete the "id" incident.
-     *
-     * @param id the id of the incidentDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
-    @DeleteMapping("/incidents/{id}/delete")
-    public ResponseEntity<Void> deleteIncident(@PathVariable Long id) {
-        log.debug("Incident Resource: REST request to delete Incident : {}", id);
-        incidentService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
+      /**
+       * GET  /incidents/{status}/{severity} : get all the incidents.
+       *
+       * @param pageable the pagination information
+       * @return the ResponseEntity with status 200 (OK) and the list of incidents in body
+       */
+      @GetMapping("/incidents/{status}/{severity}")
+      public ResponseEntity<List<IncidentDTO>> getAllIncidents(Pageable pageable,
+                                                               @PathVariable IssueStatus status,
+                                                               @PathVariable Severity severity) {
+          log.debug("Incident Resource: REST request to get a page of Incidents: {} AND {}", status, severity);
+          Page<IncidentDTO> page = incidentService.findAll(pageable, status, severity);
+          HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/incidents");
+          return ResponseEntity.ok().headers(headers).body(page.getContent());
+      }
 
-    /**
-     * CLOSE /incidents/:id/close : close the "id" incident.
-     *
-     * @param id the id of the incidentDTO to close
-     * @return the ResponseEntity with status 200 (OK)
-     */
-    @DeleteMapping("/incidents/{id}/close")
-    public ResponseEntity<Void> closeIncident(@PathVariable Long id) {
-        log.debug("Incident Resource: REST request to close Incident : {}", id);
-        incidentService.close(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
+      /**
+       * DELETE  /incidents/:id : delete the "id" incident.
+       *
+       * @param id the id of the incidentDTO to delete
+       * @return the ResponseEntity with status 200 (OK)
+       */
+      @DeleteMapping("/incidents/{id}/delete")
+      public ResponseEntity<Void> deleteIncident(@PathVariable Long id) {
+          log.debug("Incident Resource: REST request to delete Incident : {}", id);
+          incidentService.delete(id);
+          return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+      }
 
-    /**
-     * GET Incident for banner display
-     */
-    @GetMapping("/incidents/incident")
-    public ResponseEntity<IncidentDTO> getBannerIncident() {
-        log.debug("Incident Resource: REST request to get the incident to display on the banner section");
-        IncidentDTO incidentDTO = incidentService.getBannerIncident();
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(incidentDTO));
-    }
+      /**
+       * CLOSE /incidents/:id/close : close the "id" incident.
+       *
+       * @param id the id of the incidentDTO to close
+       * @return the ResponseEntity with status 200 (OK)
+       */
+      @DeleteMapping("/incidents/{id}/close")
+      public ResponseEntity<Void> closeIncident(@PathVariable Long id) {
+          log.debug("Incident Resource: REST request to close Incident : {}", id);
+          incidentService.close(id);
+          return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+      }
 
-    /**
-     * GET Incident/Problem stats for banner display
-     */
-    @GetMapping("/incidents/stats")
-    public BannerStats getBannerStats() {
-        log.debug("Incident Resource: REST request to get the incident/problem stats to display on the banner section");
-        return incidentService.getBannerStats();
-    }
+      /**
+       * GET Incident for banner display
+       */
+      @GetMapping("/incidents/incident")
+      public ResponseEntity<IncidentDTO> getBannerIncident() {
+          log.debug("Incident Resource: REST request to get the incident to display on the banner section");
+          IncidentDTO incidentDTO = incidentService.getBannerIncident();
+          return ResponseUtil.wrapOrNotFound(Optional.ofNullable(incidentDTO));
+      }
 
-    private void checkP1P2(IncidentDTO incidentDTO) {
-      log.debug("Incident Resource: Check if a P1 or P2 already is OPEN");
-      if (incidentDTO.getSeverity() == Severity.P1 || incidentDTO.getSeverity() == Severity.P2) {
-        if (incidentService.checkOpenP1P2Incidents(incidentDTO)) {
-          throw new BadRequestAlertException("An open " + incidentDTO.getSeverity() + " incident already exists!", ENTITY_NAME, "An open " + incidentDTO.getSeverity() + " incident already exists!");
+      /**
+       * GET Incident/Problem stats for banner display
+       */
+      @GetMapping("/incidents/stats")
+      public BannerStats getBannerStats() {
+          log.debug("Incident Resource: REST request to get the incident/problem stats to display on the banner section");
+          return incidentService.getBannerStats();
+      }
+
+      private void checkP1P2(IncidentDTO incidentDTO) {
+        log.debug("Incident Resource: Check if a P1 or P2 already is OPEN");
+        if (incidentDTO.getSeverity() == Severity.P1 || incidentDTO.getSeverity() == Severity.P2) {
+          if (incidentService.checkOpenP1P2Incidents(incidentDTO)) {
+            throw new BadRequestAlertException("An open " + incidentDTO.getSeverity() + " incident already exists!", ENTITY_NAME, "An open " + incidentDTO.getSeverity() + " incident already exists!");
+          }
         }
       }
-    }
 }
