@@ -318,7 +318,7 @@ public class ProblemResourceIntTest {
     public void getNonExistingProblem() throws Exception {
         // Get the problem
         restProblemMockMvc.perform(get("/api/problems/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+            .andExpect(status().isOk());
     }
 
     @Test
