@@ -1,6 +1,9 @@
 ## Bugs
 
-## To-Do
+##To-Do
+
+1. List all incidents resulting from a problem on the problem page under problem updates. Add an incident count to the section heading.
+2. List all problems resulting from risk on the risk page under risk updates. Add count as above.
 
 ## Possible Future Features
 
@@ -12,7 +15,9 @@
 6. Uploading documents to support problem investigations
 7. Add initial updates to Incidents, Problems and Risks when creating them and closing them
 8. Search facility
-9. Reporting- List all problems resulting from risk, list all incidents resulting from problem
+9. Reporting
+
+## Release Version 1.2.0 - XXth XXXX 2019
 
 ## Release Version 1.1.0 - 26th June 2019
 

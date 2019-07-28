@@ -6,9 +6,9 @@ Version 1.1.0 26th June 2019
 
 Do you work in Application support? If so then you know it can be a challenge keeping track of faults, problems and risks in your day to day work.
 The Application Support Dashboard is a tool for doing just that, it keeps a track of all faults/incidents, problems and risks associated with your application
-and also gives visibility of the status of your application to your managers and the user community via a visual web based dashboard containing key information.
+and it also gives visibility of the status of your application to your managers and the user community via a visual web based dashboard containing key information.
 
-When an incident occurs on a particular system, you enter the details of the fault and the date and time it took place, you then choose a severity level and commit the information to the database. Any browser displaying the dashboard will then automatically update itself within 30 seconds to show the details of that incident to your user community.
+When an incident occurs on a particular system, you enter the details of the fault and the date and time it took place. You can then choose a severity level and commit the information to the database. Any browser displaying the dashboard will then automatically update itself within 30 seconds to show the details of that incident to your user community.
 
 The status of your system is colour coded to show whether the system is operating normally (green), has a significant problem with it (yellow) or has a major problem with it (red). This means you can display the dashboard on a monitor or smart television mounted within your office space giving your user community a visual representation of the status of your system.
 
@@ -36,7 +36,7 @@ Screen Shot 3: Major P1 incident!
 
 This project is free to use for anyone. If you wish to use it then please follow the instructions below. There are 4 ways of using the application.
 
-1. Download the WAR file and execute directly it using Java8 or above, and hook it up to your own MariaDB database.
+1. Download the WAR file and execute it directly using Java8 or above, and then hook it up to your own MariaDB database.
 2. Use the Docker image directly and hook it up to your own MariaDB database.
 3. Use Docker Compose and have a complete working Dashboard application and MariaDB database setup for you.
 4. If you want to use a different database, please download the project, switch the driver and re-build the WAR file. See "Building for production" below for information on how to rebuild the WAR.
@@ -63,7 +63,7 @@ Once you've setup your MariaDB and exported the environment variables simply lau
 
     java -jar application-support-dashboard.war
 
-Once up and running, you can access the Application Dashboard by typing at the following address into your browser:
+Once up and running, you can access the Application Dashboard by typing the following address into your browser:
 
     http://{appsvr-hostname/appsvr-ipaddress}:8080
 

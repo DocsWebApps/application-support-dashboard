@@ -76,6 +76,27 @@
             </tbody>
         </table>
     </div>
+    <hr>
+    <h2 id="page-heading">
+      <span style="font-weight: bold">Resulting Problems = 3</span>
+    </h2>
+    <br/>
+    <div class="table-responsive" *ngIf="riskUpdates">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th><span>ID</span></th>
+          <th><span>Problem Description</span></th>
+        </tr>
+        </thead>
+        <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+        <tr *ngFor="let riskUpdates of riskUpdates ;trackBy: trackId">
+          <td>{{riskUpdates.id}}</td>
+          <td>{{riskUpdates.updateText}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   <button type="submit"
           (click)="previousState()"
           class="btn btn-info">
