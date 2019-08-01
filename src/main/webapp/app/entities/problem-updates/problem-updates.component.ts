@@ -15,12 +15,12 @@ import { IncidentService } from 'app/entities/incident';
 
 @Component({
     selector: 'jhi-problem-updates',
-    templateUrl: './problem-updates.component.html'
+    templateUrl: './problem-updates.component.html',
+    styleUrls: ['./problem-updates.component.scss']
 })
 export class ProblemUpdatesComponent implements OnInit, OnDestroy {
     problemUpdates: IProblemUpdates[];
     problemIncidents: IIncident[];
-    problemIncidentCount: number;
     problemID: number;
     problem: IProblem;
     currentAccount: any;
@@ -97,7 +97,6 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
         this.problemService.find(this.problemID).subscribe(
             (res: HttpResponse<IProblem>) => {
                 this.problem = res.body;
-                this.problemIncidentCount = this.problem.incidentCount;
             },
             (res: HttpErrorResponse) => {
                 this.onError(res.message);

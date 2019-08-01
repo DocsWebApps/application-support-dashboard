@@ -1,44 +1,48 @@
 <div>
     <div *ngIf="problem">
-      <h2 style="font-weight: bold">Problem No: {{problemID}}</h2>
-      <h4>{{ problem.title }}</h4>
+      <h2 style="font-weight: bold">Problem No: {{problemID}}
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                type="submit"
+                [routerLink]="['/problem', problem.id, 'edit']"
+                class="btn btn-primary my-btn-left-margin">
+          <fa-icon [icon]="'pencil-alt'"></fa-icon>
+          <span class="d-none d-md-inline">Edit Problem</span>
+        </button>
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                type="submit"
+                [routerLink]="['/', 'problem', { outlets: { popup: problem.id + '/delete'} }]"
+                replaceUrl="true"
+                queryParamsHandling="merge"
+                class="btn btn-danger">
+          <fa-icon [icon]="'times'"></fa-icon>
+          <span class="d-none d-md-inline">Delete Problem</span>
+        </button>
+      </h2>
+      <br>
+      <h4 style="font-weight: bold">Problem Title: </h4>
+      <pre>{{ problem.title }}</pre>
       <br/>
-      <h4><span style="font-weight: bold">Problem Statement: </span>{{problem.statement}}</h4>
+      <h4 style="font-weight: bold">Problem Statement: </h4>
+      <pre>{{ problem.statement }}</pre>
       <br/>
-      <h4><span style="font-weight: bold">Opened: </span>{{problem.openedAt | date:'mediumDate'}}</h4>
-      <h4><span style="font-weight: bold">Status: </span>{{problem.probStatus}}</h4>
-      <h4><span style="font-weight: bold">Priority: </span>{{problem.priority}}</h4>
-      <h4><span style="font-weight: bold">Resulting Incident Count: </span>{{problemIncidentCount}}</h4>
+      <h4><span style="font-weight: bold">Opened: </span>{{ problem.openedAt | date:'mediumDate'}}</h4>
+      <h4><span style="font-weight: bold">Status: </span>{{ problem.probStatus }}</h4>
+      <h4><span style="font-weight: bold">Priority: </span>{{ problem.priority }}</h4>
+      <h4><span style="font-weight: bold">Incident Record Count: </span>{{ problem.incidentCount }}</h4>
       <h4 *ngIf="problem.closedAt"><span style="font-weight: bold">Closed: </span>{{problem.closedAt | date:'mediumDate'}}</h4>
-      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Risk Link: </span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId)>{{problem.riskRecId}}</a></h4>
+      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Risk Link: </span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId)>{{ problem.riskRecId }}</a></h4>
       <br>
     </div>
-    <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-            type="submit"
-            [routerLink]="['/problem', problem.id, 'edit']"
-            class="btn btn-primary btn-sm">
-      <fa-icon [icon]="'pencil-alt'"></fa-icon>
-      <span class="d-none d-md-inline">Edit Problem</span>
-    </button>
-    <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-            type="submit"
-            [routerLink]="['/', 'problem', { outlets: { popup: problem.id + '/delete'} }]"
-            replaceUrl="true"
-            queryParamsHandling="merge"
-            class="btn btn-danger btn-sm">
-      <fa-icon [icon]="'times'"></fa-icon>
-      <span class="d-none d-md-inline">Delete Problem</span>
-    </button>
     <hr>
     <h2>
         <span style="font-weight: bold">Problem History</span>
-        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right create-problem-updates" [routerLink]="['/problem-updates', problemID, 'new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="my-btn-left-margin btn btn-primary create-problem-updates" [routerLink]="['/problem-updates', problemID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span>Add Update</span>
         </button>
     </h2>
     <br/>
-    <div class="table-responsive" *ngIf="problemUpdates">
+    <div class="table-responsive" *ngIf="problemUpdates.length > 0">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -76,27 +80,31 @@
         </table>
     </div>
     <hr>
-    <h2>
-      <span style="font-weight: bold">Resulting Incidents</span>
-    </h2>
-    <br/>
-    <div class="table-responsive" *ngIf="problemIncidents">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th><span>ID</span></th>
-          <th><span>Incident Description</span></th>
-          <th><span>Incident Severity</span></th>
-        </tr>
-        </thead>
-        <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-        <tr *ngFor="let problemIncident of problemIncidents ;trackBy: trackId">
-          <td>{{problemIncident.id}}</td>
-          <td>{{problemIncident.description}}}</td>
-          <td>{{problemIncident.severity}}</td>
-        </tr>
-        </tbody>
-      </table>
+    <div *ngIf="problemIncidents.length > 0">
+      <h2>
+        <span style="font-weight: bold">Incident Records</span>
+      </h2>
+      <br/>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th><span>ID</span></th>
+            <th><span>Opened</span></th>
+            <th><span>Incident Description</span></th>
+            <th><span>Incident Severity</span></th>
+          </tr>
+          </thead>
+          <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+          <tr *ngFor="let problemIncident of problemIncidents ;trackBy: trackId">
+            <td>{{problemIncident.id}}</td>
+            <td>{{problemIncident.openedAt | date:'mediumDate'}}</td>
+            <td>{{problemIncident.description}}}</td>
+            <td>{{problemIncident.severity}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <button type="submit"
             (click)="previousState()"

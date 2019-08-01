@@ -65,7 +65,7 @@ public class ProblemService {
       Optional<Problem> tryProblem = problemRepository.findById(id);
       if (tryProblem.isPresent()) {
         Problem problem = tryProblem.get();
-        problem.setIncidentCount(incidentRepository.countByProbRec(problem));
+        this.setIncidentCountForProblem(problem);
         return problemMapper.toDto(problem);
       } else {
         ProblemDTO problemDTO = new ProblemDTO();
@@ -85,19 +85,18 @@ public class ProblemService {
     @Transactional(readOnly = true)
     public Page<ProblemDTO> findAll(Pageable pageable, IssueStatus status, Priority priority) {
         log.debug("ProblemService: Request to get all Problems: {} AND {}", status, priority);
+        Page<Problem> problems;
         if (status == IssueStatus.ALL && priority == Priority.ALL) {
-          return problemRepository.findByOrderByOpenedAtDesc(pageable)
-            .map(problemMapper::toDto);
+          problems = problemRepository.findByOrderByOpenedAtDesc(pageable);
         } else if (status != IssueStatus.ALL && priority != Priority.ALL) {
-          return problemRepository.findByProbStatusAndPriorityOrderByOpenedAtDesc(pageable, status, priority)
-            .map(problemMapper::toDto);
+          problems = problemRepository.findByProbStatusAndPriorityOrderByOpenedAtDesc(pageable, status, priority);
         } else if (status == IssueStatus.ALL) {
-          return problemRepository.findByPriorityOrderByOpenedAtDesc(pageable, priority)
-            .map(problemMapper::toDto);
+          problems = problemRepository.findByPriorityOrderByOpenedAtDesc(pageable, priority);
         } else {
-          return problemRepository.findByProbStatusOrderByOpenedAtDesc(pageable, status)
-            .map(problemMapper::toDto);
+          problems = problemRepository.findByProbStatusOrderByOpenedAtDesc(pageable, status);
         }
+        this.setIncidentCountForProblems(problems);
+        return problems.map(problemMapper::toDto);
     }
 
     /**
@@ -110,5 +109,14 @@ public class ProblemService {
         incidentRepository.updateProblems(id);
         problemUpdatesRepository.deleteProblemUpdates(id);
         problemRepository.deleteById(id);
+    }
+
+    // Support Methods for obtaining Incident Count for each Problem
+    private void setIncidentCountForProblems(Page<Problem> problems) {
+      problems.forEach(this::setIncidentCountForProblem);
+    }
+
+    private void setIncidentCountForProblem(Problem problem) {
+      problem.setIncidentCount(incidentRepository.countByProbRec(problem));
     }
 }

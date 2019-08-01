@@ -1,5 +1,7 @@
 ## Bugs
 
+1. Unwanted top border on problems-updates page.
+
 ##To-Do
 
 1. List all incidents resulting from a problem on the problem page under problem updates. Add an incident count to the section heading.
