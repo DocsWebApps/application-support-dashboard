@@ -111,7 +111,7 @@ public class ProblemService {
         problemRepository.deleteById(id);
     }
 
-    // Support Methods for obtaining Incident Count for each Problem
+    // Private support methods for obtaining incident count for each problem
     private void setIncidentCountForProblems(Page<Problem> problems) {
       problems.forEach(this::setIncidentCountForProblem);
     }

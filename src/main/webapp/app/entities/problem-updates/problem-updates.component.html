@@ -25,12 +25,12 @@
       <h4 style="font-weight: bold">Problem Statement: </h4>
       <pre>{{ problem.statement }}</pre>
       <br/>
-      <h4><span style="font-weight: bold">Opened: </span>{{ problem.openedAt | date:'mediumDate'}}</h4>
-      <h4><span style="font-weight: bold">Status: </span>{{ problem.probStatus }}</h4>
-      <h4><span style="font-weight: bold">Priority: </span>{{ problem.priority }}</h4>
-      <h4><span style="font-weight: bold">Incident Record Count: </span>{{ problem.incidentCount }}</h4>
-      <h4 *ngIf="problem.closedAt"><span style="font-weight: bold">Closed: </span>{{problem.closedAt | date:'mediumDate'}}</h4>
-      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Risk Link: </span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId)>{{ problem.riskRecId }}</a></h4>
+      <h4><span style="font-weight: bold">Opened: </span><span class="problem-details">{{ problem.openedAt | date:'mediumDate'}}</span></h4>
+      <h4><span style="font-weight: bold">Status: </span><span class="problem-details">{{ problem.probStatus }}</span></h4>
+      <h4><span style="font-weight: bold">Priority: </span><span class="problem-details">{{ problem.priority }}</span></h4>
+      <h4><span style="font-weight: bold">Incident Record Count: </span><span class="problem-details">{{ problem.incidentCount }}</span></h4>
+      <h4 *ngIf="problem.closedAt"><span style="font-weight: bold">Closed: </span><span class="problem-details">{{problem.closedAt | date:'mediumDate'}}</span></h4>
+      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Linked To Risk: </span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId) style="color:#0074D9">{{ problem.riskRecId }}</a></h4>
       <br>
     </div>
     <hr>
@@ -97,7 +97,8 @@
           </thead>
           <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
           <tr *ngFor="let problemIncident of problemIncidents ;trackBy: trackId">
-            <td>{{problemIncident.id}}</td>
+<!--            <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Linked To Risk: </span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId) style="color:#0074D9">{{ problem.riskRecId }}</a></h4>-->
+            <td><a (click)=setIncidentUpdatesReturnPage(problemIncident.id) style="color:#0074D9">{{problemIncident.id}}</a></td>
             <td>{{problemIncident.openedAt | date:'mediumDate'}}</td>
             <td>{{problemIncident.description}}}</td>
             <td>{{problemIncident.severity}}</td>

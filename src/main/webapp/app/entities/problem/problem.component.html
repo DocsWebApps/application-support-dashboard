@@ -31,14 +31,14 @@
             <thead>
             <tr>
               <th><span>ID</span></th>
-              <th><span>Created</span></th>
+              <th><span>Created On</span></th>
               <th><span>Title</span></th>
 <!--              <th><span>Problem Statement</span></th>-->
               <th><span>Status</span></th>
               <th><span>Priority</span></th>
-              <th><span>Closed</span></th>
               <th><span>Incident Record Count</span></th>
-              <th><span>RiskLink</span></th>
+              <th><span>Linked to Risk</span></th>
+              <th><span>Closed On</span></th>
             <th></th>
             </tr>
             </thead>
@@ -50,13 +50,13 @@
 <!--                <td>{{problem.statement}}</td>-->
                 <td>{{problem.probStatus}}</td>
                 <td>{{problem.priority}}</td>
-                <td>{{problem.closedAt | date:'mediumDate'}}</td>
                <td>{{problem.incidentCount}}</td>
                 <td>
                     <div *ngIf="problem.riskRecId">
                         <a (click)="setRiskUpdatesReturnPage(problem.riskRecId )">{{problem.riskRecId}}</a>
                     </div>
                 </td>
+                <td>{{problem.closedAt | date:'mediumDate'}}</td>
                 <td class="text-right">
                     <button id="view-button"
                             type="submit"

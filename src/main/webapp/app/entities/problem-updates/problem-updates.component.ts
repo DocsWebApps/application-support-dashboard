@@ -12,6 +12,7 @@ import { IProblem } from 'app/shared/model/problem.model';
 import { RiskUpdatesService } from 'app/entities/risk-updates';
 import { IIncident } from 'app/shared/model/incident.model';
 import { IncidentService } from 'app/entities/incident';
+import { IncidentUpdatesService } from 'app/entities/incident-updates';
 
 @Component({
     selector: 'jhi-problem-updates',
@@ -43,7 +44,8 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
         protected accountService: AccountService,
         private router: Router,
         private riskUpdatesService: RiskUpdatesService,
-        private incidentService: IncidentService
+        private incidentService: IncidentService,
+        private incidentUpdatesService: IncidentUpdatesService
     ) {
         this.problemUpdates = [];
         this.problemIncidents = [];
@@ -63,6 +65,11 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
     setRiskUpdatesReturnPage(riskID) {
         this.riskUpdatesService.returnRoute = '/problem-updates/' + this.problem.id;
         this.router.navigate(['risk-updates', riskID]);
+    }
+
+    setIncidentUpdatesReturnPage(incidentID) {
+        this.incidentUpdatesService.returnRoute = '/problem-updates/' + this.problem.id;
+        this.router.navigate(['incident-updates', incidentID]);
     }
 
     loadAll() {
