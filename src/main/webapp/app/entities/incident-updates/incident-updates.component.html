@@ -1,7 +1,7 @@
 <div>
     <div *ngIf="incident">
       <h2 style="font-weight: bold">Incident No: {{incidentID}}
-        <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="inline">
+        <span *jhiHasAnyAuthority="'ROLE_ADMIN'">
           <button *ngIf="incident.incidentStatus != 'CLOSED'"
                   type="submit"
                   [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/close'} }]"
@@ -11,7 +11,7 @@
           </button>
           <button type="submit"
                   [routerLink]="['/incident', incident.id, 'edit']"
-                  class="btn btn-primary my-btn-left-margin">
+                  class="btn btn-primary">
             <fa-icon [icon]="'pencil-alt'"></fa-icon>
             <span class="d-none d-md-inline">Edit Incident</span>
           </button>
@@ -19,28 +19,28 @@
                   [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/delete'} }]"
                   replaceUrl="true"
                   queryParamsHandling="merge"
-                  class="btn btn-danger my-btn-left-margin"
+                  class="btn btn-danger"
                   id="incident-delete">
             <fa-icon [icon]="'times'"></fa-icon>
             <span class="d-none d-md-inline">Delete Incident</span>
           </button>
-        </div>
+        </span>
       </h2>
       <br>
       <h4 style="font-weight: bold">Incident Description: </h4>
-      <h4>{{incident.description}}</h4>
+      <h4 class="incident-details">{{incident.description}}</h4>
       <br/>
       <h4><span style="font-weight: bold">Opened: </span><span class="incident-details">{{incident.openedAt | date:'mediumDate'}}</span></h4>
-      <h4><span style="font-weight: bold">Status: </span>{{incident.incidentStatus }}</h4>
-      <h4><span style="font-weight: bold">Severity: </span>{{incident.severity}}</h4>
-      <h4 *ngIf="incident.closedAt"><span style="font-weight: bold">Closed: </span>{{incident.closedAt | date:'mediumDate'}}</h4>
-      <h4 *ngIf="incident.probRecId"><span style="font-weight: bold">Problem Link: </span><a (click)=setProblemUpdatesReturnPage(incident.probRecId)>{{incident.probRecId}}</a></h4>
+      <h4><span style="font-weight: bold">Status: </span><span class="incident-details">{{incident.incidentStatus }}</span></h4>
+      <h4><span style="font-weight: bold">Severity: </span><span class="incident-details">{{incident.severity}}</span></h4>
+      <h4 *ngIf="incident.closedAt"><span style="font-weight: bold">Closed: </span><span class="incident-details">{{incident.closedAt | date:'mediumDate'}}</span></h4>
+      <h4 *ngIf="incident.probRecId"><span style="font-weight: bold">Problem Link: </span><a class="incident-details" (click)=setProblemUpdatesReturnPage(incident.probRecId)>{{incident.probRecId}}</a></h4>
       <br>
     </div>
     <hr>
     <h2 id="page-heading">
         <span style="font-weight: bold">Incident History</span>
-        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right create-incident-updates" [routerLink]="['/incident-updates', incidentID, 'new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="my-btn-left-margin btn btn-primary create-incident-updates" [routerLink]="['/incident-updates', incidentID, 'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span>Add Update</span>
         </button>
@@ -55,7 +55,7 @@
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody class="incident-updates" infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let incidentUpdates of incidentUpdates ;trackBy: trackId">
                 <td>{{incidentUpdates.id}}</td>
                 <td>{{incidentUpdates.updatedAt | date:'mediumDate'}}</td>
