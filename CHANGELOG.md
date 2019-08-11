@@ -3,20 +3,19 @@
 ##To-Do
 
 1. Add a search function for incident id's
+2. Reporting
 
 ## Possible Future Features
 
 1. Add teams, have a 'Meet the Team' page
 2. Work Requests
 3. Assigning problems and work requests to team members
-4. Changes and Releases
+4. Add Changes and Releases
 5. On-call log
 6. Uploading documents to support problem investigations
-7. Add initial updates to Incidents, Problems and Risks when creating them and closing them
-8. Search facility
-9. Reporting
+7. Add initial updates to Incidents, Problems and Risks when creating them, changing them and closing them
 
-## Release Version 1.2.0 - XXth XXXX 2019
+## Release Version 2.0.0 - XXth XXXX 2019
 
 ## Release Version 1.1.0 - 26th June 2019
 

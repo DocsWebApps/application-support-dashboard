@@ -19,17 +19,17 @@
         </button>
       </h2>
       <br>
-      <h4 style="font-weight: bold">Problem Title: </h4>
+      <h4 style="font-weight: bold">Risk Title: </h4>
       <h4 class="risk-details">{{risk.title}}</h4>
       <br>
-      <h4 style="font-weight: bold">Description: </h4>
+      <h4 style="font-weight: bold">Risk Description: </h4>
       <h4 class="risk-details">{{risk.description}}</h4>
       <br>
-      <h4 style="font-weight: bold">Mitigation: </h4>
+      <h4 style="font-weight: bold">Risk Mitigation: </h4>
       <h4 class="risk-details">{{risk.mitigation }}</h4>
       <br/>
       <h4><span style="font-weight: bold">Open: </span><span class="risk-details">{{risk.openedAt | date:'mediumDate'}}</span></h4>
-      <h4><span style="font-weight: bold">Status: </span><span CLASS="risk-details">{{risk.riskStatus}}</span</h4>
+      <h4><span style="font-weight: bold">Status: </span><span class="risk-details">{{risk.riskStatus}}</span></h4>
       <h4><span style="font-weight: bold">Priority: </span><span class="risk-details">{{risk.priority}}</span></h4>
       <h4 *ngIf="risk.closedAt"><span style="font-weight: bold">Closed: </span><span class="risk-details">{{risk.closedAt | date:'mediumDate'}}</span></h4>
       <br>
