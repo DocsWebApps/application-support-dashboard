@@ -12,7 +12,8 @@ import { IRisk } from 'app/shared/model/risk.model';
 
 @Component({
     selector: 'jhi-risk-updates',
-    templateUrl: './risk-updates.component.html'
+    templateUrl: './risk-updates.component.html',
+    styleUrls: ['./risk-updates.component.scss']
 })
 export class RiskUpdatesComponent implements OnInit, OnDestroy {
     riskUpdates: IRiskUpdates[];

@@ -45,7 +45,8 @@
             <span>Add Update</span>
         </button>
     </h2>
-    <div class="table-responsive" *ngIf="incidentUpdates">
+    <br/>
+    <div class="table-responsive" *ngIf="incidentUpdates.length > 0">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -82,6 +83,7 @@
             </tbody>
         </table>
     </div>
+    <hr>
     <button type="submit"
             (click)="previousState()"
             class="btn btn-info">
