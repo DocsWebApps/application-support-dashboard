@@ -1,38 +1,41 @@
 <div>
     <div *ngIf="incident">
-      <h2 style="font-weight: bold">Incident No: {{incidentID}}</h2>
+      <h2 style="font-weight: bold">Incident No: {{incidentID}}
+        <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="inline">
+          <button *ngIf="incident.incidentStatus != 'CLOSED'"
+                  type="submit"
+                  [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/close'} }]"
+                  class="btn btn-dark my-btn-left-margin">
+            <fa-icon [icon]="'times'"></fa-icon>
+            <span class="d-none d-md-inline">Close Incident</span>
+          </button>
+          <button type="submit"
+                  [routerLink]="['/incident', incident.id, 'edit']"
+                  class="btn btn-primary my-btn-left-margin">
+            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+            <span class="d-none d-md-inline">Edit Incident</span>
+          </button>
+          <button type="submit"
+                  [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/delete'} }]"
+                  replaceUrl="true"
+                  queryParamsHandling="merge"
+                  class="btn btn-danger my-btn-left-margin"
+                  id="incident-delete">
+            <fa-icon [icon]="'times'"></fa-icon>
+            <span class="d-none d-md-inline">Delete Incident</span>
+          </button>
+        </div>
+      </h2>
+      <br>
+      <h4 style="font-weight: bold">Incident Description: </h4>
       <h4>{{incident.description}}</h4>
       <br/>
-      <h4><span style="font-weight: bold">Opened: </span>{{incident.openedAt | date:'mediumDate'}}</h4>
+      <h4><span style="font-weight: bold">Opened: </span><span class="incident-details">{{incident.openedAt | date:'mediumDate'}}</span></h4>
       <h4><span style="font-weight: bold">Status: </span>{{incident.incidentStatus }}</h4>
       <h4><span style="font-weight: bold">Severity: </span>{{incident.severity}}</h4>
       <h4 *ngIf="incident.closedAt"><span style="font-weight: bold">Closed: </span>{{incident.closedAt | date:'mediumDate'}}</h4>
       <h4 *ngIf="incident.probRecId"><span style="font-weight: bold">Problem Link: </span><a (click)=setProblemUpdatesReturnPage(incident.probRecId)>{{incident.probRecId}}</a></h4>
       <br>
-    </div>
-    <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn-group">
-      <button *ngIf="incident.incidentStatus != 'CLOSED'"
-              type="submit"
-              [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/close'} }]"
-              class="btn btn-dark btn-sm">
-        <fa-icon [icon]="'times'"></fa-icon>
-        <span class="d-none d-md-inline">Close Incident</span>
-      </button>
-      <button type="submit"
-              [routerLink]="['/incident', incident.id, 'edit']"
-              class="btn btn-primary btn-sm">
-          <fa-icon [icon]="'pencil-alt'"></fa-icon>
-          <span class="d-none d-md-inline">Edit Incident</span>
-      </button>
-      <button type="submit"
-              [routerLink]="['/', 'incident', { outlets: { popup: incident.id + '/delete'} }]"
-              replaceUrl="true"
-              queryParamsHandling="merge"
-              class="btn btn-danger btn-sm"
-              id="incident-delete">
-          <fa-icon [icon]="'times'"></fa-icon>
-          <span class="d-none d-md-inline">Delete Incident</span>
-      </button>
     </div>
     <hr>
     <h2 id="page-heading">

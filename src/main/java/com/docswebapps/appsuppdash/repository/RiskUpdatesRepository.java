@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SuppressWarnings("unused")
 @Repository
 public interface RiskUpdatesRepository extends JpaRepository<RiskUpdates, Long> {
-    @Query(value = "select * from risk_updates r where r.riskk_update_id = :riskID order by updated_at desc", nativeQuery = true)
+    @Query(value = "select * from risk_updates r where r.riskk_update_id = :riskID order by updated_at desc, id desc", nativeQuery = true)
     Page<RiskUpdates> findRiskUpdates(@Param("riskID") Long riskID, Pageable page);
 
     @Modifying

@@ -20,18 +20,18 @@
       </h2>
       <br>
       <h4 style="font-weight: bold">Problem Title: </h4>
-      <pre>{{ problem.title }}</pre>
+      <p class="problem-details">{{ problem.title }}</p>
       <br/>
       <h4 style="font-weight: bold">Problem Statement: </h4>
-      <pre>{{ problem.statement }}</pre>
+      <p class="problem-details">{{ problem.statement }}</p>
       <br/>
       <h4><span style="font-weight: bold">Opened: </span><span class="problem-details">{{ problem.openedAt | date:'mediumDate'}}</span></h4>
       <h4><span style="font-weight: bold">Status: </span><span class="problem-details">{{ problem.probStatus }}</span></h4>
       <h4><span style="font-weight: bold">Priority: </span><span class="problem-details">{{ problem.priority }}</span></h4>
-      <h4><span style="font-weight: bold">Incident Record Count: </span><span class="problem-details">{{ problem.incidentCount }}</span></h4>
+      <h4><span style="font-weight: bold">Incidents: </span><span class="problem-details">{{ problem.incidentCount }}</span></h4>
       <h4 *ngIf="problem.closedAt"><span style="font-weight: bold">Closed: </span><span class="problem-details">{{problem.closedAt | date:'mediumDate'}}</span></h4>
-      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Linked To Risk: </span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId) style="color:#0074D9">{{ problem.riskRecId }}</a></h4>
-      <br>
+      <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Risk-Link: </span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId) style="color:#0074D9;font-size: 20px">{{ problem.riskRecId }}</a></h4>
+      <br/>
     </div>
     <hr>
     <h2>
@@ -52,7 +52,7 @@
               <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody class="problem-updates" infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let problemUpdate of problemUpdates ;trackBy: trackId">
                 <td>{{problemUpdate.id}}</td>
                 <td>{{problemUpdate.updatedAt | date:'mediumDate'}}</td>
@@ -82,7 +82,7 @@
     <hr>
     <div *ngIf="problemIncidents.length > 0">
       <h2>
-        <span style="font-weight: bold">Incident Records</span>
+        <span style="font-weight: bold">Incidents</span>
       </h2>
       <br/>
       <div class="table-responsive">
@@ -95,12 +95,11 @@
             <th><span>Incident Severity</span></th>
           </tr>
           </thead>
-          <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+          <tbody class="problem-incidents" infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
           <tr *ngFor="let problemIncident of problemIncidents ;trackBy: trackId">
-<!--            <h4 *ngIf="problem.riskRecId"><span style="font-weight: bold">Linked To Risk: </span><a (click)=setRiskUpdatesReturnPage(problem.riskRecId) style="color:#0074D9">{{ problem.riskRecId }}</a></h4>-->
             <td><a (click)=setIncidentUpdatesReturnPage(problemIncident.id) style="color:#0074D9">{{problemIncident.id}}</a></td>
             <td>{{problemIncident.openedAt | date:'mediumDate'}}</td>
-            <td>{{problemIncident.description}}}</td>
+            <td>{{problemIncident.description}}</td>
             <td>{{problemIncident.severity}}</td>
           </tr>
           </tbody>

@@ -1,11 +1,8 @@
 ## Bugs
 
-1. Unwanted top border on problems-updates page.
-
 ##To-Do
 
-1. List all incidents resulting from a problem on the problem page under problem updates. Add an incident count to the section heading.
-2. List all problems resulting from risk on the risk page under risk updates. Add count as above.
+1. Add a search function for incident id's
 
 ## Possible Future Features
 

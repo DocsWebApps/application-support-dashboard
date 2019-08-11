@@ -13,7 +13,8 @@ import { ProblemUpdatesService } from 'app/entities/problem-updates';
 
 @Component({
     selector: 'jhi-incident-updates',
-    templateUrl: './incident-updates.component.html'
+    templateUrl: './incident-updates.component.html',
+    styleUrls: ['./incident-updates.component.scss']
 })
 export class IncidentUpdatesComponent implements OnInit, OnDestroy {
     incidentUpdates: IIncidentUpdates[];

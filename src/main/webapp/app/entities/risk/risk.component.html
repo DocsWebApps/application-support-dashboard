@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading">
-      <span style="font-weight: bold">Risk List</span>
+      <span style="font-weight: bold">Risks</span>
       <button id="jh-create-entity" *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right create-risk" [routerLink]="['/risk/new']">
         <fa-icon [icon]="'plus'"></fa-icon>
         <span>Create New Risk</span>
@@ -33,8 +33,6 @@
               <th><span>ID</span></th>
               <th><span>Created On</span></th>
               <th><span>Title</span></th>
-              <th><span>Description</span></th>
-              <th><span>Mitigation</span></th>
               <th><span>Status</span></th>
               <th><span>Priority</span></th>
               <th><span>Closed On</span></th>
@@ -46,8 +44,6 @@
                 <td>{{risk.id}}</td>
                 <td>{{risk.openedAt | date:'mediumDate'}}</td>
                 <td>{{risk.title}}</td>
-                <td>{{risk.description}}</td>
-                <td>{{risk.mitigation}}</td>
                 <td>{{risk.riskStatus}}</td>
                 <td>{{risk.priority}}</td>
                 <td>{{risk.closedAt | date:'mediumDate'}}</td>

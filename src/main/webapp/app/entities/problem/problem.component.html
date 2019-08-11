@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading">
-      <span style="font-weight: bold">Problem List</span>
+      <span style="font-weight: bold">Problems</span>
       <button id="jh-create-entity" *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right create-problem" [routerLink]="['/problem/new']">
         <fa-icon [icon]="'plus'"></fa-icon>
         <span>Create New Problem</span>
@@ -33,11 +33,10 @@
               <th><span>ID</span></th>
               <th><span>Created On</span></th>
               <th><span>Title</span></th>
-<!--              <th><span>Problem Statement</span></th>-->
               <th><span>Status</span></th>
               <th><span>Priority</span></th>
-              <th><span>Incident Record Count</span></th>
-              <th><span>Linked to Risk</span></th>
+              <th><span>Incidents</span></th>
+              <th><span>Risk-Link</span></th>
               <th><span>Closed On</span></th>
             <th></th>
             </tr>
@@ -47,7 +46,6 @@
                 <td>{{problem.id}}</td>
                 <td>{{problem.openedAt | date:'mediumDate'}}</td>
                 <td>{{problem.title}}</td>
-<!--                <td>{{problem.statement}}</td>-->
                 <td>{{problem.probStatus}}</td>
                 <td>{{problem.priority}}</td>
                <td>{{problem.incidentCount}}</td>

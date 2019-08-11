@@ -30,19 +30,19 @@
                     <li>
                         <a class="dropdown-item" routerLink="incident" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>List Incidents</span>
+                            <span>Incidents</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="problem" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>List Problems</span>
+                            <span>Problems</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="risk" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>List Risks</span>
+                            <span>Risks</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
