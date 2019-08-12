@@ -299,7 +299,7 @@ public class RiskResourceIntTest {
           // Clean Up DataBase
           riskRepository.delete(testRisk);
     }
-    
+
     @Test
     @Transactional
     public void getRisk() throws Exception {
@@ -325,7 +325,7 @@ public class RiskResourceIntTest {
     public void getNonExistingRisk() throws Exception {
         // Get the risk
         restRiskMockMvc.perform(get("/api/risks/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+            .andExpect(status().isOk());
     }
 
     @Test
