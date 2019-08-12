@@ -1,4 +1,5 @@
 package com.docswebapps.appsuppdash.web.rest;
+import com.docswebapps.appsuppdash.domain.Problem;
 import com.docswebapps.appsuppdash.domain.enumeration.IssueStatus;
 import com.docswebapps.appsuppdash.domain.enumeration.Priority;
 import com.docswebapps.appsuppdash.service.ProblemService;
@@ -74,6 +75,22 @@ public class ProblemResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, problemDTO.getId().toString()))
             .body(result);
+    }
+
+    // My Custom Code
+    /**
+     * GET /problems/risk/{id}
+     *
+     * @param id - the risk id
+     * @param pageable the pagination information
+     * @return a list of Problems related to the risk
+     */
+    @GetMapping("/problems/risk/{id}")
+    public ResponseEntity<List<ProblemDTO>> getRelatedIncidents(Pageable pageable, @PathVariable Long id) {
+      log.debug("Problem Resource: REST request to get all related problems for risk id: {}", id);
+      Page<ProblemDTO> page = problemService.getRelatedProblems(pageable, id);
+      HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/problems/risk/{id}");
+      return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**

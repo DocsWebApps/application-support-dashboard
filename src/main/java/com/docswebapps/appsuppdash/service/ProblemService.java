@@ -1,11 +1,13 @@
 package com.docswebapps.appsuppdash.service;
 
 import com.docswebapps.appsuppdash.domain.Problem;
+import com.docswebapps.appsuppdash.domain.Risk;
 import com.docswebapps.appsuppdash.domain.enumeration.IssueStatus;
 import com.docswebapps.appsuppdash.domain.enumeration.Priority;
 import com.docswebapps.appsuppdash.repository.IncidentRepository;
 import com.docswebapps.appsuppdash.repository.ProblemRepository;
 import com.docswebapps.appsuppdash.repository.ProblemUpdatesRepository;
+import com.docswebapps.appsuppdash.repository.RiskRepository;
 import com.docswebapps.appsuppdash.service.dto.ProblemDTO;
 import com.docswebapps.appsuppdash.service.mapper.ProblemMapper;
 import org.slf4j.Logger;
@@ -27,15 +29,18 @@ public class ProblemService {
     private final ProblemRepository problemRepository;
     private final ProblemUpdatesRepository problemUpdatesRepository;
     private final IncidentRepository incidentRepository;
+    private final RiskRepository riskRepository;
     private final ProblemMapper problemMapper;
 
     public ProblemService(ProblemRepository problemRepository,
                           ProblemUpdatesRepository problemUpdatesRepository,
                           IncidentRepository incidentRepository,
+                          RiskRepository riskRepository,
                           ProblemMapper problemMapper) {
         this.problemRepository = problemRepository;
         this.problemUpdatesRepository = problemUpdatesRepository;
         this.incidentRepository = incidentRepository;
+        this.riskRepository = riskRepository;
         this.problemMapper = problemMapper;
     }
 
@@ -53,6 +58,24 @@ public class ProblemService {
     }
 
     // My Custom Code
+    /**
+   * Get All Problems for a Risk ID
+   *
+   * @param id - the id of the risk!
+   * @param pageable the pagination information
+   * @return a list of problems caused by the given risk
+   */
+    @Transactional(readOnly = true)
+    public Page<ProblemDTO> getRelatedProblems(Pageable pageable, Long id) {
+      log.debug("Problem Service: Get all Problems Related to Risk: {}", id);
+      Optional<Risk> tryRisk = riskRepository.findById(id);
+      if (tryRisk.isPresent()) {
+        Risk risk = tryRisk.get();
+        return problemRepository.findByRiskRecOrderByOpenedAtDesc(pageable, risk).map(problemMapper::toDto);
+      } else {
+        return null;
+      }
+    }
     /**
      * Get one problem by id.
      *
