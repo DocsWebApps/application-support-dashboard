@@ -104,8 +104,8 @@ public class RiskResource {
     @GetMapping("/risks/{id}")
     public ResponseEntity<RiskDTO> getRisk(@PathVariable Long id) {
         log.debug("RiskResource: REST request to get Risk : {}", id);
-        Optional<RiskDTO> riskDTO = riskService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(riskDTO);
+        RiskDTO riskDTO = riskService.findOne(id);
+        return ResponseEntity.ok().body(riskDTO);
     }
 
     /**

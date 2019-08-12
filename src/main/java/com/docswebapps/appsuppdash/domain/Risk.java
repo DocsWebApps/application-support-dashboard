@@ -27,7 +27,7 @@ import com.docswebapps.appsuppdash.domain.enumeration.Priority;
 public class Risk implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,7 +40,7 @@ public class Risk implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    
+
     @Lob
     @Column(name = "description", nullable = false)
     private String description;
@@ -61,6 +61,17 @@ public class Risk implements Serializable {
 
     @Column(name = "closed_at")
     private LocalDate closedAt;
+
+    @Transient
+    private Long problemCount;
+
+    public Long getProblemCount() {
+      return problemCount;
+    }
+
+    public void setProblemCount(Long problemCount) {
+      this.problemCount = problemCount;
+    }
 
     @OneToMany(mappedBy = "riskRec")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

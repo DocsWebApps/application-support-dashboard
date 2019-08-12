@@ -2,8 +2,7 @@
 
 ##To-Do
 
-1. Add a search function for incident id's
-2. Reporting
+1. Reporting
 
 ## Possible Future Features
 
@@ -14,6 +13,7 @@
 5. On-call log
 6. Uploading documents to support problem investigations
 7. Add initial updates to Incidents, Problems and Risks when creating them, changing them and closing them
+8. Add a search function for incident id's
 
 ## Release Version 2.0.0 - XXth XXXX 2019
 

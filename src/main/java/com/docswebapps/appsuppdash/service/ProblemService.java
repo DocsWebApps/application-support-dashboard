@@ -69,7 +69,7 @@ public class ProblemService {
         return problemMapper.toDto(problem);
       } else {
         ProblemDTO problemDTO = new ProblemDTO();
-        problemDTO.setStatement("No Problem Exists for Problem ID:" + id);
+        problemDTO.setTitle("No Problem Exists for Problem ID:" + id);
         return problemDTO;
       }
     }

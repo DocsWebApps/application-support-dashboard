@@ -51,20 +51,28 @@ public class RiskService {
         return riskMapper.toDto(risk);
     }
 
-    /**
-     * Get one risk by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
+    // My Custom Code
+  /**
+   * Get one risk by id.
+   *
+   * @param id the id of the entity
+   * @return the entity
+   */
     @Transactional(readOnly = true)
-    public Optional<RiskDTO> findOne(Long id) {
-        log.debug("RiskService: Request to get Risk : {}", id);
-        return riskRepository.findById(id)
-            .map(riskMapper::toDto);
+    public RiskDTO findOne(Long id) {
+      log.debug("RiskService: Request to get Risk : {}", id);
+      Optional<Risk> tryRisk = riskRepository.findById(id);
+      if (tryRisk.isPresent()) {
+        Risk risk = tryRisk.get();
+        this.setProblemCountForRisk(risk);
+        return riskMapper.toDto(risk);
+      } else {
+        RiskDTO riskDTO = new RiskDTO();
+        riskDTO.setTitle("No Risk Exists for Risk ID:" + id);
+        return riskDTO;
+      }
     }
 
-    // My Custom Code
     /**
      * Get all the risks.
      *
@@ -74,19 +82,18 @@ public class RiskService {
     @Transactional(readOnly = true)
     public Page<RiskDTO> findAll(Pageable pageable, IssueStatus status, Priority priority) {
       log.debug("RiskService: Request to get all Risks: {} AND {}", status, priority);
+      Page<Risk> risks;
       if (status == IssueStatus.ALL && priority == Priority.ALL) {
-        return riskRepository.findByOrderByOpenedAtDesc(pageable)
-          .map(riskMapper::toDto);
+        risks = riskRepository.findByOrderByOpenedAtDesc(pageable);
       } else if (status != IssueStatus.ALL && priority != Priority.ALL) {
-        return riskRepository.findByRiskStatusAndPriorityOrderByOpenedAtDesc(pageable, status, priority)
-          .map(riskMapper::toDto);
+        risks = riskRepository.findByRiskStatusAndPriorityOrderByOpenedAtDesc(pageable, status, priority);
       } else if (status == IssueStatus.ALL) {
-        return riskRepository.findByPriorityOrderByOpenedAtDesc(pageable, priority)
-          .map(riskMapper::toDto);
+        risks = riskRepository.findByPriorityOrderByOpenedAtDesc(pageable, priority);
       } else {
-        return riskRepository.findByRiskStatusOrderByOpenedAtDesc(pageable, status)
-          .map(riskMapper::toDto);
+        risks = riskRepository.findByRiskStatusOrderByOpenedAtDesc(pageable, status);
       }
+      this.setProblemCountForRisks(risks);
+      return risks.map(riskMapper::toDto);
     }
 
     /**
@@ -99,5 +106,14 @@ public class RiskService {
         problemRepository.updateProblems(id);
         riskUpdatesRepository.deleteRiskUpdates(id);
         riskRepository.deleteById(id);
+    }
+
+    // Private support methods for obtaining problem count for each risk
+    private void setProblemCountForRisks(Page<Risk> risks) {
+      risks.forEach(this::setProblemCountForRisk);
+    }
+
+    private void setProblemCountForRisk(Risk risk) {
+      risk.setProblemCount(problemRepository.countByRiskRec(risk));
     }
 }
