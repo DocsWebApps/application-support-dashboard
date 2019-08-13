@@ -20,7 +20,7 @@ public class RiskDTO implements Serializable {
     @NotNull
     private String title;
 
-    
+
     @Lob
     private String description;
 
@@ -35,6 +35,15 @@ public class RiskDTO implements Serializable {
 
     private LocalDate closedAt;
 
+    private Long problemCount;
+
+    public Long getProblemCount() {
+      return this.problemCount;
+    }
+
+    public void setProblemCount(Long problemCount) {
+      this.problemCount = problemCount;
+    }
 
     public Long getId() {
         return id;

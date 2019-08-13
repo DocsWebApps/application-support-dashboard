@@ -9,6 +9,9 @@ import { RiskUpdatesService } from './risk-updates.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RiskService } from 'app/entities/risk';
 import { IRisk } from 'app/shared/model/risk.model';
+import { IProblem } from 'app/shared/model/problem.model';
+import { ProblemService } from 'app/entities/problem';
+import { ProblemUpdatesService } from 'app/entities/problem-updates';
 
 @Component({
     selector: 'jhi-risk-updates',
@@ -17,6 +20,7 @@ import { IRisk } from 'app/shared/model/risk.model';
 })
 export class RiskUpdatesComponent implements OnInit, OnDestroy {
     riskUpdates: IRiskUpdates[];
+    riskProblems: IProblem[];
     riskID: number;
     risk: IRisk;
     currentAccount: any;
@@ -37,8 +41,11 @@ export class RiskUpdatesComponent implements OnInit, OnDestroy {
         protected accountService: AccountService,
         private route: ActivatedRoute,
         private riskService: RiskService,
-        private router: Router
+        private router: Router,
+        private problemService: ProblemService,
+        private problemUpdatesService: ProblemUpdatesService
     ) {
+        this.riskProblems = [];
         this.riskUpdates = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
@@ -53,6 +60,11 @@ export class RiskUpdatesComponent implements OnInit, OnDestroy {
         this.router.navigate([this.riskUpdatesService.returnRoute]);
     }
 
+    setProblemUpdatesReturnPage(problemID) {
+        this.problemUpdatesService.returnRoute = '/risk-updates/' + this.risk.id;
+        this.router.navigate(['problem-updates', problemID]);
+    }
+
     loadAll() {
         this.riskUpdatesService
             .query(this.riskID, {
@@ -62,6 +74,19 @@ export class RiskUpdatesComponent implements OnInit, OnDestroy {
             })
             .subscribe(
                 (res: HttpResponse<IRiskUpdates[]>) => this.paginateRiskUpdates(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+
+        this.problemService
+            .riskProblems(this.riskID, {
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<IProblem[]>) => {
+                    this.paginateRiskIncidents(res.body, res.headers);
+                },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -132,6 +157,14 @@ export class RiskUpdatesComponent implements OnInit, OnDestroy {
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
             this.riskUpdates.push(data[i]);
+        }
+    }
+
+    protected paginateRiskIncidents(data: IProblem[], headers: HttpHeaders) {
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        for (let i = 0; i < data.length; i++) {
+            this.riskProblems.push(data[i]);
         }
     }
 

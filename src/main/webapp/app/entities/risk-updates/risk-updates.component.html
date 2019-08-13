@@ -31,6 +31,7 @@
       <h4><span style="font-weight: bold">Open: </span><span class="risk-details">{{risk.openedAt | date:'mediumDate'}}</span></h4>
       <h4><span style="font-weight: bold">Status: </span><span class="risk-details">{{risk.riskStatus}}</span></h4>
       <h4><span style="font-weight: bold">Priority: </span><span class="risk-details">{{risk.priority}}</span></h4>
+      <h4><span style="font-weight: bold">Problems: </span><span class="risk-details">{{ risk.problemCount }}</span></h4>
       <h4 *ngIf="risk.closedAt"><span style="font-weight: bold">Closed: </span><span class="risk-details">{{risk.closedAt | date:'mediumDate'}}</span></h4>
       <br>
     </div>
@@ -82,28 +83,31 @@
         </table>
     </div>
     <hr>
-<!--    <h2>-->
-<!--      <span style="font-weight: bold">Problems</span>-->
-<!--    </h2>-->
-<!--    <br/>-->
-<!--    <div class="table-responsive" *ngIf="riskUpdates">-->
-<!--      <table class="table table-striped">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--          <th><span>ID</span></th>-->
-<!--          <th><span>Problem Description</span></th>-->
-<!--          <th><span>Problem Status</span></th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">-->
-<!--        <tr *ngFor="let riskUpdates of riskUpdates ;trackBy: trackId">-->
-<!--          <td>{{riskUpdates.id}}</td>-->
-<!--          <td>{{riskUpdates.updateText}}</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-  <!--     <hr> -->
-<!--    </div>-->
+    <div *ngIf="riskProblems.length > 0">
+      <h2>
+        <span style="font-weight: bold">Problems</span>
+      </h2>
+      <br/>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th><span>ID</span></th>
+            <th><span>Problem Title</span></th>
+            <th><span>Problem Status</span></th>
+          </tr>
+          </thead>
+          <tbody class="risk-problems" infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+          <tr *ngFor="let riskProblem of riskProblems ;trackBy: trackId">
+            <td><a (click)=setProblemUpdatesReturnPage(riskProblem.id) style="color:#0074D9">{{riskProblem.id}}</a></td>
+            <td>{{riskProblem.title}}</td>
+            <td>{{riskProblem.probStatus}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <hr>
+      </div>
+    </div>
   <button type="submit"
           (click)="previousState()"
           class="btn btn-info">

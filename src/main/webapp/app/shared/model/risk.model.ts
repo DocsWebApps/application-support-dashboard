@@ -24,6 +24,7 @@ export interface IRisk {
     closedAt?: Moment;
     problems?: IProblem[];
     riskUpdates?: IRiskUpdates[];
+    problemCount?: number;
 }
 
 export class Risk implements IRisk {
@@ -37,6 +38,7 @@ export class Risk implements IRisk {
         public priority?: Priority,
         public closedAt?: Moment,
         public problems?: IProblem[],
-        public riskUpdates?: IRiskUpdates[]
+        public riskUpdates?: IRiskUpdates[],
+        public problemCount?: number
     ) {}
 }

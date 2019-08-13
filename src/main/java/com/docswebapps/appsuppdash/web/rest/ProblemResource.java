@@ -86,7 +86,7 @@ public class ProblemResource {
      * @return a list of Problems related to the risk
      */
     @GetMapping("/problems/risk/{id}")
-    public ResponseEntity<List<ProblemDTO>> getRelatedIncidents(Pageable pageable, @PathVariable Long id) {
+    public ResponseEntity<List<ProblemDTO>> getRelatedProblems(Pageable pageable, @PathVariable Long id) {
       log.debug("Problem Resource: REST request to get all related problems for risk id: {}", id);
       Page<ProblemDTO> page = problemService.getRelatedProblems(pageable, id);
       HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/problems/risk/{id}");
