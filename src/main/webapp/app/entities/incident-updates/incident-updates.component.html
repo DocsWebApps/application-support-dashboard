@@ -56,7 +56,7 @@
             <th></th>
             </tr>
             </thead>
-            <tbody class="incident-updates" infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody class="incident-updates">
             <tr *ngFor="let incidentUpdates of incidentUpdates ;trackBy: trackId">
                 <td>{{incidentUpdates.id}}</td>
                 <td>{{incidentUpdates.updatedAt | date:'mediumDate'}}</td>

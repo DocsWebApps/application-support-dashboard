@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IRiskUpdates } from 'app/shared/model/risk-updates.model';
 import { AccountService } from 'app/core';
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { FIXED_ITEMS_PER_PAGE } from 'app/shared';
 import { RiskUpdatesService } from './risk-updates.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RiskService } from 'app/entities/risk';
@@ -47,7 +47,7 @@ export class RiskUpdatesComponent implements OnInit, OnDestroy {
     ) {
         this.riskProblems = [];
         this.riskUpdates = [];
-        this.itemsPerPage = ITEMS_PER_PAGE;
+        this.itemsPerPage = FIXED_ITEMS_PER_PAGE;
         this.page = 0;
         this.links = {
             last: 0

@@ -52,7 +52,7 @@
               <th></th>
             </tr>
             </thead>
-            <tbody class="problem-updates" infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody class="problem-updates">
             <tr *ngFor="let problemUpdate of problemUpdates ;trackBy: trackId">
                 <td>{{problemUpdate.id}}</td>
                 <td>{{problemUpdate.updatedAt | date:'mediumDate'}}</td>
@@ -95,7 +95,7 @@
             <th><span>Incident Severity</span></th>
           </tr>
           </thead>
-          <tbody class="problem-incidents" infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+          <tbody class="problem-incidents">
           <tr *ngFor="let problemIncident of problemIncidents ;trackBy: trackId">
             <td><a (click)=setIncidentUpdatesReturnPage(problemIncident.id) style="color:#0074D9">{{problemIncident.id}}</a></td>
             <td>{{problemIncident.openedAt | date:'mediumDate'}}</td>

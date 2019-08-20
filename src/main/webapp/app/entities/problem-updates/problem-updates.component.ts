@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IProblemUpdates } from 'app/shared/model/problem-updates.model';
 import { AccountService } from 'app/core';
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { FIXED_ITEMS_PER_PAGE } from 'app/shared';
 import { ProblemUpdatesService } from './problem-updates.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProblemService } from 'app/entities/problem';
@@ -49,7 +49,7 @@ export class ProblemUpdatesComponent implements OnInit, OnDestroy {
     ) {
         this.problemUpdates = [];
         this.problemIncidents = [];
-        this.itemsPerPage = ITEMS_PER_PAGE;
+        this.itemsPerPage = FIXED_ITEMS_PER_PAGE;
         this.page = 0;
         this.links = {
             last: 0
