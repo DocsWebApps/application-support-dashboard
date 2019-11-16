@@ -4,6 +4,7 @@
 /src/main/webapp/content/css/main.css
 /target/www/**
 /src/test/javascript/coverage/
+environment.cmd
 
 ######################
 # Node

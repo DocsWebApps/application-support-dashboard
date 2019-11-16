@@ -15,7 +15,25 @@
 7. Add initial updates to Incidents, Problems and Risks when creating them, changing them and closing them
 8. Add a search function for incident id's
 
-## Release Version 2.0.0 - XXth XXXX 2019
+## Release Version 2.0.0 - 16th November 2019
+
+Version 2.0.0. Dave.Collier 16/11/2019
+Removed env_variables Dave Collier 16/11/2019 16:39
+Encountered infinite scroll issues so set all updates pages to a fixed limit of 1000 records returned once on startup. Problem seemed to be with the scrolled event on the HTML component not being triggered and therefore not calling the loadPage() method to initiate a second call for more data. Dave.Collier 20/08/2019 12:11
+Risks section completed. Dave.Collier 13/08/2019 16:57
+Fixed broken test on getting null risks. Dave.Collier 12/08/2019 17:36
+Problems added to risk updates backend completed (Again !! :-)) Dave.Collier 12/08/2019 17:00
+Problems added to risk updates backend completed. Dave.Collier 12/08/2019 16:45
+More minor bug fixes to Risk Updates page Dave.Collier 11/08/2019 19:02
+Minor bug fixes to Risk Updates page Dave.Collier 11/08/2019 18:36
+Risk history format completed. Dave.Collier 11/08/2019 17:01
+Incident updates page complete. Dave.Collier 11/08/2019 11:12
+Bug fixes ans enhancements to Problem Updates. Dave.Collier 11/08/2019 10:44
+Problem and problem updates pages complete Dave.Collier 02/08/2019 14:55
+Updated problem page - interim commit Dave.Collier 01/08/2019 22:33
+updated failing test for new getProblem implementation: /api/problems/{id} Dave.Collier 28/07/2019 16:27
+Completed new incident count/details for each problem. Dave.Collier 28/07/2019 15:22
+Added facade for Incidents on Problem page, and Problems on Risks Page. Dave.Collier 28/07/2019 10:10
 
 ## Release Version 1.1.0 - 26th June 2019
 
