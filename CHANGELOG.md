@@ -14,6 +14,7 @@
 6. Uploading documents to support problem investigations
 7. Add initial updates to Incidents, Problems and Risks when creating them, changing them and closing them
 8. Add a search function for incident id's
+9. Update JHipster version
 
 ## Release Version 2.0.0 - 16th November 2019
 
