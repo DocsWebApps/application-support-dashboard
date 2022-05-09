@@ -62,12 +62,12 @@ node {
     }
 
     stage('sonarqube quality analysis') {
-      sh "cp /var/lib/jenkins/build-scripts/appdash-sonar-dev.bash ."
+      sh "cp /var/lib/jenkins/build-scripts/fusion-dashboard/appdash-sonar-dev.bash ."
       sh "./appdash-sonar-dev.bash"
     }
 
     stage('build docker image') {
-      sh "cp /var/lib/jenkins/build-scripts/Dockerfile ./target"
+      sh "cp /var/lib/jenkins/build-scripts/fusion-dashboard/Dockerfile ./target"
       sh "" +
         ""
     }
