@@ -565,11 +565,11 @@
                                 <message>You are running an older version of Maven. JHipster requires at least Maven ${maven.version}</message>
                                 <version>[${maven.version},)</version>
                             </requireMavenVersion>
-<!--                            <requireJavaVersion>-->
-<!--                                &lt;!&ndash; Until JHipster supports JDK 9 &ndash;&gt;-->
-<!--                                <message>You are running an incompatible version of Java. JHipster requires JDK ${java.version}</message>-->
-<!--                                <version>[1.8,1.9)</version>-->
-<!--                            </requireJavaVersion>-->
+                            <requireJavaVersion>
+                                <!-- Until JHipster supports JDK 9 -->
+                                <message>You are running an incompatible version of Java. JHipster requires JDK ${java.version}</message>
+                                <version>[1.8,1.9)</version>
+                            </requireJavaVersion>
                         </rules>
                     </configuration>
                 </plugin>
@@ -643,8 +643,8 @@
                         <runOrder>alphabetical</runOrder>
                         <!-- Fixes a bug which will be solved in next version after 2.22.1 then this can be removed -->
                         <!-- see: https://issues.apache.org/jira/browse/SUREFIRE-1588 -->
-                        <useSystemClassLoader>false</useSystemClassLoader>
-                        <outputDirectory>${sonar.junit.reportsPath}</outputDirectory>
+<!--                        <useSystemClassLoader>false</useSystemClassLoader>-->
+<!--                        <outputDirectory>${sonar.junit.reportsPath}</outputDirectory>-->
                     </configuration>
                 </plugin>
                 <plugin>
