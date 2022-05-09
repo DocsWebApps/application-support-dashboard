@@ -5,9 +5,8 @@ node {
   jdk = tool name: 'Java1.8'
   env.JAVA_HOME = "${jdk}"
 
-  def JAVA_HOME = '/opt/java/jdk1.8.0_161/'
-
   // Set JDK in the Environment
+  def JAVA_HOME = '/opt/java/jdk1.8.0_161/'
   withEnv(["PATH=${JAVA_HOME}/bin:${PATH}"]) {
     stage('set environment variables') {
       echo "$JAVA_HOME"
