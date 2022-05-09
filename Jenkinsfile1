@@ -1,6 +1,9 @@
 #!/usr/bin/env groovy
 
 node {
+  jdk = tool name: 'Java1.8'
+  env.JAVA_HOME = "${jdk}"
+
   def JAVA_HOME = '/opt/java/jdk1.8.0_161/'
 
   withEnv(["PATH=${JAVA_HOME}/bin:${PATH}"]) {
@@ -33,9 +36,6 @@ node {
     }
 
     stage('run backend tests') {
-      tools {
-        jdk "Java1.8"
-      }
       try {
         sh "./mvnw -s /opt/maven/maven/conf/settings.xml test"
       } catch (err) {
