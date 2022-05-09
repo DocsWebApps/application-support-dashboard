@@ -1,0 +1,74 @@
+#!/usr/bin/env groovy
+
+node {
+  def JAVA_HOME = '/opt/java/jdk1.8.0_161/'
+
+  withEnv(["PATH=${JAVA_HOME}/bin:${PATH}"]) {
+    stage('set environment variables') {
+      echo "$JAVA_HOME"
+      echo "$PATH"
+    }
+
+    stage('check environment variables') {
+      echo "Path variable: $PATH"
+      echo "Java Home variable: $JAVA_HOME"
+      sh 'java -version'
+    }
+
+    stage('checkout project') {
+        checkout scm
+    }
+
+    stage('clean project') {
+        sh "chmod +x mvnw"
+        sh "./mvnw -s /opt/maven/maven/conf/settings.xml clean"
+    }
+
+    stage('install node and npm tools') {
+        sh "./mvnw -s /opt/maven/maven/conf/settings.xml com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.15.0 -DnpmVersion=6.4.1"
+    }
+
+    stage('npm install') {
+        sh "./mvnw -s /opt/maven/maven/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm"
+    }
+
+    stage('run backend tests') {
+        try {
+            sh "./mvnw -s /opt/maven/maven/conf/settings.xml test"
+        } catch(err) {
+            throw err
+        } finally {
+            junit '**/target/surefire-reports/TEST-*.xml'
+        }
+    }
+
+    stage('run frontend tests') {
+        try {
+            sh "./mvnw -s /opt/maven/maven/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm -Dfrontend.npm.arguments='run test'"
+        } catch(err) {
+            throw err
+        } finally {
+            junit '**/target/test-results/TESTS-*.xml'
+        }
+    }
+
+    stage('build and package project') {
+        sh "./mvnw -s /opt/maven/maven/conf/settings.xml verify -Pprod -DskipTests"
+        archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+    }
+
+    stage('sonarqube quality analysis') {
+        sh "cp /root/fusion-dashboard/appdash-sonar-dev.bash ."
+        sh "./appdash_sonar_dev.bash"
+    }
+
+    stage('build docker image') {
+          sh "cp /root/ApplicationSupportDashboard/Dockerfile ./target"
+          sh "./mvnw -s /opt/maven/maven/conf/settings.xml -Dmaven.test.skip=true -Pprod dockerfile:build"
+      }
+
+    stage('restart containers') {
+        sh "docker-compose -f /root/fusion-dashboard/docker-compose.yml down"
+        sh "docker-compose -f /root/fusion-dashboard/docker-compose.yml up -d"
+    }
+}
