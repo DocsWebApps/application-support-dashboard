@@ -33,6 +33,9 @@ node {
     }
 
     stage('run backend tests') {
+      tools {
+        jdk "Java1.8"
+      }
       try {
         sh "./mvnw -s /opt/maven/maven/conf/settings.xml test"
       } catch (err) {
