@@ -16,59 +16,61 @@ node {
     }
 
     stage('checkout project') {
-        checkout scm
+      checkout scm
     }
 
     stage('clean project') {
-        sh "chmod +x mvnw"
-        sh "./mvnw -s /opt/maven/maven/conf/settings.xml clean"
+      sh "chmod +x mvnw"
+      sh "./mvnw -s /opt/maven/maven/conf/settings.xml clean"
     }
 
     stage('install node and npm tools') {
-        sh "./mvnw -s /opt/maven/maven/conf/settings.xml com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.15.0 -DnpmVersion=6.4.1"
+      sh "./mvnw -s /opt/maven/maven/conf/settings.xml com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.15.0 -DnpmVersion=6.4.1"
     }
 
     stage('npm install') {
-        sh "./mvnw -s /opt/maven/maven/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm"
+      sh "./mvnw -s /opt/maven/maven/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm"
     }
 
     stage('run backend tests') {
-        try {
-            sh "./mvnw -s /opt/maven/maven/conf/settings.xml test"
-        } catch(err) {
-            throw err
-        } finally {
-            junit '**/target/surefire-reports/TEST-*.xml'
-        }
+      try {
+        sh "./mvnw -s /opt/maven/maven/conf/settings.xml test"
+      } catch (err) {
+        throw err
+      } finally {
+        junit '**/target/surefire-reports/TEST-*.xml'
+      }
     }
 
     stage('run frontend tests') {
-        try {
-            sh "./mvnw -s /opt/maven/maven/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm -Dfrontend.npm.arguments='run test'"
-        } catch(err) {
-            throw err
-        } finally {
-            junit '**/target/test-results/TESTS-*.xml'
-        }
+      try {
+        sh "./mvnw -s /opt/maven/maven/conf/settings.xml com.github.eirslett:frontend-maven-plugin:npm -Dfrontend.npm.arguments='run test'"
+      } catch (err) {
+        throw err
+      } finally {
+        junit '**/target/test-results/TESTS-*.xml'
+      }
     }
 
     stage('build and package project') {
-        sh "./mvnw -s /opt/maven/maven/conf/settings.xml verify -Pprod -DskipTests"
-        archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+      sh "./mvnw -s /opt/maven/maven/conf/settings.xml verify -Pprod -DskipTests"
+      archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
     }
 
     stage('sonarqube quality analysis') {
-        sh "cp /root/fusion-dashboard/appdash-sonar-dev.bash ."
-        sh "./appdash_sonar_dev.bash"
+      sh "cp /var/lib/jenkins/build-scripts/appdash-sonar-dev.bash ."
+      sh "./appdash-sonar-dev.bash"
     }
 
     stage('build docker image') {
-          sh "cp /root/ApplicationSupportDashboard/Dockerfile ./target"
-          sh "./mvnw -s /opt/maven/maven/conf/settings.xml -Dmaven.test.skip=true -Pprod dockerfile:build"
-      }
+      sh "cp /var/lib/jenkins/build-scripts/Dockerfile ./target"
+      sh "" +
+        ""
+    }
 
     stage('restart containers') {
-        sh "docker-compose -f /root/fusion-dashboard/docker-compose.yml down"
-        sh "docker-compose -f /root/fusion-dashboard/docker-compose.yml up -d"
+      sh "docker-compose -f /root/fusion-dashboard/docker-compose.yml down"
+      sh "docker-compose -f /root/fusion-dashboard/docker-compose.yml up -d"
     }
+  }
 }
