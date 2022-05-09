@@ -74,8 +74,8 @@ node {
     }
 
     stage('restart containers') {
-      sh "/usr/local/bin/docker-compose/docker-compose -f /root/fusion-dashboard/docker-compose.yml down"
-      sh "/usr/local/bin/docker-compose/docker-compose -f /root/fusion-dashboard/docker-compose.yml up -d"
+      sh "/usr/local/bin/docker-compose -f /root/fusion-dashboard/docker-compose.yml down"
+      sh "/usr/local/bin/docker-compose -f /root/fusion-dashboard/docker-compose.yml up -d"
     }
   }
 }
