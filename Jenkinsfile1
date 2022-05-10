@@ -68,8 +68,7 @@ node {
 
     stage('build docker image') {
       sh "cp /var/lib/jenkins/build-scripts/fusion-dashboard/Dockerfile ./target"
-      sh "" +
-        ""
+      sh "./mvnw -s /opt/maven/maven/conf/settings.xml -Dmaven.test.skip=true -Pprod dockerfile:build"
     }
 
     stage('restart containers') {
